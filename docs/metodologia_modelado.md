@@ -70,7 +70,7 @@ Se comparará también el rendimiento al retirar grupos: artista, geometría, fe
 
 Los rankings y las ablaciones son resultados exploratorios de validación. No prueban causalidad ni justifican eliminar automáticamente una variable. Después de decidir el perfil y el modelo, se congela la configuración y se utiliza la prueba final una sola vez para esa versión.
 
-## Experimento local con fichas de galería
+## Experimento con fichas de galería
 
 La corrida `galeria_2026_11_20` usa fichas consultadas el 20 de noviembre de 2026 de [La Galería Online](https://lagaleriaonline.co/collections/obras). El objetivo `precio_publicado_cop` es el valor anunciado en pesos colombianos en cada ficha consultada. La disponibilidad se conserva como dato de auditoría. En caso de precios incompatibles para un mismo producto se excluyen esas observaciones. El año de creación se registra a partir del primer año indicado en las fichas recuperadas y puede corresponder al inicio de un intervalo.
 
@@ -88,20 +88,18 @@ Se reservaron 66 fichas de 13 artistas para prueba, incluidas 22 fichas de óleo
 
 El modelo aditivo fue seleccionado antes de abrir la prueba. La penalización óptima fue 12 dentro de la cuadrícula y la configuración eligió cero nudos. En permutación sobre validación, el MAE subió $747.302 COP al desordenar dimensiones (área y proporción), $311.711 COP para año y $10.880 COP para técnica. El soporte se probó como entrada adicional y quedó fuera de la configuración elegida.
 
-La prueba de óleo dio un MAE de $245.971 COP en 10 fichas de cuatro artistas. La validación cruzada de óleo dio $2.467.422 COP, lo que muestra la sensibilidad a los artistas evaluados. En grafito, el MAE de prueba fue $2.413.242 COP en 12 fichas de tres artistas y superó el error de ambas medianas. La prueba local del cotizador muestra únicamente referencias experimentales para óleo en medidas cubiertas. Usa el año actual para una obra nueva. El valor estima un precio anunciado de galería y puede orientar una propuesta de encargo.
+La prueba de óleo dio un MAE de $245.971 COP en 10 fichas de cuatro artistas. La validación cruzada de óleo dio $2.467.422 COP, lo que muestra la sensibilidad a los artistas evaluados. En grafito, el MAE de prueba fue $2.413.242 COP en 12 fichas de tres artistas y superó el error de ambas medianas. El cotizador muestra la referencia experimental de galería para óleo en medidas cubiertas. Usa el año actual para una obra nueva. El valor estima un precio anunciado de galería y puede orientar una propuesta de encargo. [Probar en Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
 
-### Reproducir la prueba local
+### Reproducir el entrenamiento
 
 Ejecuta desde la raíz. Los CSV de entrada, el catálogo preparado, los informes y los parámetros generados son archivos locales ignorados por Git.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/prepare_gallery_catalog.py --input data/raw/galeria_cobertura_piloto.csv data/raw/galeria_cobertura_ampliada.csv data/raw/galeria_fichas_dirigidas.csv --output data/processed/galeria_catalogo_2026-11-20.csv --consulted-at 2026-11-20
 .\.venv\Scripts\python.exe scripts/train_gallery_model.py --input data/processed/galeria_catalogo_2026-11-20.csv --run galeria_revision --checked-at 2026-11-20
-Copy-Item -LiteralPath artifacts/galeria_revision/model.json -Destination docs/cotizador/encargos/gallery-model.local.json
-.\.venv\Scripts\python.exe -m http.server 8000 --directory docs --bind 127.0.0.1
 ```
 
-Abre [Encargos con la prueba de galería](http://127.0.0.1:8000/cotizador/encargos/?galeria=1) y selecciona **Óleo de 60 × 80 cm**. La referencia de galería aparece debajo de las tarifas de encargo. El archivo `reports/runs/galeria_2026_11_20/metrics.json` contiene el desglose detallado de la corrida original.
+El archivo `reports/runs/galeria_2026_11_20/metrics.json` contiene el desglose de la corrida original. El navegador usa `docs/cotizador/encargos/gallery-model.json` con los coeficientes, los parámetros de transformación y los límites de cobertura para óleo. Para probarlo localmente, sirve `docs/` por HTTP y abre [Encargos](http://127.0.0.1:8000/cotizador/encargos/).
 
 ## Referencias técnicas
 

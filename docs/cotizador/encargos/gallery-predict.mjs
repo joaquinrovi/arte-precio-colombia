@@ -1,4 +1,4 @@
-import { scoreSpline } from "../predict.mjs";
+import { scoreSpline } from "../predict.mjs?v=8d155b8";
 
 export function buildGalleryFeatures({ technique, width, height, year }) {
   const validYear = Number.isInteger(year) && year >= 1 && year <= 9999;

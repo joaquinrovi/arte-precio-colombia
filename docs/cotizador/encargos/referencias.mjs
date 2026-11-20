@@ -80,36 +80,32 @@ function showError(message = "") {
   errorMessage.hidden = !message;
 }
 
-async function loadGalleryPreview() {
-  const local = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
-  if (!local || new URLSearchParams(location.search).get("galeria") !== "1") return null;
-
+async function loadGalleryReference() {
   try {
     const [response, calculator] = await Promise.all([
-      fetch(new URL("./gallery-model.local.json", import.meta.url)),
-      import("./gallery-predict.mjs"),
+      fetch(new URL("./gallery-model.json", import.meta.url)),
+      import("./gallery-predict.mjs?v=2"),
     ]);
-    if (!response.ok) return {};
-    return { model: await response.json(), estimate: calculator.estimateGalleryOil };
+    if (!response.ok) return null;
+    const model = await response.json();
+    return { model, estimate: calculator.estimateGalleryOil };
   } catch {
-    return {};
+    return null;
   }
 }
 
-function showGalleryPreview(preview, query) {
-  if (!preview) return;
-
+function showGalleryReference(gallery, query) {
   let price = null;
-  let caption = "La prueba local necesita los parámetros del modelo de galería.";
-  if (preview.model && query.technique === "grafito") {
-    caption = "La muestra de grafito es pequeña para ofrecer una estimación. Usa las tarifas de encargo disponibles.";
-  } else if (preview.model) {
+  let caption = "La referencia de galería no está disponible en este momento.";
+  if (query.technique === "grafito") {
+    caption = "Para grafito, consulta las tarifas publicadas de encargo. El modelo de galería se usa para óleo.";
+  } else if (gallery) {
     try {
       const year = new Date().getFullYear();
-      price = preview.estimate(preview.model, { width: query.width, height: query.height, year });
+      price = gallery.estimate(gallery.model, { width: query.width, height: query.height, year });
       caption = price === null
         ? "Estas medidas quedan fuera de la cobertura del modelo de óleo."
-        : "Precio de ficha estimado a partir de técnica, medidas y año actual de creación. Úsalo como referencia de galería para decidir tu propuesta.";
+        : "Estimación de un precio de catálogo de La Galería Online para un óleo de estas medidas. El modelo usa el año actual para una obra nueva.";
     } catch {
       caption = "No se pudo calcular la referencia experimental de galería.";
     }
@@ -121,7 +117,7 @@ function showGalleryPreview(preview, query) {
   galleryCaption.textContent = caption;
 }
 
-function enableSearch(offers, date, galleryPreview) {
+function enableSearch(offers, date, gallery) {
   let searched = false;
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -142,7 +138,7 @@ function enableSearch(offers, date, galleryPreview) {
       status.textContent = matches.length
         ? `${count}. Fuentes consultadas el ${date}.`
         : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.";
-      showGalleryPreview(galleryPreview, query);
+      showGalleryReference(gallery, query);
       searched = true;
       results.focus({ preventScroll: true });
       results.scrollIntoView({ block: "nearest" });
@@ -187,12 +183,15 @@ function enableSearch(offers, date, galleryPreview) {
 
 async function loadCatalog() {
   try {
-    const response = await fetch(new URL("./offers.json", import.meta.url));
+    const [response, gallery] = await Promise.all([
+      fetch(new URL("./offers.json", import.meta.url)),
+      loadGalleryReference(),
+    ]);
     if (!response.ok) throw new Error("Catálogo sin acceso");
     const catalog = await response.json();
     if (!Array.isArray(catalog.offers)) throw new Error("Catálogo inválido");
     const date = dateFormat.format(new Date(`${catalog.checkedAt}T00:00:00Z`));
-    enableSearch(catalog.offers, date, await loadGalleryPreview());
+    enableSearch(catalog.offers, date, gallery);
   } catch {
     status.textContent = "Las ofertas no pudieron cargarse. Vuelve a intentarlo recargando la página.";
   }

@@ -14,7 +14,7 @@ El modo Encargos muestra precios publicados por proveedores colombianos para obr
 
 El catálogo registra páginas públicas y la fecha de revisión. Un precio «desde» es un valor inicial. Son ofertas de una muestra pequeña, sin confirmación del precio pagado. Para predecir el precio final de un primer encargo se requerirían ventas directas verificadas y una evaluación en artistas ausentes del entrenamiento.
 
-El [experimento local de precios de galería](docs/metodologia_modelado.md#experimento-local-con-fichas-de-galería) compara cinco enfoques para estimar precios publicados. Incluye instrucciones para probar la referencia experimental de óleo en Encargos.
+Para óleo, Encargos añade una **referencia experimental de galería** cuando las medidas están cubiertas por el modelo. Se estima el precio de catálogo de La Galería Online. La [evaluación del modelo](docs/metodologia_modelado.md#experimento-con-fichas-de-galería) compara cinco enfoques y explica el alcance de la estimación.
 
 ### Presupuesto por costos
 

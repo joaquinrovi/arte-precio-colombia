@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "target": "precio_publicado_cop",
+  "model_id": "spline_additive_log",
+  "feature_columns": [
+    "technique",
+    "log_area_cm2",
+    "log_aspect",
+    "year"
+  ],
+  "log_target_bounds": [
+    13.073175234051686,
+    17.796126373532168
+  ],
+  "numeric": [
+    {
+      "name": "log_area_cm2",
+      "center": 7.467942332285852,
+      "scale": 1.3854378300182741,
+      "lower": 5.155534653671033,
+      "upper": 9.91662973257862,
+      "knots": [],
+      "has_missing": false
+    },
+    {
+      "name": "log_aspect",
+      "center": 0.30538164955118186,
+      "scale": 0.174353387144778,
+      "lower": 0.0,
+      "upper": 1.1711829815029455,
+      "knots": [],
+      "has_missing": false
+    },
+    {
+      "name": "year",
+      "center": 2022.0,
+      "scale": 3.0,
+      "lower": 2000.0,
+      "upper": 2025.0,
+      "knots": [],
+      "has_missing": true
+    }
+  ],
+  "categories": {
+    "technique": [
+      "acrilico",
+      "acuarela",
+      "carboncillo",
+      "grafito",
+      "lapiz",
+      "lapiz_color",
+      "mixta",
+      "oleo",
+      "pastel",
+      "tinta"
+    ]
+  },
+  "coefficients": [
+    14.402095739438966,
+    0.612177862239592,
+    0.005572173489869501,
+    -0.11659503525568864,
+    0.06942381174918902,
+    0.10065786931325038,
+    -0.2764095121899215,
+    0.06284912100959017,
+    0.10312223172667109,
+    0.1032178094677231,
+    -0.06380489917147485,
+    -0.007529088817933798,
+    0.1709746132716175,
+    -0.25298580044570895,
+    0.059907655836064014
+  ],
+  "coverage": {
+    "oleo": {
+      "short_side_cm": [
+        15.0,
+        120.0
+      ],
+      "long_side_cm": [
+        16.5,
+        165.0
+      ]
+    }
+  }
+}

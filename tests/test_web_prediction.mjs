@@ -1,9 +1,11 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { estimateGalleryOil } from "../docs/cotizador/encargos/gallery-predict.mjs";
 import { buildFeatures, predictPrice, resolveArtist } from "../docs/cotizador/predict.mjs";
 
 const published = JSON.parse(readFileSync(new URL("../docs/cotizador/model.json", import.meta.url)));
+const gallery = JSON.parse(readFileSync(new URL("../docs/cotizador/encargos/gallery-model.json", import.meta.url)));
 const sample = {
   version: 1,
   options: {
@@ -106,4 +108,15 @@ test("el modelo publicado contiene un catálogo coherente y devuelve COP para ar
   const newArtist = predictPrice(published, { ...raw, artista_id: "Artista ficticio de verificación" });
   assert.ok(Number.isFinite(newArtist) && newArtist > 0);
   assert.equal(newArtist, predictPrice(published, { ...raw, artista_id: rare[0].id }));
+});
+
+test("el modelo de galería publicado reproduce el ejemplo de óleo en ambas orientaciones", () => {
+  const price = estimateGalleryOil(gallery, { width: 60, height: 80, year: 2026 });
+  assert.equal(Math.round(price), 2962641);
+  assert.equal(estimateGalleryOil(gallery, { width: 80, height: 60, year: 2026 }), price);
+});
+
+test("la referencia de galería omite las medidas fuera de cobertura", () => {
+  assert.equal(estimateGalleryOil(gallery, { width: 200, height: 300, year: 2026 }), null);
+  assert.equal(estimateGalleryOil(gallery, { width: 0, height: 80, year: 2026 }), null);
 });
