@@ -31,13 +31,18 @@ class NumericColumn:
     has_missing: bool
 
     @classmethod
-    def fit(cls, name: str, values: pd.Series) -> "NumericColumn":
+    def fit(cls, name: str, values: pd.Series, *, n_knots: int = 3) -> "NumericColumn":
         numeric = values.to_numpy(dtype=float, na_value=np.nan)
         observed = numeric[np.isfinite(numeric)]
         if len(observed):
             lower, q1, median, q3, upper = np.quantile(observed, [0.01, 0.25, 0.5, 0.75, 0.99])
             scale = q3 - q1 or np.std(observed) or 1.0
-            knots = np.unique((np.array([q1, median, q3]) - median) / scale)
+            if n_knots == 3:
+                positions = np.array([q1, median, q3])
+            else:
+                quantiles = np.linspace(0, 1, n_knots + 2)[1:-1]
+                positions = np.quantile(observed, quantiles)
+            knots = np.unique((positions - median) / scale)
             return cls(name, median, scale, lower, upper, knots, len(observed) < len(numeric))
         return cls(name, 0.0, 1.0, 0.0, 0.0, np.array([]), True)
 
@@ -52,12 +57,12 @@ class NumericColumn:
 class FeatureEncoder:
     """Aprende medidas resistentes a valores extremos y niveles categóricos en train."""
 
-    def __init__(self, frame: pd.DataFrame, min_category_count: int):
+    def __init__(self, frame: pd.DataFrame, min_category_count: int, *, n_knots: int = 3):
         self.columns = frame.columns.tolist()
         if not self.columns or not frame.columns.is_unique:
             raise ValueError("Se requieren nombres únicos para las variables de entrada.")
         numeric = frame.select_dtypes(include="number").columns
-        self.numeric = [NumericColumn.fit(name, frame[name]) for name in numeric]
+        self.numeric = [NumericColumn.fit(name, frame[name], n_knots=n_knots) for name in numeric]
         self.categories = {}
         for name in self.columns:
             if name not in numeric:
@@ -109,14 +114,18 @@ class FeatureEncoder:
 class SplineAdditiveRegressor:
     """Efectos no lineales por variable y regularización de categorías poco frecuentes."""
 
-    def __init__(self, penalty: float = 8.0):
+    def __init__(self, penalty: float = 8.0, *, n_knots: int = 3):
         if not np.isfinite(penalty) or penalty <= 0:
             raise ValueError("La penalización debe ser positiva y finita.")
+        if isinstance(n_knots, bool) or not isinstance(n_knots, (int, np.integer)) or n_knots < 0:
+            raise ValueError("El número de nudos debe ser un entero no negativo.")
         self.penalty = penalty
+        self.n_knots = int(n_knots)
 
     def fit(self, X: pd.DataFrame, y) -> "SplineAdditiveRegressor":
         target = _log_target(y, len(X))
-        encoder = FeatureEncoder(X, min_category_count=2)
+        # Los modelos anteriores al parámetro usaban los tres cuartiles interiores.
+        encoder = FeatureEncoder(X, min_category_count=2, n_knots=getattr(self, "n_knots", 3))
         matrix = encoder.spline_matrix(X)
         gram = matrix.T @ matrix
         gram.flat[:: len(gram) + 1] += self.penalty

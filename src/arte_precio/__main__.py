@@ -157,6 +157,72 @@ def _benchmark_run(config: dict, name: str | None, profile: str | None, quick: b
     return report
 
 
+def _tune_spline_run(config: dict, name: str | None, profile: str | None) -> dict:
+    from .candidates import SplineAdditiveRegressor
+    from .tuning import KNOT_COUNTS, PENALTIES, search_spline
+
+    path, (train, validation, test) = _load_parts(config)
+    profile = profile or config["model"]["profile"]
+    ranking, by_year = search_spline(train, profile)
+    best = ranking.iloc[0]
+    parameters = {"penalty": float(best["penalty"]), "n_knots": int(best["n_knots"])}
+    models = {
+        "default": SplineAdditiveRegressor(),
+        "tuned": SplineAdditiveRegressor(**parameters),
+    }
+    reference = models["default"]
+    reference_row = ranking.loc[
+        ranking["penalty"].eq(reference.penalty) & ranking["n_knots"].eq(reference.n_knots)
+    ].iloc[0]
+    x_train = build_features(train, profile)
+    x_validation = build_features(validation, profile)
+    y_train = train["precio_venta_cop"].to_numpy(dtype=float)
+    observed = validation["precio_venta_cop"]
+    comparison, segments, by_auction = [], {}, []
+    auction_groups = validation.groupby("fecha_subasta", sort=True).groups
+    for label, model in models.items():
+        model.fit(x_train, y_train)
+        pred = pd.Series(model.predict(x_validation), index=validation.index)
+        comparison.append({
+            "variant": label, "penalty": model.penalty, "n_knots": model.n_knots,
+            **regression_metrics(observed, pred),
+        })
+        segments[label] = _segments(train, validation, pred)
+        for date, idx in auction_groups.items():
+            by_auction.append({
+                "variant": label, "fecha_subasta": str(date)[:10],
+                **regression_metrics(observed.loc[idx], pred.loc[idx]),
+            })
+
+    report_dir, artifact_dir, run = _run_paths(name)
+    for filename, table in {
+        "spline_grid.csv": ranking,
+        "spline_by_year.csv": by_year,
+        "validation_comparison.csv": pd.DataFrame(comparison),
+        "validation_by_auction.csv": pd.DataFrame(by_auction),
+    }.items():
+        table.to_csv(report_dir / filename, index=False, encoding="utf-8-sig")
+    with (artifact_dir / "model.pkl").open("wb") as file:
+        pickle.dump(models["tuned"], file)
+    report = {
+        "run": run, "kind": "spline_tuning", "profile": profile,
+        "environment": _environment(), "dataset_sha256": sha256_file(path),
+        "split": split_summary(train, validation, test), "config": config,
+        "grid": {"penalty": PENALTIES, "n_knots": KNOT_COUNTS, "configurations": len(ranking)},
+        "selection_metric": "mae_cop", "selection_years": sorted(by_year["validation_year"].unique().tolist()),
+        "selection_rows": int(best["n"]), "selected_parameters": parameters,
+        "selection_mae_cop": {"default": float(reference_row["mae_cop"]), "tuned": float(best["mae_cop"])},
+        "validation_metrics": comparison, "validation_segments": segments,
+        "test_metrics_computed": False,
+        "validation_scope": (
+            "Ventana posterior a las usadas para elegir hiperparámetros. "
+            "Con los cortes predeterminados, 2025 ya había servido para elegir la familia del modelo."
+        ),
+    }
+    write_json(report_dir / "metrics.json", report)
+    return report
+
+
 def _evaluate_test(config: dict, run: str) -> dict:
 
     # La elección del experimento es explícita; train/baseline nunca llaman este paso.
@@ -209,6 +275,9 @@ def main(argv=None):
     benchmark.add_argument("--run-name")
     benchmark.add_argument("--profile", choices=PROFILES)
     benchmark.add_argument("--quick", action="store_true", help="Reducir iteraciones para comprobar el flujo")
+    tuning = commands.add_parser("tune-spline", help="Buscar hiperparámetros de splines por año")
+    tuning.add_argument("--run-name")
+    tuning.add_argument("--profile", choices=PROFILES)
     test = commands.add_parser("evaluate-test", help="Abrir la prueba final de un experimento elegido")
     test.add_argument("--run", required=True)
     args = parser.parse_args(argv)
@@ -226,6 +295,8 @@ def main(argv=None):
             result = _train_run(config, args.run_name, args.profile, args.quick)
         elif args.command == "benchmark":
             result = _benchmark_run(config, args.run_name, args.profile, args.quick)
+        elif args.command == "tune-spline":
+            result = _tune_spline_run(config, args.run_name, args.profile)
         else:
             result = _evaluate_test(config, args.run)
     except (ValueError, RuntimeError, FileNotFoundError) as exc:

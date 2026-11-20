@@ -121,6 +121,16 @@ Después de congelar las decisiones metodológicas, la prueba se abre de forma e
 
 Ese resultado deja de ser independiente si después se utiliza para ajustar el modelo. La importancia de una variable es exploratoria, depende del modelo y no prueba causalidad.
 
+### Buscar hiperparámetros de splines
+
+El comando `tune-spline` prueba 32 combinaciones de penalización y cantidad de nudos por variable numérica. Usa ventanas anuales crecientes dentro del entrenamiento y elige el menor MAE por lote. Con la configuración predeterminada, las ventanas puntúan subastas de 2021 a 2024. Después se ajustan ambas configuraciones con los datos hasta 2024 y se comparan en 2025. Esa comparación es retrospectiva porque 2025 ya sirvió para escoger la familia del modelo.
+
+```powershell
+.\.venv\Scripts\python.exe run.py tune-spline --profile intrinseco
+```
+
+La corrida local guarda `spline_grid.csv`, `spline_by_year.csv`, `validation_comparison.csv`, `validation_by_auction.csv` y `metrics.json`. Este último también desglosa el error para artistas presentes y ausentes en el entrenamiento. El comando guarda la configuración ajustada y su modelo para reproducir el experimento. La evaluación de prueba y la publicación en web son pasos separados.
+
 ## Organización
 
 | Ruta | Contenido |

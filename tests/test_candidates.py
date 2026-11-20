@@ -27,6 +27,24 @@ class CandidateTests(unittest.TestCase):
         self.assertGreater(prediction[0], 4 * prediction[1])
         self.assertGreater(prediction[2], 4 * prediction[1])
 
+    def test_spline_basis_uses_requested_quantiles_with_fixed_scaling(self):
+        features = pd.DataFrame({"size": np.arange(13, dtype=float)})
+        prices = np.linspace(1_000_000, 2_000_000, len(features))
+        default = SplineAdditiveRegressor().fit(features, prices).encoder_.numeric[0]
+        np.testing.assert_array_equal(default.knots, [-0.5, 0.0, 0.5])
+
+        for n_knots, expected in [(0, []), (2, [-1 / 3, 1 / 3]), (5, [-2 / 3, -1 / 3, 0, 1 / 3, 2 / 3])]:
+            with self.subTest(n_knots=n_knots):
+                column = SplineAdditiveRegressor(n_knots=n_knots).fit(features, prices).encoder_.numeric[0]
+                np.testing.assert_allclose(column.knots, expected, atol=1e-15)
+                self.assertEqual((column.center, column.scale, column.lower, column.upper),
+                                 (default.center, default.scale, default.lower, default.upper))
+
+    def test_spline_rejects_invalid_knot_counts(self):
+        for n_knots in [-1, 2.5, True, "3"]:
+            with self.subTest(n_knots=n_knots), self.assertRaises(ValueError):
+                SplineAdditiveRegressor(n_knots=n_knots)
+
     def test_neighbor_prefers_same_artist_at_identical_sizes(self):
         X = pd.DataFrame({"artista": ["a", "b"], "size": [5, 5]})
         prices = [1_000_000, 10_000_000]
