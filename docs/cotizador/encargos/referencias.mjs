@@ -105,7 +105,7 @@ function showGalleryReference(gallery, query) {
       price = gallery.estimate(gallery.model, { width: query.width, height: query.height, year });
       caption = price === null
         ? "Estas medidas quedan fuera de la cobertura del modelo de óleo."
-        : "Estimación de un precio de catálogo de La Galería Online para un óleo de estas medidas. El modelo usa el año actual para una obra nueva.";
+        : "Estimación de un precio de catálogo de La Galería Online para un óleo de estas medidas. El modelo predictivo usa el año actual para una obra nueva.";
     } catch {
       caption = "No se pudo calcular la referencia experimental de galería.";
     }
