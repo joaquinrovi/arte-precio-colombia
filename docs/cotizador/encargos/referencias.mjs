@@ -4,6 +4,9 @@ const form = document.querySelector("#references-form");
 const fields = document.querySelector("#references-fields");
 const results = document.querySelector("#reference-results");
 const status = document.querySelector("#result-status");
+const offerDisclosure = document.querySelector("#offer-disclosure");
+const offerSummary = document.querySelector("#offer-summary");
+const offerSources = document.querySelector("#offer-sources");
 const list = document.querySelector("#offer-list");
 const errorMessage = document.querySelector("#references-error");
 const galleryCard = document.querySelector("#gallery-reference");
@@ -82,6 +85,16 @@ function showError(message = "") {
   errorMessage.hidden = !message;
 }
 
+function showStatus(message = "") {
+  status.textContent = message;
+  status.hidden = !message;
+}
+
+function hideOffers() {
+  offerDisclosure.open = false;
+  offerDisclosure.hidden = true;
+}
+
 async function loadGalleryReference() {
   try {
     const [response, calculator] = await Promise.all([
@@ -132,6 +145,7 @@ function showGalleryReference(gallery, query, frameCost) {
 }
 
 function enableSearch(offers, date, gallery) {
+  offerSources.textContent = `Fuentes consultadas el ${date}.`;
   let searched = false;
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -147,19 +161,20 @@ function enableSearch(offers, date, gallery) {
       const matches = findComparableOffers(offers, query);
       const enteredFrameCost = frameCost === "" ? null : Number(frameCost);
       list.replaceChildren(...matches.map((offer) => renderOffer(offer, enteredFrameCost)));
-      list.hidden = matches.length === 0;
-      const count = matches.length === 1 ? "1 oferta publicada" : `${matches.length} ofertas publicadas`;
-      status.textContent = matches.length
-        ? `${count}. Fuentes consultadas el ${date}.`
-        : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.";
+      offerDisclosure.open = false;
+      offerDisclosure.hidden = matches.length === 0;
+      offerSummary.textContent = `Ver ofertas de encargo (${matches.length})`;
       showGalleryReference(gallery, query, enteredFrameCost);
+      showStatus(matches.length || !galleryPrice.hidden
+        ? ""
+        : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.");
       searched = true;
       results.focus({ preventScroll: true });
       results.scrollIntoView({ block: "nearest" });
     } catch (error) {
-      list.hidden = true;
+      hideOffers();
       galleryCard.hidden = true;
-      status.textContent = "Revisa los datos del encargo.";
+      showStatus("Revisa los datos del encargo.");
       showError(error instanceof RangeError ? error.message : "No se pudo completar la búsqueda.");
     }
   });
@@ -167,20 +182,20 @@ function enableSearch(offers, date, gallery) {
   form.addEventListener("input", () => {
     showError();
     if (!searched) return;
-    list.hidden = true;
+    hideOffers();
     galleryCard.hidden = true;
-    status.textContent = "Pulsa Buscar precios para actualizar las ofertas según los datos ingresados.";
+    showStatus("Pulsa Buscar precios para actualizar las ofertas según los datos ingresados.");
   });
 
   form.addEventListener("reset", () => {
     searched = false;
     list.replaceChildren();
-    list.hidden = true;
+    hideOffers();
     galleryCard.hidden = true;
     showGalleryPrice(null, null);
     galleryCaption.textContent = "";
     showError();
-    status.textContent = initialStatus;
+    showStatus(initialStatus);
   });
 
   for (const [id, inputs] of examples) {
@@ -192,7 +207,7 @@ function enableSearch(offers, date, gallery) {
   }
 
   fields.disabled = false;
-  status.textContent = initialStatus;
+  showStatus(initialStatus);
 }
 
 async function loadCatalog() {
@@ -207,7 +222,7 @@ async function loadCatalog() {
     const date = dateFormat.format(new Date(`${catalog.checkedAt}T00:00:00Z`));
     enableSearch(catalog.offers, date, gallery);
   } catch {
-    status.textContent = "Las ofertas no pudieron cargarse. Vuelve a intentarlo recargando la página.";
+    showStatus("Las ofertas no pudieron cargarse. Vuelve a intentarlo recargando la página.");
   }
 }
 

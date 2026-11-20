@@ -7,8 +7,8 @@
   <meta name="description" content="Consulta precios y plazos publicados de encargos de arte en Colombia por técnica y tamaño.">
   <title>Precios de referencia para encargos de arte</title>
   <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="./referencias.css">
-  <script type="module" src="./referencias.mjs?v=4"></script>
+  <link rel="stylesheet" href="./referencias.css?v=5">
+  <script type="module" src="./referencias.mjs?v=5"></script>
 </head>
 <body>
   <header class="site-header">
@@ -99,7 +99,6 @@
           </div>
           <p class="quote-caption" id="result-status" role="status" aria-atomic="true">Cargando las ofertas publicadas.</p>
         </div>
-        <ul class="offer-list" id="offer-list" hidden></ul>
         <article class="offer-card" id="gallery-reference" aria-labelledby="gallery-title" hidden>
           <div class="offer-heading">
             <h3 id="gallery-title">Referencia experimental de galería</h3>
@@ -109,6 +108,11 @@
           <dl class="offer-details" id="gallery-breakdown" hidden></dl>
           <p class="offer-note" id="gallery-caption" role="status" aria-atomic="true"></p>
         </article>
+        <details class="offer-disclosure" id="offer-disclosure" hidden>
+          <summary id="offer-summary">Ver ofertas de encargo</summary>
+          <p class="offer-note" id="offer-sources"></p>
+          <ul class="offer-list" id="offer-list"></ul>
+        </details>
       </section>
     </div>
 

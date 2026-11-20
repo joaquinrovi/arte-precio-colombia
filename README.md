@@ -12,6 +12,8 @@ La base original reúne **1.838 lotes adjudicados de 28 subastas** y contiene **
 
 Selecciona **Óleo** o **Grafito**, elige el tipo de encargo e indica las medidas en centímetros. Pulsa **Buscar precios** para consultar las referencias o **Limpiar** para empezar otra consulta. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
 
+La referencia experimental de galería aparece primero. Abre **Ver ofertas de encargo** para consultar las tarifas y fichas de los proveedores cuando haya coincidencias.
+
 | Resultado | Qué muestra | Cómo se suma el marco |
 | --- | --- | --- |
 | **Oferta de encargo** | Tarifa publicada de la medida más cercana por proveedor, con hasta 25 % de diferencia en cada lado. Puede incluir el plazo y el estado del marco. Un precio «desde» es un valor inicial. | El costo cotizado se suma cuando la medida es exacta y la oferta indica «Sin enmarcar». |

@@ -22,6 +22,15 @@
 .reference-summary { position: static; gap: 11px; padding: clamp(16px, 2.65vw, 23px); }
 .reference-summary .quote-caption { margin: 0; }
 
+.offer-disclosure > summary {
+  padding: 12px 36px 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  color: var(--olive);
+  background: var(--card);
+}
+.offer-disclosure > summary::after { right: 14px; }
+.offer-disclosure > .offer-note { margin: 8px 0; }
 .offer-list { list-style: none; display: grid; gap: 9px; margin: 0; padding: 0; }
 
 .offer-card {
