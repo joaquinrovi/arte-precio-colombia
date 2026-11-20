@@ -124,6 +124,21 @@ h2 { font-size: clamp(1.5rem, 3vw, 1.9rem); letter-spacing: -.029em; line-height
 .example-button:hover:not(:disabled), .save-button:hover { background: #eaeade; }
 .example-button:disabled { opacity: .6; }
 
+.auction-explainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.auction-explainer section {
+  padding: 14px 16px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--card);
+}
+.auction-explainer h2 { font-size: 1.35rem; scroll-margin-top: 12px; }
+.auction-explainer p { margin: 6px 0 0; color: var(--muted); font-size: .86rem; line-height: 1.55; }
+
 .workspace {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
