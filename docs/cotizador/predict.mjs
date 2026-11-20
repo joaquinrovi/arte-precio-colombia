@@ -88,7 +88,10 @@ export function predictPrice(model, raw) {
   const features = buildFeatures({ ...raw, artista_id: artist.id });
   // A new name has zero training indicators. A blank may have a fitted missing level.
   if (artist.status === "unknown") features.artista = null;
+  return scoreSpline(model, features);
+}
 
+export function scoreSpline(model, features) {
   let index = 0;
   let logPrediction = model.coefficients[index++];
   for (const column of model.numeric) {

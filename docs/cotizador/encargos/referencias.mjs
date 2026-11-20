@@ -6,6 +6,9 @@ const results = document.querySelector("#reference-results");
 const status = document.querySelector("#result-status");
 const list = document.querySelector("#offer-list");
 const errorMessage = document.querySelector("#references-error");
+const galleryCard = document.querySelector("#gallery-reference");
+const galleryPrice = document.querySelector("#gallery-price");
+const galleryCaption = document.querySelector("#gallery-caption");
 const initialStatus = "Completa los datos del encargo o prueba un ejemplo para ver las ofertas disponibles.";
 
 const money = new Intl.NumberFormat("es-CO", {
@@ -77,19 +80,61 @@ function showError(message = "") {
   errorMessage.hidden = !message;
 }
 
-function enableSearch(offers, date) {
+async function loadGalleryPreview() {
+  const local = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+  if (!local || new URLSearchParams(location.search).get("galeria") !== "1") return null;
+
+  try {
+    const [response, calculator] = await Promise.all([
+      fetch(new URL("./gallery-model.local.json", import.meta.url)),
+      import("./gallery-predict.mjs"),
+    ]);
+    if (!response.ok) return {};
+    return { model: await response.json(), estimate: calculator.estimateGalleryOil };
+  } catch {
+    return {};
+  }
+}
+
+function showGalleryPreview(preview, query) {
+  if (!preview) return;
+
+  let price = null;
+  let caption = "La prueba local necesita los parámetros del modelo de galería.";
+  if (preview.model && query.technique === "grafito") {
+    caption = "La muestra de grafito es pequeña para ofrecer una estimación. Usa las tarifas de encargo disponibles.";
+  } else if (preview.model) {
+    try {
+      const year = new Date().getFullYear();
+      price = preview.estimate(preview.model, { width: query.width, height: query.height, year });
+      caption = price === null
+        ? "Estas medidas quedan fuera de la cobertura del modelo de óleo."
+        : "Precio de ficha estimado a partir de técnica, medidas y año actual de creación. Úsalo como referencia de galería para decidir tu propuesta.";
+    } catch {
+      caption = "No se pudo calcular la referencia experimental de galería.";
+    }
+  }
+
+  galleryPrice.textContent = price === null ? "" : money.format(price);
+  galleryPrice.hidden = price === null;
+  galleryCard.hidden = false;
+  galleryCaption.textContent = caption;
+}
+
+function enableSearch(offers, date, galleryPreview) {
   let searched = false;
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     showError();
     const { technique, subject, width, height, frameCost } = Object.fromEntries(new FormData(form));
     try {
-      const matches = findComparableOffers(offers, {
+      const query = {
         technique,
         subject,
         width: Number(width),
         height: Number(height),
-      });
+      };
+      const matches = findComparableOffers(offers, query);
       const enteredFrameCost = frameCost === "" ? null : Number(frameCost);
       list.replaceChildren(...matches.map((offer) => renderOffer(offer, enteredFrameCost)));
       list.hidden = matches.length === 0;
@@ -97,11 +142,13 @@ function enableSearch(offers, date) {
       status.textContent = matches.length
         ? `${count}. Fuentes consultadas el ${date}.`
         : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.";
+      showGalleryPreview(galleryPreview, query);
       searched = true;
       results.focus({ preventScroll: true });
       results.scrollIntoView({ block: "nearest" });
     } catch (error) {
       list.hidden = true;
+      galleryCard.hidden = true;
       status.textContent = "Revisa los datos del encargo.";
       showError(error instanceof RangeError ? error.message : "No se pudo completar la búsqueda.");
     }
@@ -111,6 +158,7 @@ function enableSearch(offers, date) {
     showError();
     if (!searched) return;
     list.hidden = true;
+    galleryCard.hidden = true;
     status.textContent = "Pulsa Buscar precios para actualizar las ofertas según los datos ingresados.";
   });
 
@@ -118,6 +166,9 @@ function enableSearch(offers, date) {
     searched = false;
     list.replaceChildren();
     list.hidden = true;
+    galleryCard.hidden = true;
+    galleryPrice.textContent = "";
+    galleryCaption.textContent = "";
     showError();
     status.textContent = initialStatus;
   });
@@ -141,7 +192,7 @@ async function loadCatalog() {
     const catalog = await response.json();
     if (!Array.isArray(catalog.offers)) throw new Error("Catálogo inválido");
     const date = dateFormat.format(new Date(`${catalog.checkedAt}T00:00:00Z`));
-    enableSearch(catalog.offers, date);
+    enableSearch(catalog.offers, date, await loadGalleryPreview());
   } catch {
     status.textContent = "Las ofertas no pudieron cargarse. Vuelve a intentarlo recargando la página.";
   }

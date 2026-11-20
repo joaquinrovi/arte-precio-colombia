@@ -14,6 +14,8 @@ El modo Encargos muestra precios publicados por proveedores colombianos para obr
 
 El catálogo registra páginas públicas y la fecha de revisión. Un precio «desde» es un valor inicial. Son ofertas de una muestra pequeña, sin confirmación del precio pagado. Para predecir el precio final de un primer encargo se requerirían ventas directas verificadas y una evaluación en artistas ausentes del entrenamiento.
 
+El [experimento local de precios de galería](docs/metodologia_modelado.md#experimento-local-con-fichas-de-galería) compara cinco enfoques para estimar precios publicados. Incluye instrucciones para probar la referencia experimental de óleo en Encargos.
+
 ### Presupuesto por costos
 
 Si ya conoces cuánto quieres cobrar por hora, la calculadora suma tu tiempo y tus gastos. Funciona en el navegador. [Abrir presupuesto por costos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/costos/)

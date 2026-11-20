@@ -20,6 +20,7 @@ artifacts/*
 !artifacts/.gitkeep
 reports/runs/*
 !reports/runs/.gitkeep
+docs/cotizador/encargos/gallery-model.local.json
 *.joblib
 *.pkl
 *.pickle
