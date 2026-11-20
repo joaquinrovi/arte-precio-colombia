@@ -8,7 +8,7 @@
   <title>Precios de referencia para encargos de arte</title>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./referencias.css">
-  <script type="module" src="./referencias.mjs?v=3"></script>
+  <script type="module" src="./referencias.mjs?v=4"></script>
 </head>
 <body>
   <header class="site-header">
@@ -73,7 +73,7 @@
             <div class="field reference-frame">
               <label for="frame-cost">Costo cotizado del marco (COP) <span class="optional">Opcional</span></label>
               <input id="frame-cost" name="frameCost" type="number" inputmode="numeric" min="0" max="999999999" step="1" aria-describedby="frame-help">
-              <p class="hint" id="frame-help">Si ya tienes el precio del marco, puedes sumarlo a ofertas sin enmarcar de la medida exacta.</p>
+              <p class="hint" id="frame-help">Este costo se suma a la referencia de galería para óleo y a las ofertas sin enmarcar de la medida exacta.</p>
             </div>
 
             <div class="form-actions">
@@ -101,8 +101,12 @@
         </div>
         <ul class="offer-list" id="offer-list" hidden></ul>
         <article class="offer-card" id="gallery-reference" aria-labelledby="gallery-title" hidden>
-          <h3 id="gallery-title">Referencia experimental de galería</h3>
-          <p class="offer-price" id="gallery-price" hidden></p>
+          <div class="offer-heading">
+            <h3 id="gallery-title">Referencia experimental de galería</h3>
+            <p class="offer-note" id="gallery-total-label" hidden>Total orientativo con marco</p>
+            <div class="offer-price" id="gallery-price" hidden></div>
+          </div>
+          <dl class="offer-details" id="gallery-breakdown" hidden></dl>
           <p class="offer-note" id="gallery-caption" role="status" aria-atomic="true"></p>
         </article>
       </section>

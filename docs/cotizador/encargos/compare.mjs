@@ -63,10 +63,12 @@ export function findComparableOffers(offers, request) {
     .map(({ offer, distance }) => ({ ...offer, exact: distance === 0 }));
 }
 
-export function frameTotal(offer, frameCost) {
-  if (offer?.frame !== "no_incluido" || !validPrice(offer.price)
-      || !Number.isSafeInteger(frameCost) || frameCost < 0) return null;
-
-  const total = offer.price + frameCost;
+export function addFrameCost(price, frameCost) {
+  if (!validPrice(price) || !Number.isSafeInteger(frameCost) || frameCost < 0) return null;
+  const total = price + frameCost;
   return Number.isSafeInteger(total) ? total : null;
+}
+
+export function frameTotal(offer, frameCost) {
+  return offer?.frame === "no_incluido" ? addFrameCost(offer.price, frameCost) : null;
 }

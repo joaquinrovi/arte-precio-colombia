@@ -1,4 +1,4 @@
-import { findComparableOffers, frameTotal } from "./compare.mjs";
+import { addFrameCost, findComparableOffers, frameTotal } from "./compare.mjs?v=4";
 
 const form = document.querySelector("#references-form");
 const fields = document.querySelector("#references-fields");
@@ -8,6 +8,8 @@ const list = document.querySelector("#offer-list");
 const errorMessage = document.querySelector("#references-error");
 const galleryCard = document.querySelector("#gallery-reference");
 const galleryPrice = document.querySelector("#gallery-price");
+const galleryTotalLabel = document.querySelector("#gallery-total-label");
+const galleryBreakdown = document.querySelector("#gallery-breakdown");
 const galleryCaption = document.querySelector("#gallery-caption");
 const initialStatus = "Completa los datos del encargo o prueba un ejemplo para ver las ofertas disponibles.";
 
@@ -94,7 +96,20 @@ async function loadGalleryReference() {
   }
 }
 
-function showGalleryReference(gallery, query) {
+function showGalleryPrice(price, frameCost) {
+  const total = price === null ? null : addFrameCost(Math.round(price), frameCost);
+  const hasTotal = total !== null;
+  galleryTotalLabel.hidden = !hasTotal;
+  galleryPrice.textContent = price === null ? "" : money.format(total ?? price);
+  galleryPrice.hidden = price === null;
+  galleryBreakdown.hidden = !hasTotal;
+  galleryBreakdown.replaceChildren(...(hasTotal ? [
+    detail("Precio base estimado", money.format(price)),
+    detail("Marco cotizado", money.format(frameCost)),
+  ] : []));
+}
+
+function showGalleryReference(gallery, query, frameCost) {
   let price = null;
   let caption = "La referencia de galería no está disponible en este momento.";
   if (query.technique === "grafito") {
@@ -111,8 +126,7 @@ function showGalleryReference(gallery, query) {
     }
   }
 
-  galleryPrice.textContent = price === null ? "" : money.format(price);
-  galleryPrice.hidden = price === null;
+  showGalleryPrice(price, frameCost);
   galleryCard.hidden = false;
   galleryCaption.textContent = caption;
 }
@@ -138,7 +152,7 @@ function enableSearch(offers, date, gallery) {
       status.textContent = matches.length
         ? `${count}. Fuentes consultadas el ${date}.`
         : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.";
-      showGalleryReference(gallery, query);
+      showGalleryReference(gallery, query, enteredFrameCost);
       searched = true;
       results.focus({ preventScroll: true });
       results.scrollIntoView({ block: "nearest" });
@@ -163,7 +177,7 @@ function enableSearch(offers, date, gallery) {
     list.replaceChildren();
     list.hidden = true;
     galleryCard.hidden = true;
-    galleryPrice.textContent = "";
+    showGalleryPrice(null, null);
     galleryCaption.textContent = "";
     showError();
     status.textContent = initialStatus;

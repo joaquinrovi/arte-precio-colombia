@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { addFrameCost } from "../docs/cotizador/encargos/compare.mjs";
 import { estimateGalleryOil } from "../docs/cotizador/encargos/gallery-predict.mjs";
 import { buildFeatures, predictPrice, resolveArtist } from "../docs/cotizador/predict.mjs";
 
@@ -114,6 +115,13 @@ test("el modelo de galería publicado reproduce el ejemplo de óleo en ambas ori
   const price = estimateGalleryOil(gallery, { width: 60, height: 80, year: 2026 });
   assert.equal(Math.round(price), 2962641);
   assert.equal(estimateGalleryOil(gallery, { width: 80, height: 60, year: 2026 }), price);
+});
+
+test("el marco cotizado se suma al precio de galería redondeado al peso", () => {
+  const price = Math.round(estimateGalleryOil(gallery, { width: 60, height: 80, year: 2026 }));
+  assert.equal(addFrameCost(price, 100_000), 3_062_641);
+  assert.equal(addFrameCost(price, 0), price);
+  assert.equal(addFrameCost(price, null), null);
 });
 
 test("la referencia de galería omite las medidas fuera de cobertura", () => {
