@@ -1,0 +1,49 @@
+.commission-intro .intro-description { max-width: 56ch; }
+
+.commission-examples { flex: 0 0 auto; }
+.commission-examples p {
+  margin: 0 0 7px;
+  color: var(--muted);
+  font-size: .79rem;
+  font-weight: 650;
+}
+.example-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+.example-buttons .example-button { justify-content: space-between; gap: 10px; }
+
+.commission-time {
+  border-top: 1px solid var(--rule);
+  padding-top: 15px;
+}
+
+.commission-result { gap: 15px; }
+.commission-result .quote { min-height: 46px; }
+.commission-result .quote-price { font-size: clamp(2rem, 5vw, 3.55rem); }
+
+.commission-breakdown {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  font-size: .85rem;
+  line-height: 1.3;
+}
+.commission-breakdown > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.commission-breakdown dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.commission-subtotal {
+  border-top: 1px solid #717a63;
+  padding-top: 9px;
+  font-weight: 680;
+}
+
+@media (max-width: 500px) {
+  .commission-grid { grid-template-columns: minmax(0, 1fr); }
+}

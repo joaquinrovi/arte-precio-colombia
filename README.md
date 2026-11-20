@@ -8,6 +8,18 @@ La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El proyec
 
 [Abrir el cotizador](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/)
 
+### Presupuesto de un encargo
+
+El modo Encargos ayuda a calcular cuánto proponer a un cliente a partir de los costos y del pago por hora que el artista elige. Funciona en el navegador y los datos del formulario se quedan allí. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
+
+1. Suma los materiales consumidos, los gastos extra y las horas de trabajo multiplicadas por la tarifa por hora.
+2. Si se indica una reserva para imprevistos, aplícala a esa suma.
+3. Si el medio de cobro descuenta una comisión porcentual, aumenta el precio para cubrirla. Redondea el precio hacia arriba a un múltiplo de $1.000 COP.
+
+Incluye ejemplos editables de óleo y grafito. Sus cifras ilustran el cálculo. El presupuesto refleja los supuestos de quien lo prepara y el precio final se acuerda con el cliente.
+
+### Estimación de remate
+
 Estima en COP el **precio de remate** de un lote adjudicado en subastas de Bogotá, antes de la comisión del comprador. Es una referencia experimental para ese mercado. Los encargos, los honorarios de un artista y las ventas directas quedan fuera de la muestra.
 
 Puedes escribir cualquier nombre o dejar el campo de artista vacío. Un artista con suficiente historial activa su efecto dentro del modelo. Un artista nuevo o con un solo lote de entrenamiento recibe una estimación basada en las demás características. Guardar un nombre lo añade a las sugerencias de ese navegador. Para aprender un efecto propio se requieren ventas observadas y un nuevo entrenamiento.
@@ -39,7 +51,7 @@ Para regenerar `model.json` desde la corrida local congelada y comprobar la pari
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/export_web_model.py --run benchmark_2025_verificado --check-parity
-node --test tests/test_web_prediction.mjs
+node --test tests/test_web_prediction.mjs tests/test_commission_price.mjs
 ```
 
 GitHub Pages publica la carpeta `docs/` de la rama `main`.
