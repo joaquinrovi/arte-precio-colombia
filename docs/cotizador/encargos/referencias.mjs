@@ -6,6 +6,7 @@ const results = document.querySelector("#reference-results");
 const status = document.querySelector("#result-status");
 const list = document.querySelector("#offer-list");
 const errorMessage = document.querySelector("#references-error");
+const initialStatus = "Completa los datos del encargo o prueba un ejemplo para ver las ofertas disponibles.";
 
 const money = new Intl.NumberFormat("es-CO", {
   style: "currency",
@@ -113,6 +114,14 @@ function enableSearch(offers, date) {
     status.textContent = "Pulsa Buscar precios para actualizar las ofertas según los datos ingresados.";
   });
 
+  form.addEventListener("reset", () => {
+    searched = false;
+    list.replaceChildren();
+    list.hidden = true;
+    showError();
+    status.textContent = initialStatus;
+  });
+
   for (const [id, inputs] of examples) {
     document.querySelector(id).addEventListener("click", () => {
       form.reset();
@@ -122,7 +131,7 @@ function enableSearch(offers, date) {
   }
 
   fields.disabled = false;
-  status.textContent = "Completa los datos del encargo o prueba un ejemplo para ver las ofertas disponibles.";
+  status.textContent = initialStatus;
 }
 
 async function loadCatalog() {

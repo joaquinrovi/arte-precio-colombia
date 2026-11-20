@@ -10,6 +10,9 @@
 }
 
 .reference-workspace { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+.reference-fields { display: flex; flex-wrap: wrap; }
+.reference-fields .field { flex: 1 1 7rem; }
+.reference-fields .field:last-child { flex: 2 1 15.5rem; }
 .reference-frame { border-top: 1px solid var(--rule); padding-top: 14px; }
 .reference-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
 .reference-examples p { width: 100%; }
@@ -48,8 +51,4 @@
 
 @media (max-width: 790px) {
   .reference-workspace { grid-template-columns: minmax(0, 1fr); }
-}
-
-@media (max-width: 430px) {
-  .reference-fields { grid-template-columns: minmax(0, 1fr); }
 }
