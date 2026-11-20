@@ -1,0 +1,490 @@
+[
+  {
+    "variable": "registro_id",
+    "tipo": "texto",
+    "rol": "identificador",
+    "definicion": "Clave única de la observación de un lote en una subasta.",
+    "regla_faltantes": "No debe faltar ni repetirse.",
+    "precaucion": "No usar como predictor. Una reventa de la misma obra es otra observación; este ID no identifica necesariamente una obra única."
+  },
+  {
+    "variable": "precio_venta_cop",
+    "tipo": "número entero (COP)",
+    "rol": "target",
+    "definicion": "Precio de martillo o remate publicado para el lote adjudicado, expresado en pesos colombianos nominales de la fecha del evento.",
+    "regla_faltantes": "Solo se incluyen precios publicados positivos en Ventas. Un precio ausente permanece vacío.",
+    "precaucion": "Excluye comisión del comprador, IVA sobre comisión, envío y otros gastos. No está ajustado por inflación. La adjudicación publicada no acredita que el comprador haya pagado. No se calculó a partir de precios de salida ni estimados."
+  },
+  {
+    "variable": "artista",
+    "tipo": "texto",
+    "rol": "feature_intrinseca",
+    "definicion": "Nombre del autor o autores tal como se identificaron en las fichas, con limpieza de espacios.",
+    "regla_faltantes": "Vacío si no fue posible identificarlo.",
+    "precaucion": "Puede contener atribuciones, colaboraciones o variantes del nombre. Alta cardinalidad. Evaluar autores nuevos agrupando por artista_id al dividir los datos y comparar también con una partición temporal."
+  },
+  {
+    "variable": "artista_id",
+    "tipo": "texto",
+    "rol": "identificador",
+    "definicion": "Clave de agrupación derivada del nombre del artista: minúsculas, sin tildes y con separadores uniformes.",
+    "regla_faltantes": "Vacío si falta el nombre del artista.",
+    "precaucion": "Es una normalización textual, no un identificador de autoridad ni una conciliación completa de seudónimos. Usar para agrupar la validación por artista y detectar variantes; no como número ni como predictor arbitrario."
+  },
+  {
+    "variable": "titulo",
+    "tipo": "texto",
+    "rol": "feature_intrinseca",
+    "definicion": "Título de la obra o lote, conservando las atribuciones del catálogo y retirando la cláusula de fecha cuando pudo separarse.",
+    "regla_faltantes": "Vacío si no se publicó o no pudo aislarse.",
+    "precaucion": "Un mismo título puede corresponder a obras distintas. No usarlo como clave de obra. Revisar títulos como Sin título y lotes con varias piezas."
+  },
+  {
+    "variable": "fecha_subasta",
+    "tipo": "fecha (AAAA-MM-DD)",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Fecha publicada del evento de subasta asociado al resultado.",
+    "regla_faltantes": "Vacía cuando la fecha no está documentada.",
+    "precaucion": "No es fecha de pago, entrega ni necesariamente de adjudicación en posventa. Usar para separar entrenamiento y evaluación por tiempo; las adjudicaciones recientes pueden cambiar durante la posventa."
+  },
+  {
+    "variable": "anio_venta",
+    "tipo": "número entero",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Año de la fecha publicada de la subasta.",
+    "regla_faltantes": "Vacío si falta fecha_subasta.",
+    "precaucion": "Derivado de fecha_subasta. No representa el año de pago. Evitar redundancia si se utiliza otra representación de la fecha y reservar los años posteriores para una evaluación temporal."
+  },
+  {
+    "variable": "tecnica_texto",
+    "tipo": "texto",
+    "rol": "feature_intrinseca",
+    "definicion": "Técnica o medio descrito en la ficha o el catálogo, con su formulación original.",
+    "regla_faltantes": "Vacío si la técnica no se publicó o no pudo extraerse.",
+    "precaucion": "Puede combinar técnicas, soporte y edición. Es texto de catálogo, no una clasificación pericial independiente."
+  },
+  {
+    "variable": "tecnica_grupo",
+    "tipo": "texto categórico",
+    "rol": "feature_intrinseca",
+    "definicion": "Familia de técnica asignada mediante reglas de palabras presentes en tecnica_texto.",
+    "regla_faltantes": "Vacía si falta tecnica_texto; Otra técnica documentada si existe texto sin coincidencia en las reglas.",
+    "precaucion": "Variable derivada. Revisar técnicas mixtas y obras con varios materiales. El primer término reconocido puede determinar el grupo."
+  },
+  {
+    "variable": "soporte",
+    "tipo": "texto categórico",
+    "rol": "feature_intrinseca",
+    "definicion": "Soporte identificado mediante palabras en la descripción de la técnica, como papel, lienzo o madera.",
+    "regla_faltantes": "Vacío cuando el soporte no se menciona o no se reconoce.",
+    "precaucion": "Derivado automáticamente del texto. En objetos con varios materiales puede reflejar solo el primer soporte reconocido."
+  },
+  {
+    "variable": "tipo_objeto",
+    "tipo": "texto categórico",
+    "rol": "feature_intrinseca",
+    "definicion": "Tipo general derivado de la técnica y, en algunas fuentes, de las dimensiones: obra gráfica, fotografía, textil, escultura u objeto u obra bidimensional.",
+    "regla_faltantes": "Vacío si no hay datos suficientes para asignarlo.",
+    "precaucion": "Es una agrupación operativa. Obra gráfica no equivale por sí sola a reproducción y escultura u objeto puede reunir mercados diferentes."
+  },
+  {
+    "variable": "anio_obra",
+    "tipo": "número entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Año extraído de la fecha de realización publicada, cuando puede representarse con un solo año.",
+    "regla_faltantes": "Vacío para sin fecha, intervalos o fecha no publicada, según las reglas de extracción.",
+    "precaucion": "Leer junto con precision_anio_obra y fecha_obra_texto. Un valor de década o período no debe interpretarse como año exacto. Revisar incompatibilidades con el evento y la biografía catalogada."
+  },
+  {
+    "variable": "fecha_obra_texto",
+    "tipo": "texto",
+    "rol": "proveniencia",
+    "definicion": "Expresión de fecha original o cláusula de fecha identificada para la obra.",
+    "regla_faltantes": "Vacía si no se publicó o no pudo aislarse.",
+    "precaucion": "Conserva aproximaciones e intervalos. Puede requerir revisión manual antes de convertirla en una variable temporal."
+  },
+  {
+    "variable": "precision_anio_obra",
+    "tipo": "texto categórico",
+    "rol": "control_calidad",
+    "definicion": "Indica cómo debe interpretarse anio_obra: exacto_publicado, aproximado, atribuido_catalogo, decada_o_periodo, intervalo, sin_fecha o no_publicado.",
+    "regla_faltantes": "Debe registrar el estado de extracción; vacío si no existe información suficiente.",
+    "precaucion": "Exacto_publicado expresa la precisión de la fuente, no una verificación histórica independiente."
+  },
+  {
+    "variable": "dim1_cm",
+    "tipo": "número decimal (cm)",
+    "rol": "feature_intrinseca",
+    "definicion": "Primera dimensión numérica seleccionada en el orden publicado por la fuente.",
+    "regla_faltantes": "Vacía si no se publicó, no pudo interpretarse o se marcó como ambigua.",
+    "precaucion": "No se asignó un eje físico: no equivale automáticamente a alto, ancho ni profundidad. Leer base_dimensiones y medidas_texto. En lotes múltiples puede describir una pieza."
+  },
+  {
+    "variable": "dim2_cm",
+    "tipo": "número decimal (cm)",
+    "rol": "feature_intrinseca",
+    "definicion": "Segunda dimensión numérica seleccionada en el orden publicado por la fuente.",
+    "regla_faltantes": "Vacía si no se publicó, no pudo interpretarse o se marcó como ambigua.",
+    "precaucion": "No se asignó un eje físico. No inferir orientación vertical u horizontal solamente a partir del orden de las medidas."
+  },
+  {
+    "variable": "dim3_cm",
+    "tipo": "número decimal (cm)",
+    "rol": "feature_intrinseca",
+    "definicion": "Tercera dimensión numérica, cuando la fuente publica tres medidas interpretables.",
+    "regla_faltantes": "Vacía si no se publicó una tercera dimensión o no pudo interpretarse.",
+    "precaucion": "No se asumió que corresponda a profundidad. Su ausencia no demuestra que la obra sea plana."
+  },
+  {
+    "variable": "diametro_cm",
+    "tipo": "número decimal (cm)",
+    "rol": "feature_intrinseca",
+    "definicion": "Diámetro identificado explícitamente mediante el símbolo o la indicación de diámetro de la fuente.",
+    "regla_faltantes": "Vacío cuando no se publicó o no pudo identificarse.",
+    "precaucion": "No completar desde una fotografía ni sustituir por dim1_cm. Leer medidas_texto si el objeto combina diámetro y otra medida."
+  },
+  {
+    "variable": "base_dimensiones",
+    "tipo": "texto categórico",
+    "rol": "control_calidad",
+    "definicion": "Describe qué se midió: imagen, papel, medida sin etiqueta u orden de la fuente sin ejes.",
+    "regla_faltantes": "Vacía cuando no hay medidas interpretables.",
+    "precaucion": "El tamaño de la imagen y el del papel representan magnitudes diferentes. No mezclarlos sin una regla explícita en la fase de análisis."
+  },
+  {
+    "variable": "medidas_texto",
+    "tipo": "texto",
+    "rol": "proveniencia",
+    "definicion": "Medidas originales de la ficha o catálogo; puede conservar medidas de imagen, soporte, caja o varias piezas.",
+    "regla_faltantes": "Vacío cuando la fuente no aporta medidas recuperables.",
+    "precaucion": "Usar para comprobar las dimensiones numéricas. No es una columna numérica ni una medida única del lote."
+  },
+  {
+    "variable": "area_rectangular_cm2",
+    "tipo": "número decimal (cm²)",
+    "rol": "feature_intrinseca",
+    "definicion": "Producto dim1_cm × dim2_cm para registros con dos medidas, sin tercera dimensión y sin lote múltiple identificado.",
+    "regla_faltantes": "Vacía si falta una dimensión, existe dim3_cm o se identificó un lote múltiple.",
+    "precaucion": "Es el área del rectángulo envolvente de las medidas seleccionadas; no la superficie real de la obra. No representa volumen ni área circular y puede corresponder a imagen o papel."
+  },
+  {
+    "variable": "relacion_lados",
+    "tipo": "número decimal",
+    "rol": "feature_intrinseca",
+    "definicion": "Cociente entre la mayor y la menor de dim1_cm y dim2_cm, para los mismos casos aplicables al área rectangular.",
+    "regla_faltantes": "Vacía si falta una dimensión, hay tercera dimensión o se identificó un lote múltiple.",
+    "precaucion": "Es independiente del orden de las dos medidas y no determina la orientación. Depende de la base de medición elegida."
+  },
+  {
+    "variable": "edicion_texto",
+    "tipo": "texto",
+    "rol": "feature_intrinseca",
+    "definicion": "Mención publicada del ejemplar, tiraje o edición, incluidas pruebas de artista y ediciones abiertas.",
+    "regla_faltantes": "Vacía cuando no se publica una mención recuperable.",
+    "precaucion": "Una edición ausente no prueba que la obra sea única. No confundir obra gráfica original con reproducción."
+  },
+  {
+    "variable": "edicion_numero",
+    "tipo": "número entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Número del ejemplar extraído de una notación numérica como 12/50 o 12 de 50.",
+    "regla_faltantes": "Vacío si no se publica o si la notación no se transformó a número.",
+    "precaucion": "Las numeraciones romanas y las pruebas de artista pueden permanecer solo en edicion_texto. No usar cero para representar esos casos."
+  },
+  {
+    "variable": "edicion_total",
+    "tipo": "número entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Total de ejemplares extraído de una notación numérica interpretable de edición.",
+    "regla_faltantes": "Vacío si no se publica o no se pudo transformar a número.",
+    "precaucion": "No incluye automáticamente pruebas de artista u otras series paralelas. Edición abierta no tiene un total fijo inferible."
+  },
+  {
+    "variable": "firma_mencionada",
+    "tipo": "indicador entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Indica que la descripción menciona una firma en la obra o lote.",
+    "regla_faltantes": "1 cuando existe una mención; vacío cuando no está documentada. Un 0 solo puede expresar ausencia explícita registrada.",
+    "precaucion": "Es una mención documental, no una autenticación ni una inspección de la firma. No convertir vacíos en ausencia."
+  },
+  {
+    "variable": "certificado_mencionado",
+    "tipo": "indicador entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Indica que la fuente menciona un certificado asociado al lote.",
+    "regla_faltantes": "1 cuando se menciona; vacío cuando no está documentado.",
+    "precaucion": "No acredita autenticidad, vigencia ni alcance del certificado. Un vacío no demuestra que no exista certificado."
+  },
+  {
+    "variable": "procedencia_mencionada",
+    "tipo": "indicador entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Indica que la ficha menciona colección, procedencia u otra referencia de propiedad anterior.",
+    "regla_faltantes": "1 cuando se menciona; vacío cuando no está documentada.",
+    "precaucion": "No mide la calidad ni la extensión de la cadena de procedencia. Una colección privada genérica puede producir el mismo valor que una procedencia extensa."
+  },
+  {
+    "variable": "literatura_mencionada",
+    "tipo": "indicador entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Indica que la fuente incluye una sección o mención de literatura relacionada con la obra.",
+    "regla_faltantes": "1 cuando se menciona; vacío cuando no está documentada.",
+    "precaucion": "No es un conteo de publicaciones ni prueba de inclusión en catálogo razonado. No convertir vacíos en cero."
+  },
+  {
+    "variable": "exposiciones_mencionadas",
+    "tipo": "indicador entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Indica que la descripción menciona exposiciones o exhibiciones vinculadas a la obra.",
+    "regla_faltantes": "1 cuando se menciona; vacío cuando no está documentada.",
+    "precaucion": "La extracción por palabras puede recoger contexto de una exposición. Revisar la ficha para establecer si la obra fue efectivamente expuesta; no tratar vacío como ausencia."
+  },
+  {
+    "variable": "estado_conservacion_texto",
+    "tipo": "texto",
+    "rol": "feature_intrinseca",
+    "definicion": "Observaciones publicadas sobre conservación, deterioro o restauración extraídas de la ficha.",
+    "regla_faltantes": "Vacío cuando no se localizaron observaciones recuperables.",
+    "precaucion": "La ausencia de texto no significa buen estado. No es una escala normalizada de conservación ni un reporte completo."
+  },
+  {
+    "variable": "lote_multiple",
+    "tipo": "indicador entero",
+    "rol": "control_calidad",
+    "definicion": "Indica que se identificaron varias obras o piezas vendidas juntas como un lote.",
+    "regla_faltantes": "1 cuando se identificó una mención; vacío cuando no está documentado.",
+    "precaucion": "El precio pertenece al conjunto, no a cada pieza. Un vacío no garantiza una sola obra. Revisar antes de entrenar un modelo de precio por obra."
+  },
+  {
+    "variable": "artista_pais_texto",
+    "tipo": "texto",
+    "rol": "proveniencia",
+    "definicion": "Referencia geográfica y biográfica publicada en la ficha del artista.",
+    "regla_faltantes": "Vacía cuando no se publicó o no pudo extraerse.",
+    "precaucion": "Puede mezclar lugar de nacimiento, residencia y fallecimiento. No equivale necesariamente a nacionalidad y puede contener discrepancias entre catálogos."
+  },
+  {
+    "variable": "artista_nacimiento",
+    "tipo": "número entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Año de nacimiento extraído de la biografía publicada del artista.",
+    "regla_faltantes": "Vacío cuando no se publicó o no pudo aislarse.",
+    "precaucion": "Transcripción de catálogo, sin verificación biográfica independiente. Revisar autores conjuntos, atribuciones y discrepancias antes de derivar edad."
+  },
+  {
+    "variable": "artista_fallecimiento",
+    "tipo": "número entero",
+    "rol": "feature_intrinseca",
+    "definicion": "Año de fallecimiento extraído de la biografía publicada del artista.",
+    "regla_faltantes": "Vacío cuando no se publicó o no pudo aislarse; no implica que el artista estuviera vivo.",
+    "precaucion": "No utilizar información que aún no era conocida en la fecha de la venta al simular una predicción histórica. La biografía del sitio puede haberse actualizado después del evento y contener errores."
+  },
+  {
+    "variable": "casa_subastas",
+    "tipo": "texto categórico",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Casa de subastas que publica o a la que se atribuye el resultado.",
+    "regla_faltantes": "Vacía solo si no se identificó la casa.",
+    "precaucion": "Puede capturar selección de obras, clientela y diferencias de mercado. Evaluar el desempeño por casa y evitar interpretar su efecto como causal."
+  },
+  {
+    "variable": "subasta_id",
+    "tipo": "texto",
+    "rol": "identificador",
+    "definicion": "Código de evento utilizado para unir fichas, catálogos y resultados.",
+    "regla_faltantes": "Debe estar presente para los eventos identificados.",
+    "precaucion": "No usar como predictor. Mantener todos los lotes del mismo evento en el mismo grupo cuando corresponda y controlar la separación temporal para evitar memorizar eventos."
+  },
+  {
+    "variable": "lote",
+    "tipo": "número entero",
+    "rol": "identificador",
+    "definicion": "Número del lote dentro de su evento de subasta.",
+    "regla_faltantes": "Vacío si no se publica; no debería faltar en los registros incorporados.",
+    "precaucion": "Solo es único junto con casa_subastas y subasta_id. No tratar su orden de catálogo como una característica física ni usarlo por defecto como predictor."
+  },
+  {
+    "variable": "categoria_subasta",
+    "tipo": "texto",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Categoría o denominación general del evento, publicada o agrupada según su título.",
+    "regla_faltantes": "Vacía cuando no se pudo identificar.",
+    "precaucion": "Puede contener piezas heterogéneas. La asignación a una categoría no demuestra que el lote sea pintura, obra gráfica o pieza única."
+  },
+  {
+    "variable": "ciudad_venta",
+    "tipo": "texto categórico",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Ciudad del evento de subasta documentado.",
+    "regla_faltantes": "Vacía si no se identificó.",
+    "precaucion": "Representa el lugar del evento, no la residencia de comprador o vendedor ni el lugar de creación. Puede ser constante en esta versión."
+  },
+  {
+    "variable": "pais_venta",
+    "tipo": "texto categórico",
+    "rol": "feature_mercado_opcional",
+    "definicion": "País donde se sitúa el evento de subasta.",
+    "regla_faltantes": "Vacío si no se identificó.",
+    "precaucion": "No indica nacionalidad del artista. Puede ser constante en esta versión y no aportar capacidad predictiva."
+  },
+  {
+    "variable": "moneda_original",
+    "tipo": "texto categórico",
+    "rol": "control_calidad",
+    "definicion": "Moneda en la que la fuente publica el precio incorporado.",
+    "regla_faltantes": "COP en los registros incluidos; no completar una moneda desconocida por suposición.",
+    "precaucion": "Permite comprobar la comparabilidad de los precios. No hubo conversión monetaria de ventas internacionales ni ajuste por inflación."
+  },
+  {
+    "variable": "tipo_precio",
+    "tipo": "texto",
+    "rol": "control_calidad",
+    "definicion": "Describe el alcance del resultado publicado y el tratamiento de la comisión.",
+    "regla_faltantes": "Vacío si no se conoce el alcance; esos casos requieren revisión.",
+    "precaucion": "La comisión adicional puede variar por casa o fecha. Esta columna documenta la semántica del target y no debe usarse como señal del importe."
+  },
+  {
+    "variable": "precio_salida_cop",
+    "tipo": "número entero (COP)",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Precio de salida publicado antes de la subasta, cuando está disponible.",
+    "regla_faltantes": "Vacío si no se publicó o no se recuperó. No sustituirlo por precio_venta_cop.",
+    "precaucion": "Usar solo en un modelo alternativo para obras ya prevaluadas por la casa. Excluir del modelo basado únicamente en características de la obra. Nunca es una venta ni el target."
+  },
+  {
+    "variable": "estimado_min_cop",
+    "tipo": "número entero (COP)",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Límite inferior del rango estimado por la casa de subastas.",
+    "regla_faltantes": "Vacío si el rango no se publicó o no pudo extraerse.",
+    "precaucion": "Solo para un modelo alternativo de obras ya prevaluadas, si el estimado estaba disponible antes del evento. No equivale a precio de salida, reserva ni venta."
+  },
+  {
+    "variable": "estimado_max_cop",
+    "tipo": "número entero (COP)",
+    "rol": "feature_mercado_opcional",
+    "definicion": "Límite superior del rango estimado por la casa de subastas.",
+    "regla_faltantes": "Vacío si el rango no se publicó o no pudo extraerse.",
+    "precaucion": "Solo para un modelo alternativo de obras ya prevaluadas. El rango de estimación no es una garantía ni una transacción realizada."
+  },
+  {
+    "variable": "fuente_resultado_url",
+    "tipo": "texto (URL)",
+    "rol": "proveniencia",
+    "definicion": "Página pública utilizada para documentar el resultado de la venta.",
+    "regla_faltantes": "Vacía si no existe enlace recuperable; requiere revisión.",
+    "precaucion": "No usar como predictor: puede identificar el evento, el lote o información publicada después de la venta. La disponibilidad del sitio puede cambiar."
+  },
+  {
+    "variable": "fuente_ficha_url",
+    "tipo": "texto (URL)",
+    "rol": "proveniencia",
+    "definicion": "Página pública de la ficha del lote o referencia individual utilizada para sus características.",
+    "regla_faltantes": "Vacía cuando no se recuperó una ficha individual.",
+    "precaucion": "No usar como predictor ni inferir atributos a partir del identificador de la URL. La ficha actual puede diferir del texto publicado antes de la subasta."
+  },
+  {
+    "variable": "fuente_catalogo_url",
+    "tipo": "texto (URL)",
+    "rol": "proveniencia",
+    "definicion": "Enlace al catálogo que respalda características del registro.",
+    "regla_faltantes": "Vacía cuando no se utilizó o no se recuperó un catálogo.",
+    "precaucion": "No usar como predictor. Algunos catálogos son documentos previos a la subasta y contienen estimados, no precios de venta."
+  },
+  {
+    "variable": "pagina_catalogo",
+    "tipo": "número entero",
+    "rol": "proveniencia",
+    "definicion": "Página del PDF donde comienza la ficha utilizada, contada desde 1.",
+    "regla_faltantes": "Vacía si no se utilizó un PDF o no se identificó la página.",
+    "precaucion": "Puede diferir de la numeración impresa del catálogo. No usar como predictor."
+  },
+  {
+    "variable": "fecha_consulta",
+    "tipo": "fecha (AAAA-MM-DD)",
+    "rol": "proveniencia",
+    "definicion": "Fecha de consulta o recopilación de esta versión de los datos.",
+    "regla_faltantes": "Debe constar para los registros incorporados.",
+    "precaucion": "No es fecha de publicación, venta ni pago. No usar como predictor: describe la recopilación y puede revelar la versión de extracción."
+  },
+  {
+    "variable": "usar_modelo_base",
+    "tipo": "indicador entero (0/1)",
+    "rol": "control_calidad",
+    "definicion": "Filtro inicial para ventas con artista, técnica y medidas suficientes y sin ciertas incidencias detectadas, según las reglas de preparación.",
+    "regla_faltantes": "1 si cumple las reglas documentadas; 0 si no las cumple.",
+    "precaucion": "Es un filtro de trabajo, no una certificación de calidad ni una partición de entrenamiento. Revisar motivo_revision, lotes múltiples y adjudicaciones recientes antes de seleccionar la muestra."
+  },
+  {
+    "variable": "motivo_revision",
+    "tipo": "texto",
+    "rol": "control_calidad",
+    "definicion": "Motivos detectados que aconsejan revisar o separar el registro.",
+    "regla_faltantes": "Vacío cuando las reglas no identificaron incidencias.",
+    "precaucion": "Un vacío no acredita ausencia de errores. No usar como predictor: puede incorporar decisiones tomadas al preparar la base o información posterior al evento."
+  },
+  {
+    "variable": "texto_identificacion_original",
+    "tipo": "texto",
+    "rol": "proveniencia",
+    "definicion": "Texto original de identificación del lote recuperado del listado de resultados.",
+    "regla_faltantes": "Vacío si no se recuperó el texto original.",
+    "precaucion": "Se conserva para auditar la normalización. Puede diferir de la ficha individual, contener datos repetidos o títulos desactualizados; no incorporarlo sin depuración como predictor."
+  },
+  {
+    "variable": "estado_fuente",
+    "tipo": "texto",
+    "rol": "control_calidad",
+    "definicion": "Estado de venta o etiqueta del resultado según la fuente.",
+    "regla_faltantes": "Vacío si el estado no se publicó o no se recuperó.",
+    "precaucion": "No usar como predictor del precio de venta: es información del resultado. Los registros sin precio publicado se mantienen separados y no reciben un target inventado."
+  },
+  {
+    "variable": "estilo",
+    "tipo": "texto categórico",
+    "rol": "reservada_sin_datos",
+    "definicion": "Columna reservada para un estilo artístico documentado y normalizado en una fase posterior.",
+    "regla_faltantes": "Vacía en esta versión.",
+    "precaucion": "No se infirió a partir del artista, título o imagen. No usar una columna completamente vacía para entrenar."
+  },
+  {
+    "variable": "tema",
+    "tipo": "texto categórico",
+    "rol": "reservada_sin_datos",
+    "definicion": "Columna reservada para una temática documentada y codificada con una regla consistente.",
+    "regla_faltantes": "Vacía en esta versión.",
+    "precaucion": "No se asignó por interpretación subjetiva del título o de una imagen. Requiere un protocolo de etiquetado posterior."
+  },
+  {
+    "variable": "orientacion",
+    "tipo": "texto categórico",
+    "rol": "reservada_sin_datos",
+    "definicion": "Columna reservada para orientación documentada de la obra.",
+    "regla_faltantes": "Vacía en esta versión.",
+    "precaucion": "No se dedujo del orden dim1_cm y dim2_cm, ya que la fuente no siempre identifica los ejes."
+  },
+  {
+    "variable": "enmarcada",
+    "tipo": "indicador o categoría",
+    "rol": "reservada_sin_datos",
+    "definicion": "Columna reservada para presencia de marco explícitamente documentada.",
+    "regla_faltantes": "Vacía en esta versión.",
+    "precaucion": "No se dedujo de fotografías ni de medidas. Una referencia a revisión fuera del marco no se convirtió automáticamente en un valor de esta columna."
+  },
+  {
+    "variable": "peso_g",
+    "tipo": "número decimal (g)",
+    "rol": "reservada_sin_datos",
+    "definicion": "Columna reservada para peso de la obra publicado en gramos.",
+    "regla_faltantes": "Vacía en esta versión.",
+    "precaucion": "No se estimó a partir de técnica, dimensiones, fotografías ni tipo de objeto."
+  },
+  {
+    "variable": "numero_piezas_publicado",
+    "tipo": "número entero",
+    "rol": "control_calidad",
+    "definicion": "Número de piezas extraído cuando la técnica contiene una cantidad explícita reconocida por las reglas.",
+    "regla_faltantes": "Vacío si no se identificó una cantidad numérica recuperable.",
+    "precaucion": "No completar con 1 por ausencia de mención. La extracción no reconoce todas las formas de describir conjuntos y no permite dividir automáticamente el precio entre piezas."
+  }
+]

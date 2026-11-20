@@ -1,0 +1,17 @@
+{
+  "dataset_version": "1.0",
+  "snapshot_date": "2026-11-20",
+  "file_name": "Base_arte_Colombia_v1.xlsx",
+  "sha256": "9d19c8313dde4b12e1ac521c3f919abbecdb23bf95f2c1b5bab6cca349b74aff",
+  "size_bytes": 719502,
+  "sheet": "Ventas",
+  "rows": 1838,
+  "columns": 61,
+  "target": "precio_venta_cop",
+  "target_definition": "Precio de martillo o remate nominal COP por lote adjudicado, sin comision del comprador",
+  "source_urls": [
+    "https://www.bogotaauctions.com/es/subastas-historicas",
+    "https://www.auctionzip.com/auction-catalog/subasta-18_MBOXTZYYUM"
+  ],
+  "distribution": "Archivo original y derivados locales fuera de Git."
+}
