@@ -1,8 +1,8 @@
 # Precio de arte en Colombia
 
-Proyecto para investigar qué características permiten predecir el **precio de martillo o remate en COP nominales por lote adjudicado**, sin comisión del comprador.
+Proyecto para estudiar el precio de remate de obras de arte en subastas de Bogotá. El cotizador web también ayuda a preparar encargos con tarifas publicadas por proveedores en Colombia, una referencia experimental de galería para óleo y una calculadora de costos.
 
-La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El proyecto evalúa la capacidad predictiva en ventas posteriores a las de entrenamiento.
+La base original reúne **1.838 lotes adjudicados de 28 subastas** y contiene **61 columnas**. La evaluación de Remates usa lotes de subastas posteriores a las de entrenamiento.
 
 ## Cotizador web
 
@@ -10,11 +10,16 @@ La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El proyec
 
 ### Precios de referencia para encargos
 
-El modo Encargos muestra precios publicados por proveedores colombianos para obras por pedido, según técnica, tipo de obra y dimensiones. Las referencias conservan el precio y el tamaño de la fuente. La búsqueda admite hasta 25 % de diferencia en cada lado y devuelve la opción más cercana por proveedor. Una ficha puede informar si incluye marco y el plazo publicado. Si la oferta tiene las medidas exactas y el precio excluye el marco, puedes añadir una cotización del marco y ver la suma. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
+Selecciona **Óleo** o **Grafito**, elige el tipo de encargo e indica las medidas en centímetros. Pulsa **Buscar precios** para consultar las referencias o **Limpiar** para empezar otra consulta. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
 
-El catálogo registra páginas públicas y la fecha de revisión. Un precio «desde» es un valor inicial. Son ofertas de una muestra pequeña, sin confirmación del precio pagado. Para predecir el precio final de un primer encargo se requerirían ventas directas verificadas y una evaluación en artistas ausentes del entrenamiento.
+| Resultado | Qué muestra | Cómo se suma el marco |
+| --- | --- | --- |
+| **Oferta de encargo** | Tarifa publicada de la medida más cercana por proveedor, con hasta 25 % de diferencia en cada lado. Puede incluir el plazo y el estado del marco. Un precio «desde» es un valor inicial. | El costo cotizado se suma cuando la medida es exacta y la oferta indica «Sin enmarcar». |
+| **Referencia experimental de galería** | Estimación del precio de catálogo de La Galería Online para óleo en medidas cubiertas. El modelo predictivo usa el año actual para una obra nueva. | El costo cotizado se suma al precio base estimado. La tarjeta muestra el total orientativo con el desglose. |
 
-Para óleo, Encargos añade una **referencia experimental de galería** cuando las medidas están cubiertas por el modelo. Se estima el precio de catálogo de La Galería Online. Si ingresas el costo cotizado del marco, la tarjeta muestra el total orientativo y el desglose. La [evaluación del modelo](docs/metodologia_modelado.md#experimento-con-fichas-de-galería) compara cinco enfoques y explica el alcance de la estimación.
+Para probar el marco, elige **Óleo** y **Retrato de una figura humana**, escribe **60** de ancho, **80** de alto y **100000** en **Costo cotizado del marco (COP)**. Tras pulsar **Buscar precios**, la tarjeta de galería muestra **$3.062.641 COP** como total orientativo, con **$2.962.641 COP** de precio base estimado y **$100.000 COP** de marco.
+
+El modelo de galería se estudió con 335 fichas de 67 artistas. El error en óleo varió según los artistas evaluados. Para retratos en grafito, el aplicativo muestra tarifas publicadas de encargo. Estos valores sirven para orientar una propuesta. [Evaluación del modelo de galería](docs/metodologia_modelado.md#experimento-con-fichas-de-galería)
 
 ### Presupuesto por costos
 
@@ -28,7 +33,7 @@ Incluye ejemplos editables de óleo y grafito. Sus cifras ilustran el cálculo. 
 
 ### Estimación de remate
 
-Estima en COP el **precio de remate** de un lote adjudicado en subastas de Bogotá, antes de la comisión del comprador. Es una referencia experimental para ese mercado. Los encargos, los honorarios de un artista y las ventas directas quedan fuera de la muestra.
+El **remate** es el cierre de la puja en que se adjudica un lote a quien hizo la oferta ganadora. El **precio de martillo** es el valor de esa oferta antes de la comisión del comprador. El cotizador estima ese valor en COP para subastas de Bogotá. [Abrir Remates](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/)
 
 Puedes escribir cualquier nombre o dejar el campo de artista vacío. Un artista con suficiente historial activa su efecto dentro del modelo. Un artista nuevo o con un solo lote de entrenamiento recibe una estimación basada en las demás características. Guardar un nombre lo añade a las sugerencias de ese navegador. Para aprender un efecto propio se requieren ventas observadas y un nuevo entrenamiento.
 
@@ -49,13 +54,13 @@ El MAE global fue de $7.762.911 COP y el R² fue de 0,192. Los porcentajes descr
 
 ### Ejecutar y verificar localmente
 
-Sirve `docs/` mediante HTTP y abre [localhost:8000/cotizador/](http://localhost:8000/cotizador/).
+El repositorio incluye los archivos que necesita el cotizador. Sirve `docs/` mediante HTTP y abre [localhost:8000/cotizador/](http://localhost:8000/cotizador/).
 
 ```powershell
 python -m http.server 8000 --directory docs --bind 127.0.0.1
 ```
 
-Para regenerar `model.json` desde la corrida local congelada y comprobar la paridad con Python, ejecuta desde la raíz con el entorno Python del proyecto y Node.js disponibles.
+Para regenerar el `model.json` de Remates desde la corrida local congelada y comprobar la paridad con Python, ejecuta desde la raíz con el entorno Python del proyecto y Node.js disponibles.
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/export_web_model.py --run benchmark_2025_verificado --check-parity
@@ -64,9 +69,9 @@ node --test tests/test_web_prediction.mjs tests/test_commission_price.mjs tests/
 
 GitHub Pages publica la carpeta `docs/` de la rama `main`.
 
-## Empezar en este equipo
+## Preparar y validar los datos
 
-El entorno `.venv` ya está creado y el Excel está en `data/raw/`. Desde esta carpeta, en PowerShell:
+Con el entorno `.venv` y el Excel original en `data/raw/`, ejecuta desde la raíz del repositorio en PowerShell:
 
 ```powershell
 .\.venv\Scripts\python.exe run.py prepare
@@ -90,8 +95,6 @@ python -m venv .venv
 ```
 
 Copia el Excel original en `data/raw/Base_arte_Colombia_v1.xlsx` y comprueba su huella contra [el manifiesto](data/dataset_manifest.json). Los datos originales y procesados están fuera de Git. El diccionario de columnas y la documentación sí están versionados.
-
-En el entorno de preparación actual no se pudo instalar scikit-learn. Funcionan preparación, validación, referencias y pruebas del núcleo; los modelos opcionales esperan esas dependencias. El entorno local reutiliza las bibliotecas del runtime instalado mediante `--system-site-packages`; una instalación nueva puede ser independiente.
 
 ## Comparar modelos y variables
 
@@ -144,7 +147,8 @@ La corrida local guarda `spline_grid.csv`, `spline_by_year.csv`, `validation_com
 | `data/dictionary.json` | Definiciones de las columnas originales. |
 | `reports/runs/` | Métricas y predicciones de cada experimento local. |
 | `artifacts/` | Modelos y parámetros de cada experimento local. |
-| `docs/cotizador/` | Formulario estático y motor de inferencia en JavaScript. |
+| `docs/cotizador/` | Formularios de Remates y Encargos, con parámetros de inferencia y catálogo de ofertas. |
+| `scripts/` | Preparación y entrenamiento del modelo de galería y exportación del modelo web de Remates. |
 | `tests/` | Pruebas de datos, separación, features, modelos e inferencia web. |
 | `.github/workflows/tests.yml` | Pruebas automáticas en GitHub Actions. |
 
