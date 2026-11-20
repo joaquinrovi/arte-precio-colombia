@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from functools import partial
 from pathlib import Path
 from typing import Any
 
@@ -27,34 +28,25 @@ def _target(frame: pd.DataFrame) -> np.ndarray:
     return values
 
 
-def train_models(
-    train_df: pd.DataFrame,
-    valid_df: pd.DataFrame,
-    profile: str,
+def sklearn_factories(
+    x_train: pd.DataFrame,
     seed: int = 42,
     quick: bool = False,
-) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    """Entrena dos candidatos y los evalúa sin reajustarlos con validación.
-
-    Los modelos retornados reciben ``build_features(frame, profile)`` al predecir.
-    Las predicciones y las métricas están expresadas en COP nominales.
-    """
+    extended: bool = False,
+) -> dict:
+    """Constructores independientes de modelos y su preprocesamiento."""
     try:
         from sklearn.base import clone
         from sklearn.compose import ColumnTransformer, TransformedTargetRegressor
-        from sklearn.ensemble import RandomForestRegressor
+        from sklearn.ensemble import ExtraTreesRegressor, GradientBoostingRegressor, RandomForestRegressor
         from sklearn.impute import SimpleImputer
         from sklearn.linear_model import Ridge
         from sklearn.pipeline import Pipeline
         from sklearn.preprocessing import OneHotEncoder, StandardScaler
+        from sklearn.svm import SVR
     except ImportError as exc:
         raise RuntimeError(_DEPENDENCY_MESSAGE) from exc
 
-    x_train = build_features(train_df, profile=profile)
-    x_valid = build_features(valid_df, profile=profile)
-    if x_train.empty or list(x_train.columns) != list(x_valid.columns):
-        raise ValueError("Entrenamiento y validación requieren las mismas features.")
-    y_train, y_valid = _target(train_df), _target(valid_df)
     numeric = x_train.select_dtypes(include="number").columns.tolist()
     categorical = [name for name in x_train.columns if name not in numeric]
     preprocessing = ColumnTransformer(
@@ -112,20 +104,52 @@ def train_models(
             n_jobs=1,
         ),
     }
-    fitted: dict[str, Any] = {}
-    rows: list[dict[str, Any]] = []
-    for name, estimator in estimators.items():
-        model = TransformedTargetRegressor(
+    if extended:
+        estimators.update({
+            "extra_trees_log": ExtraTreesRegressor(
+                n_estimators=32 if quick else 300, min_samples_leaf=2, max_features=0.8,
+                random_state=seed, n_jobs=1,
+            ),
+            "gradient_boosting_log": GradientBoostingRegressor(
+                loss="huber", n_estimators=30 if quick else 180, learning_rate=0.05,
+                max_depth=3, min_samples_leaf=5, random_state=seed,
+            ),
+            "svr_rbf_log": SVR(C=5.0, epsilon=0.15, gamma="scale"),
+        })
+
+    def make_model(estimator):
+        return TransformedTargetRegressor(
             regressor=Pipeline(
                 [
                     ("preprocessor", clone(preprocessing)),
-                    ("regressor", estimator),
+                    ("regressor", clone(estimator)),
                 ]
             ),
             func=np.log1p,
             inverse_func=np.expm1,
             check_inverse=True,
         )
+
+    return {name: partial(make_model, estimator) for name, estimator in estimators.items()}
+
+
+def train_models(
+    train_df: pd.DataFrame,
+    valid_df: pd.DataFrame,
+    profile: str,
+    seed: int = 42,
+    quick: bool = False,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    """Entrena Ridge y Random Forest con el contrato original de train."""
+    x_train = build_features(train_df, profile=profile)
+    x_valid = build_features(valid_df, profile=profile)
+    if x_train.empty or list(x_train.columns) != list(x_valid.columns):
+        raise ValueError("Entrenamiento y validación requieren las mismas features.")
+    y_train, y_valid = _target(train_df), _target(valid_df)
+    fitted: dict[str, Any] = {}
+    rows: list[dict[str, Any]] = []
+    for name, factory in sklearn_factories(x_train, seed, quick).items():
+        model = factory()
         model.fit(x_train, y_train)
         prediction = np.asarray(model.predict(x_valid), dtype=float)
         fitted[name] = model

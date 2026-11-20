@@ -35,15 +35,17 @@ En el entorno de preparación actual no se pudo instalar scikit-learn. Funcionan
 
 ## Comparar modelos y variables
 
-Una vez instalado el extra `ml`:
+Ejecuta la comparación desde la raíz del repositorio.
 
 ```powershell
-.\.venv\Scripts\python.exe run.py train --profile intrinseco --run-name intrinseco_01
-.\.venv\Scripts\python.exe run.py train --profile sin_artista --run-name sin_artista_01
-.\.venv\Scripts\python.exe run.py train --profile documentado --run-name documentado_01
+.\.venv\Scripts\python.exe run.py benchmark --profile intrinseco
 ```
 
-Estos comandos comparan Ridge y Random Forest sobre `log1p(precio)`, guardan el candidato con menor MAE de validación y calculan importancia por permutación en esa partición. No ejecutan la prueba final. `--quick` sirve para una comprobación breve.
+`benchmark` compara las medianas de referencia con un modelo aditivo con splines, KNN ponderado y Gradient Boosting de árboles poco profundos. Si scikit-learn está instalado, incorpora Ridge, Random Forest, Extra Trees, Gradient Boosting con pérdida Huber y SVR con kernel RBF. El informe registra los candidatos disponibles y los omitidos.
+
+Los archivos locales de cada corrida incluyen `model_comparison.csv` con el ranking por MAE, `validation_by_auction.csv` con el desglose por subasta y `group_importance_validation.csv` con el cambio de MAE al permutar grupos de variables. El comando guarda el modelo ganador y las predicciones de validación. La opción `--quick` reduce el número de iteraciones para comprobar el flujo.
+
+Los perfiles `sin_artista` y `documentado` permiten repetir el experimento con otras variables. `train` conserva el flujo original de Ridge y Random Forest para comparaciones anteriores.
 
 El perfil `con_avaluo` añade precios de salida y estimados: responde a un escenario diferente que ya conoce una valoración previa. El perfil predeterminado los excluye. Tampoco usa URLs, IDs de lote/subasta, controles ni estados posteriores a la venta.
 
@@ -56,7 +58,7 @@ El perfil `con_avaluo` añade precios de salida y estimados: responde a un escen
 Después de congelar las decisiones metodológicas, la prueba se abre de forma explícita:
 
 ```powershell
-.\.venv\Scripts\python.exe run.py evaluate-test --run intrinseco_01
+.\.venv\Scripts\python.exe run.py evaluate-test --run NOMBRE_DE_LA_CORRIDA
 ```
 
 Ese resultado deja de ser independiente si después se utiliza para ajustar el modelo. La importancia de una variable es exploratoria, depende del modelo y no prueba causalidad.

@@ -126,6 +126,13 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(result["median_absolute_error_cop"], 25)
         self.assertAlmostEqual(result["rmse_cop"], np.sqrt(650))
 
+    def test_predictive_quality_metrics_with_equal_price_and_relative_tolerance(self):
+        result = regression_metrics([100, 100], [75, 126])
+        self.assertIsNone(result["r2"])
+        self.assertEqual(result["within_25_pct"], 50)
+        self.assertEqual(result["median_absolute_percentage_error_pct"], 25.5)
+        self.assertAlmostEqual(regression_metrics([100, 200], [80, 230])["r2"], 0.74)
+
     def test_nonfinite_prediction_rejected(self):
         with self.assertRaises(ValueError):
             regression_metrics([100], [np.nan])

@@ -56,13 +56,15 @@ La referencia funcional compara una mediana global con una estimación por artis
 
 La comparación opcional con scikit-learn incluye Ridge y Random Forest con transformación `log1p` del precio y retorno a COP mediante la transformación inversa. Imputación, codificación y escalado se ajustan dentro del pipeline usando únicamente el entrenamiento. Las categorías inéditas deben admitirse sin romper la predicción.
 
-Se informarán MAE en COP, mediana del error absoluto, RMSE y RMSLE. El precio observado y las predicciones se conservarán junto a los identificadores necesarios para auditar errores. Ninguna de estas métricas se interpreta como una garantía sobre futuras obras.
+El comando `benchmark` ordena los modelos por MAE de validación en COP. También informa mediana del error absoluto, RMSE, RMSLE, R², mediana del error porcentual absoluto y porcentaje de predicciones a menos de 25 % o exactamente 25 % del precio observado. RMSE da mayor peso a errores grandes, mientras que la mediana indica el error típico. R² mide el ajuste en la escala original de los precios y puede tomar valores negativos.
 
-El entorno de preparación inicial no pudo instalar scikit-learn. La preparación de datos y la referencia básica deben poder ejecutarse con las dependencias disponibles. Los modelos opcionales requieren instalar las dependencias del proyecto en un entorno con acceso a sus distribuciones.
+La comparación ejecuta un modelo aditivo con splines, KNN ponderado y Gradient Boosting de árboles poco profundos con NumPy y pandas. Con scikit-learn disponible añade Ridge, Random Forest, Extra Trees, Gradient Boosting con pérdida Huber y SVR. Los hiperparámetros de esta corrida inicial se fijan antes de comparar errores. El informe conserva el desglose por fecha y por artista conocido o nuevo para el ganador.
 
 ## Identificación de variables útiles
 
 La importancia por permutación se calcula en validación sobre las columnas de entrada del modelo, no sobre el conjunto de prueba final. Mide cuánto empeora una métrica cuando se altera una variable. Su interpretación depende del modelo entrenado y de la muestra utilizada.
+
+El cuadro de `benchmark` agrupa las variables relacionadas. Cada repetición reordena juntas las columnas del grupo, por ejemplo dimensiones, área y proporción, y registra cuánto cambia el MAE. La dispersión entre permutaciones indica sensibilidad de esta medición en la muestra disponible.
 
 Se comparará también el rendimiento al retirar grupos: artista, geometría, fechas, edición y documentación. Esta comparación es necesaria porque dimensiones, área y relación de lados están relacionadas: una variable puede parecer poco importante cuando otra contiene información similar.
 

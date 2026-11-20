@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import importlib.metadata
 import json
 from pathlib import Path
+import pickle
 import subprocess
 import sys
 
@@ -27,8 +28,12 @@ def _environment() -> dict:
     git = subprocess.run(
         ["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, capture_output=True, text=True
     )
+    changes = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=PROJECT_ROOT, capture_output=True, text=True,
+    )
     return {"python": sys.version.split()[0], "packages": versions,
-            "git_commit": git.stdout.strip() if git.returncode == 0 else None}
+            "git_commit": git.stdout.strip() if git.returncode == 0 else None,
+            "git_has_local_changes": bool(changes.stdout.strip()) if changes.returncode == 0 else None}
 
 
 def _load_parts(config: dict):
@@ -113,23 +118,69 @@ def _train_run(config: dict, name: str | None, profile: str | None, quick: bool)
     return report
 
 
+def _benchmark_run(config: dict, name: str | None, profile: str | None, quick: bool) -> dict:
+    from .benchmark import fit_comparison, grouped_importance
+
+    dataset_path, (train, valid, test) = _load_parts(config)
+    profile = profile or config["model"]["profile"]
+    seed = config["model"]["seed"]
+    models, comparison, predictions, omitted = fit_comparison(
+        train, valid, profile, config["baseline"]["artist_prior_weight"], seed, quick,
+    )
+    winner = comparison.iloc[0]["model"]
+    x_valid = build_features(valid, profile)
+    importance = grouped_importance(
+        models[winner], x_valid, valid["precio_venta_cop"].to_numpy(),
+        seed=seed, repeats=2 if quick else config["model"]["permutation_repeats"],
+    )
+    by_auction = []
+    for date, indices in valid.groupby("fecha_subasta", sort=True).groups.items():
+        for model in comparison["model"]:
+            by_auction.append({"fecha_subasta": str(date)[:10], "model": model,
+                **regression_metrics(valid.loc[indices, "precio_venta_cop"], predictions.loc[indices, model])})
+    report_dir, artifact_dir, run = _run_paths(name)
+    comparison.to_csv(report_dir / "model_comparison.csv", index=False, encoding="utf-8-sig")
+    pd.DataFrame(by_auction).to_csv(report_dir / "validation_by_auction.csv", index=False)
+    importance.to_csv(report_dir / "group_importance_validation.csv", index=False, encoding="utf-8-sig")
+    valid[["registro_id", "precio_venta_cop"]].join(predictions).to_csv(
+        report_dir / "validation_predictions.csv", index=False,
+    )
+    with (artifact_dir / "model.pkl").open("wb") as file:
+        pickle.dump(models[winner], file)
+    report = {"run": run, "kind": "benchmark", "profile": profile, "winner": winner,
+              "quick": quick, "environment": _environment(), "dataset_sha256": sha256_file(dataset_path),
+              "split": split_summary(train, valid, test), "validation_metrics": json.loads(comparison.to_json(orient="records")),
+              "winner_segments": _segments(train, valid, predictions[winner]), "config": config,
+              "features": list(x_valid), "omitted_models_missing_sklearn": omitted,
+              "selection_metric": "mae_cop", "test_metrics_computed": False}
+    write_json(report_dir / "metrics.json", report)
+    return report
+
+
 def _evaluate_test(config: dict, run: str) -> dict:
-    from .ml import load_model
 
     # La elección del experimento es explícita; train/baseline nunca llaman este paso.
     if Path(run).name != run or not run:
         raise ValueError("run debe ser el nombre simple de un experimento local.")
     report_path = PROJECT_ROOT / "reports/runs" / run / "metrics.json"
     report = json.loads(report_path.read_text(encoding="utf-8"))
-    if report.get("kind") != "ml":
-        raise ValueError("evaluate-test requiere un experimento creado con train.")
+    if report.get("kind") not in {"ml", "benchmark"}:
+        raise ValueError("evaluate-test requiere un experimento creado con train o benchmark.")
     source, (train, _valid, test) = _load_parts(report["config"])
     if sha256_file(source) != report["dataset_sha256"]:
         raise ValueError("Los datos cambiaron desde el entrenamiento. Genera otro experimento.")
     target = report_path.parent / "test_metrics.json"
     if target.exists():
         raise ValueError("Esta ejecución ya abrió la prueba final. Usa sus métricas guardadas.")
-    model = load_model(PROJECT_ROOT / "artifacts" / run / "model.joblib")
+    artifact_dir = PROJECT_ROOT / "artifacts" / run
+    if report["kind"] == "benchmark":
+        # Solo se cargan artefactos de ejecuciones locales de confianza.
+        with (artifact_dir / "model.pkl").open("rb") as file:
+            model = pickle.load(file)
+    else:
+        from .ml import load_model
+
+        model = load_model(artifact_dir / "model.joblib")
     pred = np.maximum(0, model.predict(build_features(test, report["profile"])))
     result = {"run": run, "model": report["winner"],
               "test_metrics": regression_metrics(test["precio_venta_cop"], pred),
@@ -154,6 +205,10 @@ def main(argv=None):
     train.add_argument("--run-name")
     train.add_argument("--profile", choices=PROFILES)
     train.add_argument("--quick", action="store_true", help="Comprobación rápida, no búsqueda exhaustiva")
+    benchmark = commands.add_parser("benchmark", help="Comparar algoritmos y referencias en validación")
+    benchmark.add_argument("--run-name")
+    benchmark.add_argument("--profile", choices=PROFILES)
+    benchmark.add_argument("--quick", action="store_true", help="Reducir iteraciones para comprobar el flujo")
     test = commands.add_parser("evaluate-test", help="Abrir la prueba final de un experimento elegido")
     test.add_argument("--run", required=True)
     args = parser.parse_args(argv)
@@ -169,6 +224,8 @@ def main(argv=None):
             result = _baseline_run(config, args.run_name)
         elif args.command == "train":
             result = _train_run(config, args.run_name, args.profile, args.quick)
+        elif args.command == "benchmark":
+            result = _benchmark_run(config, args.run_name, args.profile, args.quick)
         else:
             result = _evaluate_test(config, args.run)
     except (ValueError, RuntimeError, FileNotFoundError) as exc:
