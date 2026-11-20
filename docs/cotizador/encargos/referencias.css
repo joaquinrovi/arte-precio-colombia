@@ -1,0 +1,55 @@
+.reference-intro .intro-description { max-width: 57ch; }
+
+.cost-link {
+  width: fit-content;
+  flex: 0 0 auto;
+  color: var(--olive);
+  font-size: .85rem;
+  font-weight: 680;
+  text-underline-offset: 3px;
+}
+
+.reference-workspace { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+.reference-frame { border-top: 1px solid var(--rule); padding-top: 14px; }
+.reference-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
+.reference-examples p { width: 100%; }
+.reference-examples .example-button { min-height: 34px; padding: 0 10px; }
+
+.reference-results { display: grid; gap: 12px; min-width: 0; scroll-margin: 16px; }
+.reference-summary { position: static; gap: 11px; padding: clamp(16px, 2.65vw, 23px); }
+.reference-summary .quote-caption { margin: 0; }
+
+.offer-list { list-style: none; display: grid; gap: 9px; margin: 0; padding: 0; }
+
+.offer-card {
+  display: grid;
+  gap: 12px;
+  padding: clamp(14px, 2.5vw, 22px);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+}
+
+.offer-heading { display: grid; gap: 3px; }
+.offer-price {
+  font: 400 clamp(1.52rem, 4vw, 2.15rem)/1.1 var(--serif);
+  letter-spacing: -.026em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.offer-details { display: grid; gap: 3px; margin: 0; }
+.offer-details > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); gap: 8px; }
+.offer-details dt, .offer-details dd, .offer-note, .offer-frame-total { font-size: .84rem; line-height: 1.45; }
+.offer-details dt, .offer-note { color: var(--muted); }
+.offer-details dd, .offer-note, .offer-frame-total { margin: 0; overflow-wrap: anywhere; }
+.offer-frame-total { padding-top: 8px; border-top: 1px solid var(--rule); }
+.offer-source, .guide-item a { color: var(--olive); text-underline-offset: 3px; }
+.offer-source { width: fit-content; font-size: .86rem; font-weight: 680; }
+
+@media (max-width: 790px) {
+  .reference-workspace { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 430px) {
+  .reference-fields { grid-template-columns: minmax(0, 1fr); }
+}

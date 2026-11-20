@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5ee">
-  <meta name="description" content="Calcula cuánto cobrar en pesos colombianos por un encargo de arte según tus gastos, tiempo y tarifa.">
-  <title>Cotizador de encargos de arte</title>
+  <meta name="description" content="Consulta precios y plazos publicados de encargos de arte en Colombia por técnica y tamaño.">
+  <title>Precios de referencia para encargos de arte</title>
   <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="./styles.css">
-  <script type="module" src="./app.mjs"></script>
+  <link rel="stylesheet" href="./referencias.css">
+  <script type="module" src="./referencias.mjs"></script>
 </head>
 <body>
   <header class="site-header">
@@ -23,119 +23,98 @@
   </header>
 
   <main class="shell">
-    <section class="intro commission-intro" aria-labelledby="titulo">
+    <section class="intro reference-intro" aria-labelledby="titulo">
       <div>
         <h1 id="titulo">Cotiza tu primer encargo</h1>
-        <p class="intro-description">Calcula cuánto cobrar por una obra a pedido según lo que gastarás, las horas de trabajo y lo que quieres ganar por hora.</p>
+        <p class="intro-description">Consulta precios publicados de obras por encargo en Colombia para decidir cuánto proponer por tu trabajo.</p>
       </div>
-      <div class="commission-examples" role="group" aria-labelledby="examples-label">
-        <p id="examples-label">Prueba un ejemplo editable</p>
-        <div class="example-buttons">
-          <button class="example-button" id="example-oil" type="button" disabled>Óleo <span aria-hidden="true">↗</span></button>
-          <button class="example-button" id="example-graphite" type="button" disabled>Grafito <span aria-hidden="true">↗</span></button>
-        </div>
-      </div>
+      <a class="cost-link" href="./costos/">Calcular por costos <span aria-hidden="true">↗</span></a>
     </section>
 
-    <div class="workspace">
+    <div class="workspace reference-workspace">
       <section class="work-card" aria-labelledby="ficha">
         <header class="work-heading">
-          <h2 id="ficha">Datos del encargo</h2>
-          <p>Ingresa los valores en pesos colombianos. Los gastos opcionales cuentan como cero cuando están en blanco.</p>
+          <h2 id="ficha">¿Qué te pidieron?</h2>
+          <p>Indica la técnica, el tipo de encargo y el tamaño de la obra.</p>
         </header>
 
-        <form id="commission-form">
-          <fieldset id="commission-fields" class="form-fields" disabled>
-            <legend class="sr-only">Costos y tiempo de trabajo</legend>
+        <form id="references-form">
+          <fieldset id="references-fields" class="form-fields" disabled>
+            <legend class="sr-only">Características del encargo</legend>
 
-            <div class="field-grid commission-grid">
+            <div class="field-grid reference-fields">
               <div class="field">
-                <label for="materials">Materiales <span class="optional">Opcional</span></label>
-                <input id="materials" name="materials" type="number" inputmode="numeric" min="0" step="1" placeholder="0" aria-describedby="materials-help">
-                <p class="hint" id="materials-help">Incluye el lienzo o papel y solo la parte de la pintura, el grafito u otros materiales que usarás.</p>
+                <label for="technique">Técnica</label>
+                <select id="technique" name="technique" required>
+                  <option value="oleo">Óleo</option>
+                  <option value="grafito">Grafito</option>
+                </select>
               </div>
               <div class="field">
-                <label for="extras">Gastos adicionales <span class="optional">Opcional</span></label>
-                <input id="extras" name="extras" type="number" inputmode="numeric" min="0" step="1" placeholder="0" aria-describedby="extras-help">
-                <p class="hint" id="extras-help">Incluye marco, embalaje o entrega si hacen parte del encargo.</p>
+                <label for="subject">Tipo de encargo</label>
+                <select id="subject" name="subject" required>
+                  <option value="obra">Cuadro sin retrato</option>
+                  <option value="retrato">Retrato de una figura</option>
+                </select>
               </div>
             </div>
 
-            <div class="field-grid commission-grid commission-time">
+            <div class="field-grid">
               <div class="field">
-                <label for="hours">Horas de trabajo</label>
-                <input id="hours" name="hours" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 8" required aria-describedby="hours-help">
-                <p class="hint" id="hours-help">Suma bocetos, ejecución, ajustes acordados y gestión.</p>
+                <label for="width">Ancho (cm)</label>
+                <input id="width" name="width" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 60" required>
               </div>
               <div class="field">
-                <label for="hourly-rate">Lo que quieres ganar por hora</label>
-                <input id="hourly-rate" name="hourlyRate" type="number" inputmode="numeric" min="1" step="1" required aria-describedby="hourly-rate-help">
-                <p class="hint" id="hourly-rate-help">Divide lo que quieres ganar en una semana entre las horas de trabajo que podrías cobrar esa semana.</p>
+                <label for="height">Alto (cm)</label>
+                <input id="height" name="height" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 80" required>
               </div>
             </div>
 
-            <details id="commission-options" class="extra-details">
-              <summary>Imprevistos y comisión <span class="optional">Opcional</span></summary>
-              <div class="field-grid details-grid commission-grid">
-                <div class="field">
-                  <label for="reserve-percent">Reserva para imprevistos (%)</label>
-                  <input id="reserve-percent" name="reservePercent" type="number" inputmode="decimal" min="0" max="100" step="0.01" placeholder="0" aria-describedby="reserve-help">
-                  <p class="hint" id="reserve-help">Agrega una reserva sobre tus gastos y el pago por tu tiempo.</p>
-                </div>
-                <div class="field">
-                  <label for="fee-percent">Comisión sobre el cobro (%)</label>
-                  <input id="fee-percent" name="feePercent" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" placeholder="0" aria-describedby="fee-help">
-                  <p class="hint" id="fee-help">Inclúyela si una plataforma o un medio de pago retiene parte del total.</p>
-                </div>
-              </div>
-            </details>
+            <div class="field reference-frame">
+              <label for="frame-cost">Costo cotizado del marco (COP) <span class="optional">Opcional</span></label>
+              <input id="frame-cost" name="frameCost" type="number" inputmode="numeric" min="0" max="999999999" step="1" aria-describedby="frame-help">
+              <p class="hint" id="frame-help">Si ya tienes el precio del marco, puedes sumarlo a ofertas sin enmarcar de la medida exacta.</p>
+            </div>
 
             <div class="form-actions">
-              <button class="calculate-button" type="submit">Calcular precio <span aria-hidden="true">→</span></button>
-              <button class="clear-button" id="clear-commission" type="button">Limpiar</button>
+              <button class="calculate-button" type="submit">Buscar precios <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="reference-examples" role="group" aria-labelledby="examples-label">
+              <p id="examples-label" class="hint">Prueba con un ejemplo</p>
+              <button class="example-button" id="example-oil" type="button">Óleo de 60 × 80 cm</button>
+              <button class="example-button" id="example-graphite" type="button">Grafito de 35 × 50 cm</button>
             </div>
           </fieldset>
-          <p class="app-message" id="commission-error" role="alert" hidden></p>
-          <noscript><p class="app-message">Activa JavaScript para calcular el precio.</p></noscript>
+          <p class="app-message" id="references-error" role="alert" hidden></p>
+          <noscript><p class="app-message">Activa JavaScript para buscar precios publicados.</p></noscript>
         </form>
       </section>
 
-      <aside class="result-card commission-result" id="commission-result" aria-labelledby="result-title" tabindex="-1">
-        <div class="result-heading">
-          <h2 id="result-title">Precio sugerido</h2>
-          <span class="currency-tag">COP</span>
+      <section class="reference-results" id="reference-results" tabindex="-1" aria-labelledby="result-title">
+        <div class="result-card reference-summary">
+          <div class="result-heading">
+            <h2 id="result-title">Precios de referencia</h2>
+            <span class="currency-tag">COP</span>
+          </div>
+          <p class="quote-caption" id="result-status" role="status" aria-atomic="true">Cargando las ofertas publicadas.</p>
         </div>
-
-        <div class="quote" id="commission-quote" role="status" aria-atomic="true">
-          <p class="quote-price" id="commission-price" hidden></p>
-          <p class="quote-caption" id="commission-status">Completa las horas y la tarifa para calcular tu presupuesto.</p>
-        </div>
-
-        <dl id="commission-breakdown" class="commission-breakdown" hidden>
-          <div><dt>Materiales y gastos</dt><dd id="direct-cost-value"></dd></div>
-          <div><dt>Pago por tu tiempo</dt><dd id="labor-value"></dd></div>
-          <div class="commission-subtotal"><dt>Base del encargo</dt><dd id="base-value"></dd></div>
-          <div><dt>Reserva para imprevistos</dt><dd id="reserve-value"></dd></div>
-          <div id="fee-line" hidden><dt>Comisión descontada</dt><dd id="fee-value"></dd></div>
-          <div class="commission-subtotal" id="net-line" hidden><dt>Recibes tras la comisión</dt><dd id="net-value"></dd></div>
-        </dl>
-
-        <p class="result-note">Usa el presupuesto como punto de partida para acordar el precio con tu cliente.</p>
-      </aside>
+        <ul class="offer-list" id="offer-list" hidden></ul>
+      </section>
     </div>
 
     <section id="como-funciona" class="guide" aria-labelledby="guide-title">
       <div>
         <h2 id="guide-title">Cómo funciona</h2>
-        <p>El cálculo suma tus gastos, el pago por tu tiempo y la reserva que elijas. Añade lo necesario para cubrir la comisión y redondea hacia arriba a múltiplos de $1.000.</p>
+        <p>El cotizador consulta ofertas publicadas de la misma técnica y tipo de encargo. Muestra la medida más cercana de cada proveedor, con una diferencia de hasta el 25 % por lado. Son precios anunciados y pueden variar al acordar los detalles. La cobertura de grafito es para retratos.</p>
       </div>
       <div class="guide-item">
-        <h3>Estima lo que vas a consumir</h3>
-        <p>Si usarás la cuarta parte de un tubo de óleo de $40.000, cuenta $10.000 en materiales. Aplica la misma idea al grafito, al papel y a otros insumos.</p>
+        <h3>El marco se cotiza aparte</h3>
+        <p>Pide una cotización adecuada al soporte. El papel y el lienzo sobre bastidor requieren montajes distintos.</p>
+        <p><a href="https://photodisenopro.com/product/marco-madera/" target="_blank" rel="noopener noreferrer">Marcos para papel</a> · <a href="https://www.encuadro.co/molduras" target="_blank" rel="noopener noreferrer">Molduras para lienzo</a></p>
       </div>
       <div class="guide-item">
-        <h3>Define qué abarca el precio</h3>
-        <p>Al compartir el presupuesto, detalla el tamaño, la técnica, los ajustes que incluye y la fecha de entrega. Así puedes volver a calcularlo si cambia el pedido.</p>
+        <h3>Acuerda tu plazo de entrega</h3>
+        <p>Cada ficha muestra el plazo de ese proveedor cuando lo publica. Para comprometerte con tu cliente, cuenta tus sesiones de trabajo, el secado y el montaje que requiera la obra.</p>
       </div>
     </section>
   </main>

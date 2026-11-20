@@ -55,7 +55,7 @@ button:not(:disabled), select:not(:disabled), summary { cursor: pointer; }
   text-decoration: none;
 }
 .mode-nav a:hover { background: #eceade; }
-.mode-nav a[aria-current="page"] { background: var(--olive); color: white; }
+.mode-nav a[aria-current] { background: var(--olive); color: white; }
 
 .brand-mark {
   position: relative;

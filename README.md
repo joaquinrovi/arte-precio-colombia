@@ -8,9 +8,15 @@ La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El proyec
 
 [Abrir el cotizador](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/)
 
-### Presupuesto de un encargo
+### Precios de referencia para encargos
 
-El modo Encargos ayuda a calcular cuánto proponer a un cliente a partir de los costos y del pago por hora que el artista elige. Funciona en el navegador y los datos del formulario se quedan allí. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
+El modo Encargos muestra precios publicados por proveedores colombianos para obras por pedido, según técnica, tipo de obra y dimensiones. Las referencias conservan el precio y el tamaño de la fuente. La búsqueda admite hasta 25 % de diferencia en cada lado y devuelve la opción más cercana por proveedor. Una ficha puede informar si incluye marco y el plazo publicado. Si la oferta tiene las medidas exactas y el precio excluye el marco, puedes añadir una cotización del marco y ver la suma. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
+
+El catálogo registra páginas públicas y la fecha de revisión. Un precio «desde» es un valor inicial. Son ofertas de una muestra pequeña, sin confirmación del precio pagado. Para predecir el precio final de un primer encargo se requerirían ventas directas verificadas y una evaluación en artistas ausentes del entrenamiento.
+
+### Presupuesto por costos
+
+Si ya conoces cuánto quieres cobrar por hora, la calculadora suma tu tiempo y tus gastos. Funciona en el navegador. [Abrir presupuesto por costos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/costos/)
 
 1. Suma los materiales consumidos, los gastos extra y las horas de trabajo multiplicadas por la tarifa por hora.
 2. Si se indica una reserva para imprevistos, aplícala a esa suma.
@@ -51,7 +57,7 @@ Para regenerar `model.json` desde la corrida local congelada y comprobar la pari
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/export_web_model.py --run benchmark_2025_verificado --check-parity
-node --test tests/test_web_prediction.mjs tests/test_commission_price.mjs
+node --test tests/test_web_prediction.mjs tests/test_commission_price.mjs tests/test_commission_comparables.mjs
 ```
 
 GitHub Pages publica la carpeta `docs/` de la rama `main`.
