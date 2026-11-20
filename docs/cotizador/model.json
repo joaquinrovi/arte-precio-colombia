@@ -1,0 +1,2646 @@
+{
+  "version": 1,
+  "metadata": {
+    "run": "benchmark_2025_verificado",
+    "model_name": "Modelo aditivo con splines",
+    "artifact_sha256": "92f1a0959a01fd95ba7b3f08fcc6bad5debaee8abb16168e5b87967a8e46172e",
+    "dataset_sha256": "76eaf9eecb4a95d11a67678dc82e7c26b6c4b7cc27ced15dd0eb2541f1eab09e",
+    "training_commit": "96f898b4bb3ea802c909b64c36fefdc854c43e38",
+    "training_rows": 1177,
+    "training_years": [
+      2020,
+      2024
+    ],
+    "validation": {
+      "n": 255,
+      "mae_cop": 7237749.983509895,
+      "median_absolute_error_cop": 2545908.632312417,
+      "rmse_cop": 18986614.062400397,
+      "r2": 0.4947473913,
+      "median_absolute_percentage_error_pct": 51.4359791971
+    }
+  },
+  "options": {
+    "artista_id": [
+      {
+        "id": "adolfo_bernal",
+        "label": "Adolfo Bernal",
+        "count": 17
+      },
+      {
+        "id": "ai_weiwei",
+        "label": "Ai Weiwei",
+        "count": 1
+      },
+      {
+        "id": "ai_weiwei_ai_lao",
+        "label": "Ai Weiwei & Ai Lao",
+        "count": 1
+      },
+      {
+        "id": "alberto_arboleda",
+        "label": "Alberto Arboleda",
+        "count": 7
+      },
+      {
+        "id": "alberto_baraya",
+        "label": "Alberto Baraya",
+        "count": 1
+      },
+      {
+        "id": "alberto_riano",
+        "label": "Alberto Riaño",
+        "count": 9
+      },
+      {
+        "id": "alejandro_cartagena",
+        "label": "Alejandro Cartagena",
+        "count": 1
+      },
+      {
+        "id": "alejandro_gomez_leal",
+        "label": "Alejandro Gómez Leal",
+        "count": 5
+      },
+      {
+        "id": "alejandro_obrego",
+        "label": "Alejandro Obregó",
+        "count": 1
+      },
+      {
+        "id": "alejandro_obregon",
+        "label": "Alejandro Obregón",
+        "count": 18
+      },
+      {
+        "id": "alejandro_otero",
+        "label": "Alejandro Otero",
+        "count": 1
+      },
+      {
+        "id": "alejandro_sanchez",
+        "label": "Alejandro Sánchez",
+        "count": 3
+      },
+      {
+        "id": "alexander_calder",
+        "label": "Alexander Calder",
+        "count": 1
+      },
+      {
+        "id": "alfonso_quijano",
+        "label": "ALFONSO QUIJANO",
+        "count": 2,
+        "aliases": [
+          "Alfonso Quijano"
+        ]
+      },
+      {
+        "id": "alfonso_quijano_acero",
+        "label": "Alfonso Quijano Acero",
+        "count": 2
+      },
+      {
+        "id": "alfonso_ramirez_fajardo",
+        "label": "Alfonso Ramírez Fajardo",
+        "count": 2
+      },
+      {
+        "id": "alfred_manessier",
+        "label": "Alfred Manessier",
+        "count": 1
+      },
+      {
+        "id": "alfredo_ramos_martinez",
+        "label": "Alfredo Ramos Martínez",
+        "count": 2
+      },
+      {
+        "id": "alicia_tafur",
+        "label": "Alicia Tafur",
+        "count": 1
+      },
+      {
+        "id": "alipio_jaramillo",
+        "label": "Alipio Jaramillo",
+        "count": 3
+      },
+      {
+        "id": "alonso_quijano",
+        "label": "Alonso Quijano",
+        "count": 1
+      },
+      {
+        "id": "alvaro_barrios",
+        "label": "Álvaro Barrios",
+        "count": 22,
+        "aliases": [
+          "ALVARO BARRIOS"
+        ]
+      },
+      {
+        "id": "alvaro_herran",
+        "label": "Álvaro Herrán",
+        "count": 2
+      },
+      {
+        "id": "alvaro_marin",
+        "label": "Álvaro Marín",
+        "count": 2
+      },
+      {
+        "id": "ana_maria_rueda",
+        "label": "Ana María Rueda",
+        "count": 1
+      },
+      {
+        "id": "ana_mercedes_hoyos",
+        "label": "Ana Mercedes Hoyos",
+        "count": 31,
+        "aliases": [
+          "ANA MERCEDES HOYOS"
+        ]
+      },
+      {
+        "id": "andre_masson",
+        "label": "André Masson",
+        "count": 1
+      },
+      {
+        "id": "andres_de_santa_maria",
+        "label": "Andrés de Santa María",
+        "count": 1
+      },
+      {
+        "id": "andres_matias_pinilla",
+        "label": "Andrés Matías Pinilla",
+        "count": 1
+      },
+      {
+        "id": "andres_montoya_toxicomano",
+        "label": "Andrés Montoya \"Toxicómano\"",
+        "count": 2
+      },
+      {
+        "id": "andres_toxicomano_callejero_montoya_morales",
+        "label": "Andrés \"Toxicómano callejero\" Montoya Morales",
+        "count": 2
+      },
+      {
+        "id": "andreu_alfaro",
+        "label": "Andreu Alfaro",
+        "count": 1
+      },
+      {
+        "id": "andy_warhol",
+        "label": "Andy Warhol",
+        "count": 4
+      },
+      {
+        "id": "antoni_tapies",
+        "label": "Antoni Tàpies",
+        "count": 2,
+        "aliases": [
+          "Antoni Tápies"
+        ]
+      },
+      {
+        "id": "antonio_asis",
+        "label": "Antonio Asis",
+        "count": 1
+      },
+      {
+        "id": "antonio_barrea",
+        "label": "Antonio Barrea",
+        "count": 1
+      },
+      {
+        "id": "antonio_barrera",
+        "label": "Antonio Barrera",
+        "count": 6
+      },
+      {
+        "id": "antonio_caro",
+        "label": "Antonio Caro",
+        "count": 27,
+        "aliases": [
+          "ANTONIO CARO"
+        ]
+      },
+      {
+        "id": "antonio_grass",
+        "label": "Antonio Grass",
+        "count": 3,
+        "aliases": [
+          "ANTONIO GRASS"
+        ]
+      },
+      {
+        "id": "antonio_henrique_amaral",
+        "label": "Antonio Henrique Amaral",
+        "count": 2
+      },
+      {
+        "id": "antonio_samudio",
+        "label": "Antonio Samudio",
+        "count": 9,
+        "aliases": [
+          "ANTONIO SAMUDIO"
+        ]
+      },
+      {
+        "id": "antonio_saura",
+        "label": "Antonio Saura",
+        "count": 1
+      },
+      {
+        "id": "arman_armand_pierre_fernandez",
+        "label": "Arman (Armand Pierre Fernández)",
+        "count": 1
+      },
+      {
+        "id": "armando_morales",
+        "label": "Armando Morales",
+        "count": 2
+      },
+      {
+        "id": "armando_villegas",
+        "label": "Armando Villegas",
+        "count": 3,
+        "aliases": [
+          "ARMANDO VILLEGAS"
+        ]
+      },
+      {
+        "id": "arthur_luiz_piza",
+        "label": "Arthur-Luiz Piza",
+        "count": 1
+      },
+      {
+        "id": "augusto_rendon",
+        "label": "Augusto Rendón",
+        "count": 3
+      },
+      {
+        "id": "augusto_rivera",
+        "label": "Augusto Rivera",
+        "count": 1
+      },
+      {
+        "id": "autor_desconocido",
+        "label": "AUTOR DESCONOCIDO",
+        "count": 2,
+        "aliases": [
+          "Autor desconocido"
+        ]
+      },
+      {
+        "id": "banksy",
+        "label": "Banksy",
+        "count": 1
+      },
+      {
+        "id": "beatriz_daza",
+        "label": "Beatriz Daza",
+        "count": 2
+      },
+      {
+        "id": "beatriz_gonzalez",
+        "label": "Beatriz González",
+        "count": 35,
+        "aliases": [
+          "BEATRIZ GONZALEZ",
+          "BEATRIZ GONZÁLEZ",
+          "Beatríz González"
+        ]
+      },
+      {
+        "id": "bernado_salcedo",
+        "label": "Bernado Salcedo",
+        "count": 1
+      },
+      {
+        "id": "bernardo_ortiz",
+        "label": "Bernardo Ortiz",
+        "count": 1
+      },
+      {
+        "id": "bernardo_salcedo",
+        "label": "Bernardo Salcedo",
+        "count": 11
+      },
+      {
+        "id": "camilo_bojaca",
+        "label": "Camilo Bojacá",
+        "count": 1
+      },
+      {
+        "id": "candido_portinari",
+        "label": "Candido Portinari",
+        "count": 1
+      },
+      {
+        "id": "carlos_castro",
+        "label": "Carlos Castro",
+        "count": 2
+      },
+      {
+        "id": "carlos_correa",
+        "label": "Carlos Correa",
+        "count": 2
+      },
+      {
+        "id": "carlos_cruz_diez",
+        "label": "Carlos Cruz-Diez",
+        "count": 8,
+        "aliases": [
+          "CARLOS CRUZ-DIEZ",
+          "Carlos Cruz Diez",
+          "Carlos Cruz–Diez"
+        ]
+      },
+      {
+        "id": "carlos_garaicoa",
+        "label": "Carlos Garaicoa",
+        "count": 1
+      },
+      {
+        "id": "carlos_granada",
+        "label": "Carlos Granada",
+        "count": 4
+      },
+      {
+        "id": "carlos_jacanamijoy",
+        "label": "Carlos Jacanamijoy",
+        "count": 5
+      },
+      {
+        "id": "carlos_rojas",
+        "label": "Carlos Rojas",
+        "count": 18,
+        "aliases": [
+          "CARLOS ROJAS"
+        ]
+      },
+      {
+        "id": "carlos_salas",
+        "label": "Carlos Salas",
+        "count": 5
+      },
+      {
+        "id": "carlos_salazar",
+        "label": "Carlos Salazar",
+        "count": 3,
+        "aliases": [
+          "Carlos Sálazar"
+        ]
+      },
+      {
+        "id": "carlos_valenzuela",
+        "label": "Carlos Valenzuela",
+        "count": 1
+      },
+      {
+        "id": "carmelo_arden_quin",
+        "label": "Carmelo Arden-Quin",
+        "count": 1
+      },
+      {
+        "id": "carmelo_gonzalez",
+        "label": "Carmelo Gónzález",
+        "count": 1
+      },
+      {
+        "id": "carmen_herrera",
+        "label": "Carmen Herrera",
+        "count": 2
+      },
+      {
+        "id": "carolina_cardenas",
+        "label": "Carolina Cárdenas",
+        "count": 1
+      },
+      {
+        "id": "caroline_pena_bray",
+        "label": "Caroline Peña Bray",
+        "count": 1
+      },
+      {
+        "id": "cecilia_porras",
+        "label": "Cecilia Porras",
+        "count": 3
+      },
+      {
+        "id": "cesar_del_valle",
+        "label": "Cesar del Valle",
+        "count": 1
+      },
+      {
+        "id": "christo_vladimirov_javacheff",
+        "label": "Christo Vladimirov Javacheff",
+        "count": 1
+      },
+      {
+        "id": "clemencia_echeverri",
+        "label": "Clemencia Echeverri",
+        "count": 1
+      },
+      {
+        "id": "consuelo_gomez",
+        "label": "Consuelo Gómez",
+        "count": 1
+      },
+      {
+        "id": "coriolano_leudo",
+        "label": "CORIOLANO LEUDO",
+        "count": 1
+      },
+      {
+        "id": "cristina_ghetti",
+        "label": "Cristina Ghetti",
+        "count": 1
+      },
+      {
+        "id": "cristobal_schlenker",
+        "label": "CRISTOBAL SCHLENKER",
+        "count": 1
+      },
+      {
+        "id": "dario_morales",
+        "label": "Darío Morales",
+        "count": 2
+      },
+      {
+        "id": "dario_villalba",
+        "label": "Dario Villalba",
+        "count": 1
+      },
+      {
+        "id": "david_alfaro_siqueiros",
+        "label": "David Alfaro Siqueiros",
+        "count": 1
+      },
+      {
+        "id": "david_manzur",
+        "label": "David Manzur",
+        "count": 19,
+        "aliases": [
+          "DAVID MANZUR"
+        ]
+      },
+      {
+        "id": "debora_arango",
+        "label": "Débora Arango",
+        "count": 3
+      },
+      {
+        "id": "delcy_morelos",
+        "label": "DELCY MORELOS",
+        "count": 2,
+        "aliases": [
+          "Delcy Morelos"
+        ]
+      },
+      {
+        "id": "despues_de_pablo_picasso",
+        "label": "Después de Pablo Picasso",
+        "count": 2
+      },
+      {
+        "id": "despues_de_rene_magritte",
+        "label": "Después de René Magritte",
+        "count": 1
+      },
+      {
+        "id": "dicken_castro",
+        "label": "Dicken Castro",
+        "count": 2
+      },
+      {
+        "id": "didier_bedoya",
+        "label": "DIDIER BEDOYA",
+        "count": 1
+      },
+      {
+        "id": "diva_teresa_ramirez",
+        "label": "Diva Teresa Ramírez",
+        "count": 1
+      },
+      {
+        "id": "domingo_izquierdo",
+        "label": "DOMINGO IZQUIERDO",
+        "count": 2,
+        "aliases": [
+          "Domingo Izquierdo"
+        ]
+      },
+      {
+        "id": "domingo_moreno_otero",
+        "label": "Domingo Moreno Otero",
+        "count": 2
+      },
+      {
+        "id": "edgar_negret",
+        "label": "Edgar Negret",
+        "count": 36,
+        "aliases": [
+          "EDGAR NEGRET"
+        ]
+      },
+      {
+        "id": "eduard_moreno",
+        "label": "Eduard Moreno",
+        "count": 1
+      },
+      {
+        "id": "eduardo_ramirez_villamizar",
+        "label": "Eduardo Ramírez Villamizar",
+        "count": 25,
+        "aliases": [
+          "EDUARDO RAMIREZ VILLAMIZAR"
+        ]
+      },
+      {
+        "id": "edwin_monsalve",
+        "label": "Edwin Monsalve",
+        "count": 1
+      },
+      {
+        "id": "efrain_arrieta",
+        "label": "Efraín Arrieta",
+        "count": 1
+      },
+      {
+        "id": "efrain_zuniga",
+        "label": "EFRAIN ZUÑIGA",
+        "count": 1
+      },
+      {
+        "id": "eladio_velez",
+        "label": "Eladio Vélez",
+        "count": 1
+      },
+      {
+        "id": "elsa_zambrano",
+        "label": "Elsa Zambrano",
+        "count": 2
+      },
+      {
+        "id": "emilio_sanchez",
+        "label": "Emilio Sanchez",
+        "count": 2
+      },
+      {
+        "id": "emma_reyes",
+        "label": "Emma Reyes",
+        "count": 19
+      },
+      {
+        "id": "enrique_galdos_rivas",
+        "label": "Enrique Galdos Rivas",
+        "count": 1
+      },
+      {
+        "id": "enrique_grau",
+        "label": "Enrique Grau",
+        "count": 23,
+        "aliases": [
+          "ENRIQUE GRAU"
+        ]
+      },
+      {
+        "id": "erwin_kraus",
+        "label": "Erwin Kraus",
+        "count": 2
+      },
+      {
+        "id": "escuela_quitena",
+        "label": "Escuela Quiteña",
+        "count": 1
+      },
+      {
+        "id": "escuela_virreinal_espanola",
+        "label": "Escuela Virreinal Española",
+        "count": 1
+      },
+      {
+        "id": "ethel_gilmour",
+        "label": "Ethel Gilmour",
+        "count": 1
+      },
+      {
+        "id": "eusebio_sempere",
+        "label": "Eusebio Sempere",
+        "count": 1
+      },
+      {
+        "id": "ever_astudillo",
+        "label": "Ever Astudillo",
+        "count": 7
+      },
+      {
+        "id": "fanny_sanin",
+        "label": "Fanny Sanín",
+        "count": 7
+      },
+      {
+        "id": "felipe_bonilla",
+        "label": "Felipe Bonilla",
+        "count": 1
+      },
+      {
+        "id": "feliza_bursztyn",
+        "label": "Feliza Bursztyn",
+        "count": 3
+      },
+      {
+        "id": "fernand_leger",
+        "label": "Fernand Léger",
+        "count": 1
+      },
+      {
+        "id": "fernando_arias",
+        "label": "Fernando Arias",
+        "count": 1
+      },
+      {
+        "id": "fernando_botero",
+        "label": "Fernando Botero",
+        "count": 13,
+        "aliases": [
+          "FERNANDO BOTERO"
+        ]
+      },
+      {
+        "id": "fernando_de_szyszlo",
+        "label": "Fernando de Szyszlo",
+        "count": 11,
+        "aliases": [
+          "FERNANDO DE SZYSZLO"
+        ]
+      },
+      {
+        "id": "fernando_oramas",
+        "label": "Fernando Oramas",
+        "count": 1
+      },
+      {
+        "id": "fernell_franco",
+        "label": "Fernell Franco",
+        "count": 4,
+        "aliases": [
+          "FERNELL FRANCO"
+        ]
+      },
+      {
+        "id": "francisco_fernandez",
+        "label": "Francisco Fernández",
+        "count": 2
+      },
+      {
+        "id": "francisco_toledo",
+        "label": "Francisco Toledo",
+        "count": 1
+      },
+      {
+        "id": "freda_sargent",
+        "label": "Freda Sargent",
+        "count": 8
+      },
+      {
+        "id": "fredy_serna",
+        "label": "Fredy Serna",
+        "count": 1
+      },
+      {
+        "id": "gabriel_largacha_manrique",
+        "label": "Gabriel Largacha Manrique",
+        "count": 1
+      },
+      {
+        "id": "george_rouault",
+        "label": "George Rouault",
+        "count": 1
+      },
+      {
+        "id": "german_botero",
+        "label": "Germán Botero",
+        "count": 1
+      },
+      {
+        "id": "gilbert_george_gilbert_proesch_george_passmore_y_david_hockney",
+        "label": "Gilbert & George (Gilbert Proesch & George Passmore) y David Hockney",
+        "count": 1
+      },
+      {
+        "id": "gonzalo_ariza",
+        "label": "Gonzalo Ariza",
+        "count": 11,
+        "aliases": [
+          "GONZALO ARIZA"
+        ]
+      },
+      {
+        "id": "graciela_iturbide",
+        "label": "Graciela Iturbide",
+        "count": 1
+      },
+      {
+        "id": "gregorio_cuartas",
+        "label": "Gregorio Cuartas",
+        "count": 1
+      },
+      {
+        "id": "guillermo_wiedemann",
+        "label": "Guillermo Wiedemann",
+        "count": 4
+      },
+      {
+        "id": "gustavo_vejarano",
+        "label": "Gustavo Vejarano",
+        "count": 1
+      },
+      {
+        "id": "gustavo_zalamea",
+        "label": "Gustavo Zalamea",
+        "count": 10,
+        "aliases": [
+          "GUSTAVO ZALAMEA"
+        ]
+      },
+      {
+        "id": "henri_de_toulouse_lautrec",
+        "label": "Henri DE TOULOUSE-LAUTREC",
+        "count": 1
+      },
+      {
+        "id": "henry_moore",
+        "label": "Henry Moore",
+        "count": 1
+      },
+      {
+        "id": "hernan_diaz",
+        "label": "Hernán Díaz",
+        "count": 4,
+        "aliases": [
+          "HERNAN DIAZ"
+        ]
+      },
+      {
+        "id": "hernando_del_villar",
+        "label": "Hernando del Villar",
+        "count": 3,
+        "aliases": [
+          "Hernando Del Villar"
+        ]
+      },
+      {
+        "id": "hernando_momo_del_villar",
+        "label": "Hernando \"Momo\" del Villar",
+        "count": 4
+      },
+      {
+        "id": "hernando_tejada",
+        "label": "Hernando Tejada",
+        "count": 3
+      },
+      {
+        "id": "hugo_demarco",
+        "label": "Hugo Demarco",
+        "count": 1
+      },
+      {
+        "id": "hugo_martinez",
+        "label": "Hugo Martínez",
+        "count": 2
+      },
+      {
+        "id": "hugo_zapata",
+        "label": "Hugo Zapata",
+        "count": 8,
+        "aliases": [
+          "HUGO ZAPATA"
+        ]
+      },
+      {
+        "id": "humberto_chaves",
+        "label": "Humberto Chaves",
+        "count": 2
+      },
+      {
+        "id": "humberto_valencia_chavez",
+        "label": "HUMBERTO VALENCIA CHAVEZ",
+        "count": 2,
+        "aliases": [
+          "Humberto Valencia Chavez"
+        ]
+      },
+      {
+        "id": "ignacio_gomez_jaramillo",
+        "label": "Ignacio Gómez Jaramillo",
+        "count": 6,
+        "aliases": [
+          "IGNACIO GOMEZ JARAMILLO"
+        ]
+      },
+      {
+        "id": "ismael_rivera_torres",
+        "label": "ISMAEL RIVERA TORRES",
+        "count": 1
+      },
+      {
+        "id": "jaime_avila",
+        "label": "Jaime Ávila",
+        "count": 2
+      },
+      {
+        "id": "jaime_franco",
+        "label": "Jaime Franco",
+        "count": 3
+      },
+      {
+        "id": "jaime_tarazona",
+        "label": "Jaime Tarazona",
+        "count": 2
+      },
+      {
+        "id": "javier_caraballo",
+        "label": "JAVIER CARABALLO",
+        "count": 1
+      },
+      {
+        "id": "jean_cocteau",
+        "label": "JEAN COCTEAU",
+        "count": 1
+      },
+      {
+        "id": "jeison_sierra",
+        "label": "Jeison Sierra",
+        "count": 1
+      },
+      {
+        "id": "jenny_holzer",
+        "label": "Jenny Holzer",
+        "count": 1
+      },
+      {
+        "id": "jesus_maria_zamora",
+        "label": "Jesús María Zamora",
+        "count": 4
+      },
+      {
+        "id": "jesus_rafael_de_soto",
+        "label": "Jesús Rafael de Soto",
+        "count": 1
+      },
+      {
+        "id": "jesus_rafael_soto",
+        "label": "Jesús Rafael Soto",
+        "count": 7,
+        "aliases": [
+          "Jesus Rafael Soto"
+        ]
+      },
+      {
+        "id": "jim_amaral",
+        "label": "Jim Amaral",
+        "count": 12
+      },
+      {
+        "id": "joan_miro",
+        "label": "Joan Miró",
+        "count": 4
+      },
+      {
+        "id": "johanna_calle",
+        "label": "JOHANNA CALLE",
+        "count": 2,
+        "aliases": [
+          "Johanna Calle"
+        ]
+      },
+      {
+        "id": "john_castles",
+        "label": "John Castles",
+        "count": 10
+      },
+      {
+        "id": "john_charles_dollman",
+        "label": "JOHN CHARLES DOLLMAN",
+        "count": 1
+      },
+      {
+        "id": "jonier_marin",
+        "label": "Jonier Marin",
+        "count": 2,
+        "aliases": [
+          "Jonier Marín"
+        ]
+      },
+      {
+        "id": "jorge_elias_triana",
+        "label": "Jorge Elias Triana",
+        "count": 1
+      },
+      {
+        "id": "jorge_luis_vaca",
+        "label": "Jorge Luis Vaca",
+        "count": 1
+      },
+      {
+        "id": "jorge_luis_vaca_forero",
+        "label": "Jorge Luis Vaca Forero",
+        "count": 1
+      },
+      {
+        "id": "jorge_mantilla_caballero",
+        "label": "JORGE MANTILLA CABALLERO",
+        "count": 2,
+        "aliases": [
+          "Jorge Mantilla Caballero"
+        ]
+      },
+      {
+        "id": "jorge_obando",
+        "label": "JORGE OBANDO",
+        "count": 1
+      },
+      {
+        "id": "jorge_ortiz",
+        "label": "Jorge Ortiz",
+        "count": 4,
+        "aliases": [
+          "JORGE ORTIZ"
+        ]
+      },
+      {
+        "id": "jorge_riveros",
+        "label": "Jorge Riveros",
+        "count": 3
+      },
+      {
+        "id": "jose_alejandro_restrepo",
+        "label": "José Alejandro Restrepo",
+        "count": 2
+      },
+      {
+        "id": "jose_antonio_suarez_londono",
+        "label": "José Antonio Suárez Londoño",
+        "count": 1
+      },
+      {
+        "id": "jose_aramburo_juan_uribe",
+        "label": "Jose Aramburo - Juan Uribe",
+        "count": 1
+      },
+      {
+        "id": "jose_gurvich",
+        "label": "José Gurvich",
+        "count": 1
+      },
+      {
+        "id": "jose_luis_cuevas",
+        "label": "José Luis Cuevas",
+        "count": 1
+      },
+      {
+        "id": "jose_maria_espinosa",
+        "label": "José María Espinosa",
+        "count": 1
+      },
+      {
+        "id": "jose_sabate_pez",
+        "label": "JOSE SABATE - PEZ",
+        "count": 1
+      },
+      {
+        "id": "juan_antonio_roda",
+        "label": "Juan Antonio Roda",
+        "count": 8,
+        "aliases": [
+          "JUAN ANTONIO RODA"
+        ]
+      },
+      {
+        "id": "juan_camilo_uribe",
+        "label": "Juan Camilo Uribe",
+        "count": 4,
+        "aliases": [
+          "JUAN CAMILO URIBE"
+        ]
+      },
+      {
+        "id": "juan_cardenas",
+        "label": "Juan Cárdenas",
+        "count": 1
+      },
+      {
+        "id": "juan_carlos_delgado",
+        "label": "Juan Carlos Delgado",
+        "count": 1
+      },
+      {
+        "id": "juan_fernando_herran",
+        "label": "Juan Fernando Herrán",
+        "count": 1
+      },
+      {
+        "id": "juan_genoves",
+        "label": "Juan Genovés",
+        "count": 1
+      },
+      {
+        "id": "juan_manuel_echevarria",
+        "label": "Juan Manuel Echevarría",
+        "count": 1
+      },
+      {
+        "id": "juan_pablo_echeverri",
+        "label": "Juan Pablo Echeverri",
+        "count": 1
+      },
+      {
+        "id": "juan_pablo_zapata",
+        "label": "JUAN PABLO ZAPATA",
+        "count": 1
+      },
+      {
+        "id": "julian_garcia",
+        "label": "JULIAN GARCIA",
+        "count": 1
+      },
+      {
+        "id": "julio_le_parc",
+        "label": "Julio Le Parc",
+        "count": 6
+      },
+      {
+        "id": "julio_roca",
+        "label": "Julio Roca",
+        "count": 1
+      },
+      {
+        "id": "kcho_alexis_leiva_machado",
+        "label": "Kcho (Alexis Leiva Machado)",
+        "count": 1
+      },
+      {
+        "id": "leo_matiz",
+        "label": "Leo Matiz",
+        "count": 1
+      },
+      {
+        "id": "leon_cano",
+        "label": "León Cano",
+        "count": 1
+      },
+      {
+        "id": "leonel_gongora",
+        "label": "Leonel Góngora",
+        "count": 4
+      },
+      {
+        "id": "leonor_alarcon",
+        "label": "Leonor Alarcón",
+        "count": 2
+      },
+      {
+        "id": "leopold_reigner",
+        "label": "Léopold Reigner",
+        "count": 1
+      },
+      {
+        "id": "leopoldo_richter",
+        "label": "Leopoldo Richter",
+        "count": 10
+      },
+      {
+        "id": "liliana_porter",
+        "label": "Liliana Porter",
+        "count": 1
+      },
+      {
+        "id": "liliana_sanchez",
+        "label": "Liliana Sánchez",
+        "count": 1
+      },
+      {
+        "id": "lorena_espitia",
+        "label": "Lorena Espitia",
+        "count": 1
+      },
+      {
+        "id": "lorenzo_jaramillo",
+        "label": "Lorenzo Jaramillo",
+        "count": 2
+      },
+      {
+        "id": "louise_nevelson",
+        "label": "Louise Nevelson",
+        "count": 2
+      },
+      {
+        "id": "luciano_denver",
+        "label": "Luciano Denver",
+        "count": 1
+      },
+      {
+        "id": "luciano_jaramillo",
+        "label": "Luciano Jaramillo",
+        "count": 7,
+        "aliases": [
+          "LUCIANO JARAMILLO"
+        ]
+      },
+      {
+        "id": "lucy_tejada",
+        "label": "Lucy Tejada",
+        "count": 3,
+        "aliases": [
+          "LUCY TEJADA"
+        ]
+      },
+      {
+        "id": "luis_a_solari",
+        "label": "Luis A. Solari",
+        "count": 2
+      },
+      {
+        "id": "luis_alberto_acuna",
+        "label": "Luis Alberto Acuña",
+        "count": 7
+      },
+      {
+        "id": "luis_alberto_acuna_tapias",
+        "label": "Luis Alberto Acuña Tapias",
+        "count": 1
+      },
+      {
+        "id": "luis_angel_rengifo_munoz",
+        "label": "Luis Ángel Rengifo Muñoz",
+        "count": 1
+      },
+      {
+        "id": "luis_caballero",
+        "label": "Luis Caballero",
+        "count": 25,
+        "aliases": [
+          "LUIS CABALLERO"
+        ]
+      },
+      {
+        "id": "luis_eduardo_vieco",
+        "label": "Luis Eduardo Vieco",
+        "count": 1
+      },
+      {
+        "id": "luis_fernando_pelaez",
+        "label": "Luis Fernando Peláez",
+        "count": 2
+      },
+      {
+        "id": "luis_fernando_roldan",
+        "label": "Luis Fernando Roldán",
+        "count": 1
+      },
+      {
+        "id": "luis_luna",
+        "label": "Luis Luna",
+        "count": 3
+      },
+      {
+        "id": "luis_martinez_pedro",
+        "label": "Luis Martínez Pedro",
+        "count": 1
+      },
+      {
+        "id": "luis_nunez_borda",
+        "label": "LUIS NUÑEZ BORDA",
+        "count": 6,
+        "aliases": [
+          "Luis Núñez Borda",
+          "Luis Nuñez Borda"
+        ]
+      },
+      {
+        "id": "luis_roldan",
+        "label": "Luis Roldán",
+        "count": 4
+      },
+      {
+        "id": "luz_helena_caballero",
+        "label": "Luz Helena Caballero",
+        "count": 1
+      },
+      {
+        "id": "manolo_vellojin",
+        "label": "Manolo Vellojín",
+        "count": 15,
+        "aliases": [
+          "MANOLO VELLOJIN",
+          "Manolo Vellojin"
+        ]
+      },
+      {
+        "id": "manuel_estrada",
+        "label": "Manuel Estrada",
+        "count": 1
+      },
+      {
+        "id": "manuel_henandez",
+        "label": "Manuel Henández",
+        "count": 1
+      },
+      {
+        "id": "manuel_hernandez",
+        "label": "Manuel Hernández",
+        "count": 24,
+        "aliases": [
+          "MANUEL HERNANDEZ"
+        ]
+      },
+      {
+        "id": "marcial_alegria",
+        "label": "Marcial Alegría",
+        "count": 5
+      },
+      {
+        "id": "marcial_alegria_g",
+        "label": "Marcial Alegría G",
+        "count": 1
+      },
+      {
+        "id": "marco_ospina",
+        "label": "Marco Ospina",
+        "count": 2
+      },
+      {
+        "id": "marco_tobon_mejia",
+        "label": "Marco Tobón Mejía",
+        "count": 3
+      },
+      {
+        "id": "marco_tulio_salas_vega",
+        "label": "Marco Tulio Salas Vega",
+        "count": 1
+      },
+      {
+        "id": "marco_tulio_villalobos",
+        "label": "Marco Tulio Villalobos",
+        "count": 3
+      },
+      {
+        "id": "maria_de_la_paz_jaramillo",
+        "label": "MARIA DE LA PAZ JARAMILLO",
+        "count": 2,
+        "aliases": [
+          "María de la Paz Jaramillo"
+        ]
+      },
+      {
+        "id": "maria_fernanda_cardoso",
+        "label": "María Fernanda Cardoso",
+        "count": 1
+      },
+      {
+        "id": "maria_teresa_hincapie",
+        "label": "Maria Teresa Hincapié",
+        "count": 3
+      },
+      {
+        "id": "maria_thereza_negreiros",
+        "label": "María Thereza Negreiros",
+        "count": 2
+      },
+      {
+        "id": "mariana_varela",
+        "label": "Mariana Varela",
+        "count": 1
+      },
+      {
+        "id": "mariano_rodriguez",
+        "label": "Mariano Rodríguez",
+        "count": 1
+      },
+      {
+        "id": "marina_abramovic",
+        "label": "Marina Abramović",
+        "count": 1
+      },
+      {
+        "id": "maripaz_jaramillo",
+        "label": "Maripaz Jaramillo",
+        "count": 6
+      },
+      {
+        "id": "marlene_hoffmann",
+        "label": "Marlene Hoffmann",
+        "count": 4
+      },
+      {
+        "id": "mateo_lopez",
+        "label": "Mateo López",
+        "count": 1
+      },
+      {
+        "id": "mauricio_arango_mejia",
+        "label": "Mauricio Arango (Mejía",
+        "count": 1
+      },
+      {
+        "id": "max_ernst",
+        "label": "Max Ernst",
+        "count": 1
+      },
+      {
+        "id": "maximo_florez_lopez",
+        "label": "Máximo Flórez López",
+        "count": 1
+      },
+      {
+        "id": "miguel_angel_rojas",
+        "label": "Miguel Ángel Rojas",
+        "count": 12,
+        "aliases": [
+          "MIGUEL ANGEL ROJAS"
+        ]
+      },
+      {
+        "id": "miguel_diaz_vargas",
+        "label": "Miguel Díaz Vargas",
+        "count": 1
+      },
+      {
+        "id": "miguel_sopo",
+        "label": "Miguel Sopó",
+        "count": 1
+      },
+      {
+        "id": "miguel_sopo_duque",
+        "label": "Miguel Sopó Duque",
+        "count": 1
+      },
+      {
+        "id": "milena_bonilla",
+        "label": "Milena Bonilla",
+        "count": 1
+      },
+      {
+        "id": "mirta_cerra_herrera",
+        "label": "Mirta Cerra Herrera",
+        "count": 2
+      },
+      {
+        "id": "nadin_ospina",
+        "label": "Nadín Ospina",
+        "count": 5
+      },
+      {
+        "id": "nadir_figueroa",
+        "label": "Nadir Figueroa",
+        "count": 1
+      },
+      {
+        "id": "nirma_zarate",
+        "label": "Nirma Zárate",
+        "count": 2
+      },
+      {
+        "id": "noe_leon",
+        "label": "Noé León",
+        "count": 4
+      },
+      {
+        "id": "noemi_perez",
+        "label": "Noemi Pérez",
+        "count": 1
+      },
+      {
+        "id": "nohemi_perez",
+        "label": "Nohemi Pérez",
+        "count": 2,
+        "aliases": [
+          "Nohemí Pérez"
+        ]
+      },
+      {
+        "id": "norman_mejia",
+        "label": "Norman Mejía",
+        "count": 4
+      },
+      {
+        "id": "ofelia_rodriguez",
+        "label": "Ofelia Rodríguez",
+        "count": 1
+      },
+      {
+        "id": "olga_de_amaral",
+        "label": "Olga de Amaral",
+        "count": 6,
+        "aliases": [
+          "OLGA DE AMARAL"
+        ]
+      },
+      {
+        "id": "omar_rayo",
+        "label": "Omar Rayo",
+        "count": 28,
+        "aliases": [
+          "OMAR RAYO"
+        ]
+      },
+      {
+        "id": "oscar_munoz",
+        "label": "Oscar Muñoz",
+        "count": 10,
+        "aliases": [
+          "Óscar Muñoz",
+          "OSCAR MUÑOZ"
+        ]
+      },
+      {
+        "id": "oscar_rodriguez_naranjo",
+        "label": "Oscar Rodríguez Naranjo",
+        "count": 6,
+        "aliases": [
+          "OSCAR RODRIGUEZ NARANJO"
+        ]
+      },
+      {
+        "id": "oswaldo_guayasamin",
+        "label": "OSWALDO GUAYASAMIN",
+        "count": 3,
+        "aliases": [
+          "Oswaldo Guayasamin",
+          "Oswaldo Guayasamín"
+        ]
+      },
+      {
+        "id": "oswaldo_vigas",
+        "label": "Oswaldo Vigas",
+        "count": 1
+      },
+      {
+        "id": "pablo_atchugarry",
+        "label": "Pablo Atchugarry",
+        "count": 1
+      },
+      {
+        "id": "pablo_gilberto_montoya",
+        "label": "Pablo Gilberto Montoya",
+        "count": 1
+      },
+      {
+        "id": "pedro_alcantara",
+        "label": "Pedro Alcántara",
+        "count": 7
+      },
+      {
+        "id": "pedro_alcantara_herran",
+        "label": "Pedro Alcántara Herrán",
+        "count": 1
+      },
+      {
+        "id": "pedro_alcantara_quijano",
+        "label": "Pedro Alcántara Quijano",
+        "count": 1
+      },
+      {
+        "id": "pedro_figari",
+        "label": "Pedro Figari",
+        "count": 1
+      },
+      {
+        "id": "pedro_hanne_gallo",
+        "label": "Pedro Hanne Gallo",
+        "count": 1
+      },
+      {
+        "id": "pedro_nel_gomez",
+        "label": "Pedro Nel Gómez",
+        "count": 10
+      },
+      {
+        "id": "pedro_ruiz",
+        "label": "Pedro Ruiz",
+        "count": 14,
+        "aliases": [
+          "Pedro Ruíz",
+          "PEDRO RUIZ"
+        ]
+      },
+      {
+        "id": "pierre_daguet",
+        "label": "Pierre Daguet",
+        "count": 1
+      },
+      {
+        "id": "rafael_echeverri",
+        "label": "Rafael Echeverri",
+        "count": 8,
+        "aliases": [
+          "RAFAEL ECHEVERRI"
+        ]
+      },
+      {
+        "id": "rafael_echeverry",
+        "label": "RAFAEL ECHEVERRY",
+        "count": 2
+      },
+      {
+        "id": "rafael_gomez_barros",
+        "label": "Rafael Gómez-Barros",
+        "count": 2,
+        "aliases": [
+          "Rafaél Gómez Barros"
+        ]
+      },
+      {
+        "id": "rafael_mena_g",
+        "label": "Rafael Mena G.",
+        "count": 1
+      },
+      {
+        "id": "rafael_saenz_moreno",
+        "label": "Rafael Sáenz Moreno",
+        "count": 1
+      },
+      {
+        "id": "rafael_tavera",
+        "label": "RAFAEL TAVERA",
+        "count": 1
+      },
+      {
+        "id": "ramon_torres_mendez",
+        "label": "Ramón Torres Méndez",
+        "count": 1
+      },
+      {
+        "id": "raul_martinez",
+        "label": "Raúl Martínez",
+        "count": 1
+      },
+      {
+        "id": "rene_magritte",
+        "label": "RENE MAGRITTE",
+        "count": 2
+      },
+      {
+        "id": "rene_portocarrero",
+        "label": "René Portocarrero",
+        "count": 2
+      },
+      {
+        "id": "ricardo_acevedo_bernal",
+        "label": "Ricardo Acevedo Bernal",
+        "count": 5
+      },
+      {
+        "id": "ricardo_borrero",
+        "label": "Ricardo Borrero",
+        "count": 4
+      },
+      {
+        "id": "ricardo_borrero_alvarez",
+        "label": "RICARDO BORRERO ALVAREZ",
+        "count": 2,
+        "aliases": [
+          "Ricardo Borrero Álvarez"
+        ]
+      },
+      {
+        "id": "ricardo_cardenas",
+        "label": "Ricardo Cárdenas",
+        "count": 1
+      },
+      {
+        "id": "ricardo_gomez_campuzano",
+        "label": "Ricardo Gómez Campuzano",
+        "count": 13,
+        "aliases": [
+          "RICARDO GOMEZ CAMPUZANO"
+        ]
+      },
+      {
+        "id": "ricardo_moros_urbina",
+        "label": "Ricardo Moros Urbina",
+        "count": 1
+      },
+      {
+        "id": "richard_smith",
+        "label": "Richard Smith",
+        "count": 2
+      },
+      {
+        "id": "robert_motherwell",
+        "label": "Robert Motherwell",
+        "count": 1
+      },
+      {
+        "id": "roberto_fabelo",
+        "label": "Roberto Fabelo",
+        "count": 2
+      },
+      {
+        "id": "roberto_matta",
+        "label": "ROBERTO MATTA",
+        "count": 6,
+        "aliases": [
+          "Roberto Matta"
+        ]
+      },
+      {
+        "id": "roberto_paramo",
+        "label": "Roberto Páramo",
+        "count": 5
+      },
+      {
+        "id": "roberto_pizano",
+        "label": "Roberto Pizano",
+        "count": 3,
+        "aliases": [
+          "ROBERTO PIZANO"
+        ]
+      },
+      {
+        "id": "rodolfo_abularach",
+        "label": "Rodolfo Abularach",
+        "count": 1
+      },
+      {
+        "id": "rodolfo_nieto",
+        "label": "Rodolfo Nieto",
+        "count": 1
+      },
+      {
+        "id": "rodrigo_echeverri",
+        "label": "RODRIGO ECHEVERRI",
+        "count": 1
+      },
+      {
+        "id": "rodrigo_trujillo",
+        "label": "Rodrigo Trujillo",
+        "count": 1
+      },
+      {
+        "id": "rodrigo_trujillo_escuela_de_joaquin_torres_garcia",
+        "label": "Rodrigo Trujillo [Escuela de Joaquín Torres García]",
+        "count": 1
+      },
+      {
+        "id": "romulo_rozo",
+        "label": "Romulo Rozo",
+        "count": 2,
+        "aliases": [
+          "Rómulo Rozo"
+        ]
+      },
+      {
+        "id": "ronny_vayda",
+        "label": "Ronny Vayda",
+        "count": 1
+      },
+      {
+        "id": "rossina_bossio_bossa",
+        "label": "Rossina Bossio Bossa",
+        "count": 1
+      },
+      {
+        "id": "rubens_gerchman",
+        "label": "Rubens Gerchman",
+        "count": 1
+      },
+      {
+        "id": "rufino_tamayo",
+        "label": "Rufino Tamayo",
+        "count": 2
+      },
+      {
+        "id": "sair_garcia",
+        "label": "SAIR GARCIA",
+        "count": 2,
+        "aliases": [
+          "Sair García"
+        ]
+      },
+      {
+        "id": "salvador_dali",
+        "label": "Salvador Dalí",
+        "count": 4,
+        "aliases": [
+          "SALVADOR DALI"
+        ]
+      },
+      {
+        "id": "samir_varela",
+        "label": "SAMIR VARELA",
+        "count": 1
+      },
+      {
+        "id": "santiago_cardenas",
+        "label": "Santiago Cárdenas",
+        "count": 15
+      },
+      {
+        "id": "santiago_martinez_delgado",
+        "label": "Santiago Martínez Delgado",
+        "count": 1
+      },
+      {
+        "id": "saturnino_ramirez",
+        "label": "Saturnino Ramírez",
+        "count": 13,
+        "aliases": [
+          "SATURNINO RAMIREZ"
+        ]
+      },
+      {
+        "id": "sebastian_fierro",
+        "label": "Sebastián Fierro",
+        "count": 1
+      },
+      {
+        "id": "shepard_fairey_obey",
+        "label": "Shepard Fairey \"Obey\"",
+        "count": 2
+      },
+      {
+        "id": "shizuko_yoshikawa",
+        "label": "Shizuko Yoshikawa",
+        "count": 1
+      },
+      {
+        "id": "sofia_urrutia",
+        "label": "Sofía Urrutia",
+        "count": 3,
+        "aliases": [
+          "Sofia Urrutia"
+        ]
+      },
+      {
+        "id": "sofia_urrutia_holguin",
+        "label": "Sofía Urrutia Holguín",
+        "count": 1
+      },
+      {
+        "id": "sofia_urrutia_sin_titulo_sin_fecha",
+        "label": "Sofia Urrutia Sin título, sin fecha",
+        "count": 1
+      },
+      {
+        "id": "susana_carrie",
+        "label": "Susana Carrié",
+        "count": 1
+      },
+      {
+        "id": "taller_olga_de_amaral",
+        "label": "Taller Olga de Amaral",
+        "count": 1
+      },
+      {
+        "id": "tomas_sanchez",
+        "label": "Tomás Sánchez",
+        "count": 1
+      },
+      {
+        "id": "umberto_giangrandi",
+        "label": "Umberto Giangrandi",
+        "count": 6
+      },
+      {
+        "id": "veronica_cardenas",
+        "label": "Verónica Cárdenas",
+        "count": 1
+      },
+      {
+        "id": "vertigo_graffiti",
+        "label": "VERTIGO GRAFFITI",
+        "count": 1
+      },
+      {
+        "id": "victor_vasarely",
+        "label": "Victor Vasarely",
+        "count": 3
+      },
+      {
+        "id": "vik_muniz",
+        "label": "Vik Muniz",
+        "count": 2
+      },
+      {
+        "id": "wifredo_lam",
+        "label": "Wifredo Lam",
+        "count": 3
+      },
+      {
+        "id": "wilfredo_lam",
+        "label": "Wilfredo Lam",
+        "count": 1
+      },
+      {
+        "id": "wilson_diaz",
+        "label": "Wilson Díaz",
+        "count": 3
+      },
+      {
+        "id": "xupet_negre_ache_vallejo_conjuro",
+        "label": "XUPET NEGRE & ACHE VALLEJO CONJURO",
+        "count": 1
+      },
+      {
+        "id": "yairo_mejia",
+        "label": "YAIRO MEJIA",
+        "count": 1
+      },
+      {
+        "id": "yutaka_toyota",
+        "label": "Yutaka Toyota",
+        "count": 1
+      }
+    ],
+    "tecnica_grupo": [
+      {
+        "id": "Acrílico",
+        "label": "Acrílico"
+      },
+      {
+        "id": "Acuarela",
+        "label": "Acuarela"
+      },
+      {
+        "id": "Carboncillo",
+        "label": "Carboncillo"
+      },
+      {
+        "id": "Cerámica",
+        "label": "Cerámica"
+      },
+      {
+        "id": "Collage",
+        "label": "Collage"
+      },
+      {
+        "id": "Dibujo a lápiz",
+        "label": "Dibujo a lápiz"
+      },
+      {
+        "id": "Escultura u objeto",
+        "label": "Escultura u objeto"
+      },
+      {
+        "id": "Fotografía",
+        "label": "Fotografía"
+      },
+      {
+        "id": "Grabado",
+        "label": "Grabado"
+      },
+      {
+        "id": "Impresión",
+        "label": "Impresión"
+      },
+      {
+        "id": "Litografía",
+        "label": "Litografía"
+      },
+      {
+        "id": "Otra técnica documentada",
+        "label": "Otra técnica documentada"
+      },
+      {
+        "id": "Pastel",
+        "label": "Pastel"
+      },
+      {
+        "id": "Serigrafía",
+        "label": "Serigrafía"
+      },
+      {
+        "id": "Textil",
+        "label": "Textil"
+      },
+      {
+        "id": "Tinta",
+        "label": "Tinta"
+      },
+      {
+        "id": "Técnica mixta",
+        "label": "Técnica mixta"
+      },
+      {
+        "id": "Óleo",
+        "label": "Óleo"
+      }
+    ],
+    "soporte": [
+      {
+        "id": "Cartón",
+        "label": "Cartón"
+      },
+      {
+        "id": "Cerámica",
+        "label": "Cerámica"
+      },
+      {
+        "id": "Lienzo",
+        "label": "Lienzo"
+      },
+      {
+        "id": "Madera",
+        "label": "Madera"
+      },
+      {
+        "id": "Metal",
+        "label": "Metal"
+      },
+      {
+        "id": "Papel",
+        "label": "Papel"
+      },
+      {
+        "id": "Tela",
+        "label": "Tela"
+      }
+    ],
+    "tipo_objeto": [
+      {
+        "id": "Escultura u objeto",
+        "label": "Escultura u objeto"
+      },
+      {
+        "id": "Fotografía",
+        "label": "Fotografía"
+      },
+      {
+        "id": "Obra bidimensional",
+        "label": "Obra bidimensional"
+      },
+      {
+        "id": "Obra gráfica",
+        "label": "Obra gráfica"
+      },
+      {
+        "id": "Textil",
+        "label": "Textil"
+      }
+    ],
+    "precision_anio_obra": [
+      {
+        "id": "aproximado",
+        "label": "Aproximado"
+      },
+      {
+        "id": "atribuido_catalogo",
+        "label": "Atribuido en el catálogo"
+      },
+      {
+        "id": "decada_o_periodo",
+        "label": "Década o período"
+      },
+      {
+        "id": "exacto_publicado",
+        "label": "Exacto"
+      },
+      {
+        "id": "intervalo",
+        "label": "Intervalo de años"
+      },
+      {
+        "id": "no_publicado",
+        "label": "No publicado"
+      },
+      {
+        "id": "sin_fecha",
+        "label": "Sin fecha"
+      }
+    ],
+    "base_dimensiones": [
+      {
+        "id": "imagen",
+        "label": "Imagen"
+      },
+      {
+        "id": "obra_sin_ejes",
+        "label": "Obra, sin ejes indicados"
+      },
+      {
+        "id": "orden_fuente_sin_ejes",
+        "label": "Orden de la fuente, sin ejes indicados"
+      },
+      {
+        "id": "papel",
+        "label": "Papel"
+      },
+      {
+        "id": "sin_etiqueta",
+        "label": "Medidas sin etiqueta"
+      }
+    ]
+  },
+  "numeric": [
+    {
+      "name": "anio_venta",
+      "center": 2023.0,
+      "scale": 1.0,
+      "lower": 2020.0,
+      "upper": 2024.0,
+      "knots": [
+        -1.0,
+        0.0
+      ],
+      "has_missing": false
+    },
+    {
+      "name": "anio_obra",
+      "center": 1981.0,
+      "scale": 25.0,
+      "lower": 1917.66,
+      "upper": 2022.0,
+      "knots": [
+        -0.36,
+        0.0,
+        0.64
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "edad_obra_venta",
+      "center": 41.5,
+      "scale": 25.75,
+      "lower": 1.0,
+      "upper": 104.66999999999996,
+      "knots": [
+        -0.6310679611650486,
+        0.0,
+        0.36893203883495146
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_dim1_cm",
+      "center": 3.828641396489095,
+      "scale": 0.7404000654104905,
+      "lower": 2.1972245773362196,
+      "upper": 5.183664856361734,
+      "knots": [
+        -0.5330283051570852,
+        0.0,
+        0.4669716948429148
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_dim2_cm",
+      "center": 3.828641396489095,
+      "scale": 0.757685701697516,
+      "lower": 2.0972202227449035,
+      "upper": 5.018205457492584,
+      "knots": [
+        -0.5641442274406073,
+        0.0,
+        0.43585577255939273
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_dim3_cm",
+      "center": 2.7244451125137052,
+      "scale": 0.737598943130779,
+      "lower": 0.9378231820824857,
+      "upper": 4.141810380826518,
+      "knots": [
+        -0.4427200482816257,
+        0.0,
+        0.5572799517183743
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_diametro_cm",
+      "center": 3.828641396489095,
+      "scale": 1.251154688270944,
+      "lower": 1.8745094030184195,
+      "upper": 4.241640464744525,
+      "knots": [
+        -0.966678137515401,
+        0.0,
+        0.03332186248459896
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_edicion_total",
+      "center": 4.61512051684126,
+      "scale": 0.9836333291467279,
+      "lower": 1.3862943611198906,
+      "upper": 6.413899729878594,
+      "knots": [
+        -0.8163238033910386,
+        0.0,
+        0.18367619660896142
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "log_area_rectangular_cm2",
+      "center": 7.640603826393634,
+      "scale": 1.4117717013282949,
+      "lower": 4.486775901612039,
+      "upper": 9.944514450165446,
+      "knots": [
+        -0.5929418814654626,
+        0.0,
+        0.4070581185345374
+      ],
+      "has_missing": true
+    },
+    {
+      "name": "relacion_lados",
+      "center": 1.3636363636363635,
+      "scale": 0.25308641975308643,
+      "lower": 1.0,
+      "upper": 6.413333333333333,
+      "knots": [
+        -0.4611973392461194,
+        0.0,
+        0.5388026607538806
+      ],
+      "has_missing": true
+    }
+  ],
+  "categories": {
+    "artista": [
+      "adolfo_bernal",
+      "alberto_arboleda",
+      "alberto_riano",
+      "alejandro_gomez_leal",
+      "alejandro_obregon",
+      "alejandro_sanchez",
+      "alfonso_quijano",
+      "alfonso_quijano_acero",
+      "alfonso_ramirez_fajardo",
+      "alfredo_ramos_martinez",
+      "alipio_jaramillo",
+      "alvaro_barrios",
+      "alvaro_herran",
+      "alvaro_marin",
+      "ana_mercedes_hoyos",
+      "andres_montoya_toxicomano",
+      "andres_toxicomano_callejero_montoya_morales",
+      "andy_warhol",
+      "antoni_tapies",
+      "antonio_barrera",
+      "antonio_caro",
+      "antonio_grass",
+      "antonio_henrique_amaral",
+      "antonio_samudio",
+      "armando_morales",
+      "armando_villegas",
+      "augusto_rendon",
+      "autor_desconocido",
+      "beatriz_daza",
+      "beatriz_gonzalez",
+      "bernardo_salcedo",
+      "carlos_castro",
+      "carlos_correa",
+      "carlos_cruz_diez",
+      "carlos_granada",
+      "carlos_jacanamijoy",
+      "carlos_rojas",
+      "carlos_salas",
+      "carlos_salazar",
+      "carmen_herrera",
+      "cecilia_porras",
+      "dario_morales",
+      "david_manzur",
+      "debora_arango",
+      "delcy_morelos",
+      "despues_de_pablo_picasso",
+      "dicken_castro",
+      "domingo_izquierdo",
+      "domingo_moreno_otero",
+      "edgar_negret",
+      "eduardo_ramirez_villamizar",
+      "elsa_zambrano",
+      "emilio_sanchez",
+      "emma_reyes",
+      "enrique_grau",
+      "erwin_kraus",
+      "ever_astudillo",
+      "fanny_sanin",
+      "feliza_bursztyn",
+      "fernando_botero",
+      "fernando_de_szyszlo",
+      "fernell_franco",
+      "francisco_fernandez",
+      "freda_sargent",
+      "gonzalo_ariza",
+      "guillermo_wiedemann",
+      "gustavo_zalamea",
+      "hernan_diaz",
+      "hernando_del_villar",
+      "hernando_momo_del_villar",
+      "hernando_tejada",
+      "hugo_martinez",
+      "hugo_zapata",
+      "humberto_chaves",
+      "humberto_valencia_chavez",
+      "ignacio_gomez_jaramillo",
+      "jaime_avila",
+      "jaime_franco",
+      "jaime_tarazona",
+      "jesus_maria_zamora",
+      "jesus_rafael_soto",
+      "jim_amaral",
+      "joan_miro",
+      "johanna_calle",
+      "john_castles",
+      "jonier_marin",
+      "jorge_mantilla_caballero",
+      "jorge_ortiz",
+      "jorge_riveros",
+      "jose_alejandro_restrepo",
+      "juan_antonio_roda",
+      "juan_camilo_uribe",
+      "julio_le_parc",
+      "leonel_gongora",
+      "leonor_alarcon",
+      "leopoldo_richter",
+      "lorenzo_jaramillo",
+      "louise_nevelson",
+      "luciano_jaramillo",
+      "lucy_tejada",
+      "luis_a_solari",
+      "luis_alberto_acuna",
+      "luis_caballero",
+      "luis_fernando_pelaez",
+      "luis_luna",
+      "luis_nunez_borda",
+      "luis_roldan",
+      "manolo_vellojin",
+      "manuel_hernandez",
+      "marcial_alegria",
+      "marco_ospina",
+      "marco_tobon_mejia",
+      "marco_tulio_villalobos",
+      "maria_de_la_paz_jaramillo",
+      "maria_teresa_hincapie",
+      "maria_thereza_negreiros",
+      "maripaz_jaramillo",
+      "marlene_hoffmann",
+      "miguel_angel_rojas",
+      "mirta_cerra_herrera",
+      "nadin_ospina",
+      "nirma_zarate",
+      "noe_leon",
+      "nohemi_perez",
+      "norman_mejia",
+      "olga_de_amaral",
+      "omar_rayo",
+      "oscar_munoz",
+      "oscar_rodriguez_naranjo",
+      "oswaldo_guayasamin",
+      "pedro_alcantara",
+      "pedro_nel_gomez",
+      "pedro_ruiz",
+      "rafael_echeverri",
+      "rafael_echeverry",
+      "rafael_gomez_barros",
+      "rene_magritte",
+      "rene_portocarrero",
+      "ricardo_acevedo_bernal",
+      "ricardo_borrero",
+      "ricardo_borrero_alvarez",
+      "ricardo_gomez_campuzano",
+      "richard_smith",
+      "roberto_fabelo",
+      "roberto_matta",
+      "roberto_paramo",
+      "roberto_pizano",
+      "romulo_rozo",
+      "rufino_tamayo",
+      "sair_garcia",
+      "salvador_dali",
+      "santiago_cardenas",
+      "saturnino_ramirez",
+      "shepard_fairey_obey",
+      "sofia_urrutia",
+      "umberto_giangrandi",
+      "victor_vasarely",
+      "vik_muniz",
+      "wifredo_lam",
+      "wilson_diaz"
+    ],
+    "tecnica_grupo": [
+      "Acrílico",
+      "Acuarela",
+      "Carboncillo",
+      "Cerámica",
+      "Collage",
+      "Dibujo a lápiz",
+      "Escultura u objeto",
+      "Fotografía",
+      "Grabado",
+      "Impresión",
+      "Litografía",
+      "Otra técnica documentada",
+      "Pastel",
+      "Serigrafía",
+      "Textil",
+      "Tinta",
+      "Técnica mixta",
+      "Óleo"
+    ],
+    "soporte": [
+      "Cartón",
+      "Cerámica",
+      "Lienzo",
+      "Madera",
+      "Metal",
+      "Papel",
+      "Tela",
+      "__sin_informacion__"
+    ],
+    "tipo_objeto": [
+      "Escultura u objeto",
+      "Fotografía",
+      "Obra bidimensional",
+      "Obra gráfica",
+      "Textil"
+    ],
+    "precision_anio_obra": [
+      "aproximado",
+      "atribuido_catalogo",
+      "decada_o_periodo",
+      "exacto_publicado",
+      "intervalo",
+      "no_publicado",
+      "sin_fecha"
+    ],
+    "base_dimensiones": [
+      "imagen",
+      "obra_sin_ejes",
+      "orden_fuente_sin_ejes",
+      "papel",
+      "sin_etiqueta"
+    ]
+  },
+  "coefficients": [
+    15.096375065263555,
+    0.19317992874766834,
+    -0.08747453355447697,
+    -0.04617439378309522,
+    -0.030707568927187793,
+    -0.3468444466679606,
+    0.16735931117059794,
+    0.05895550857450193,
+    0.010893305483339909,
+    -0.06775706643739497,
+    -0.016536251557141547,
+    0.19078404751325226,
+    -0.23559773919395147,
+    0.010893305483358836,
+    0.21226947620102157,
+    -0.10245996546291505,
+    0.07982866307036006,
+    0.19649891935539862,
+    -0.043084360901537166,
+    0.10458997445864988,
+    0.030286419607526625,
+    0.18295280564443625,
+    -0.01171258158890977,
+    -0.04308436090153721,
+    0.05586779902168029,
+    0.06481889096186177,
+    0.03044831388486318,
+    0.03449992986504938,
+    -0.09693117330662124,
+    0.3048226938041007,
+    0.2205214963276334,
+    0.05428711741127737,
+    0.04889124651308381,
+    0.11310455931067097,
+    -0.21802321507357594,
+    0.16719018881013645,
+    0.12095605977502466,
+    -0.09284007584161288,
+    0.2632146579094022,
+    0.14086054214871435,
+    -0.09328818742807464,
+    -0.017338193782234477,
+    0.07176228046338863,
+    -0.043084360901537784,
+    -0.17842944768269228,
+    0.12451433989087511,
+    0.040228078088027655,
+    0.04333561343351038,
+    -0.04308436090153736,
+    0.30341288718883186,
+    0.2893077953526821,
+    -0.36232649549784385,
+    -0.464586278648867,
+    1.3068722227812284,
+    -0.0625826849997045,
+    -0.10161022267374085,
+    -0.17313068770227477,
+    -0.185823082771488,
+    -0.10072707711223773,
+    -0.1068790464981887,
+    0.2967667679034015,
+    -0.15200655144100558,
+    -0.2940948291744427,
+    0.2510212048576338,
+    -0.18997895421877642,
+    -0.1156624914534833,
+    -0.042982517204419174,
+    0.053037943430552695,
+    -0.26083588958648996,
+    0.8155884543740483,
+    -0.3545893413222201,
+    0.33927340121336047,
+    -0.16675822560342782,
+    0.15032687313299095,
+    -0.06728711444344573,
+    -0.3744570312210891,
+    -0.3727069957914946,
+    0.1268328273853528,
+    0.5805329002017755,
+    0.2966773018525383,
+    -0.04616305340928558,
+    -0.029949538357282268,
+    0.5722745178054016,
+    -0.08291246843191134,
+    0.1258013388452839,
+    0.4946137063066043,
+    -0.3155980565927364,
+    -0.19661012393363902,
+    0.18470124089461798,
+    0.2401484305647934,
+    0.13876071125937137,
+    0.5215518154791281,
+    0.44037248852589433,
+    0.29079516189079,
+    -0.09317240183162145,
+    -0.02448770731956195,
+    -0.010599764576441937,
+    -0.1432726414454911,
+    0.38976016245929057,
+    0.22683955401857364,
+    -0.2038243439961104,
+    0.0943720946341739,
+    0.34887614943239453,
+    0.19133341161465922,
+    0.010410022682193877,
+    -0.15349944037808055,
+    0.37208209623481653,
+    0.19213735844372348,
+    1.2242479579735666,
+    0.3291538834721709,
+    0.30378656763365824,
+    -0.15953138662975253,
+    0.0370278716768209,
+    -0.07705069968616977,
+    0.4595220273335756,
+    -0.24082446890393167,
+    -0.24344459083087164,
+    -0.24866706968588925,
+    -0.09903404150422424,
+    -0.009628720519615839,
+    -0.15232940082804358,
+    0.07296799021091877,
+    -0.21316456576451778,
+    -0.24697446431295905,
+    -0.06278839992619142,
+    -0.23588160143529222,
+    -0.08901549745388165,
+    -0.18987250477120668,
+    0.18444770436997387,
+    0.2826903540144498,
+    -0.3349815593039176,
+    0.4605864153432514,
+    0.07610417672259032,
+    -0.2554897976124744,
+    -0.060140922502336075,
+    -0.25346097192485734,
+    -0.012208510057576278,
+    -0.20045099968149685,
+    0.1622634770188826,
+    -0.24083896021444143,
+    0.18788481149958128,
+    0.24722517654207835,
+    -0.19178994286823992,
+    -0.22221812806369795,
+    0.15350825893135167,
+    -0.03804063308098088,
+    0.024017475820219212,
+    -0.3148179082101262,
+    -0.11849343759647932,
+    -0.17872987823437206,
+    -0.10814665117731856,
+    0.3144807868856318,
+    0.1374521771503828,
+    -0.15708119173779886,
+    -0.10845027341749022,
+    -0.17521021569445477,
+    0.15010806294030085,
+    0.1218561176705131,
+    -0.18464882037346603,
+    0.1786106967614464,
+    -0.1640445694965971,
+    -0.4910159099599118,
+    -0.10071376426836813,
+    0.1327761003314046,
+    -0.17218309651419292,
+    0.11447455350509436,
+    0.24359368975856513,
+    0.42766229427245844,
+    -0.1592840021344863,
+    -0.05380535025235557,
+    -0.10302188419711535,
+    0.25098256717512285,
+    -0.15398797512781867,
+    0.02789236199607702,
+    0.8897812226920127,
+    0.3276508678936445,
+    -0.154523822054896,
+    -0.1466333233772322,
+    0.2134034598599341,
+    -0.26631779266988465,
+    -0.09974592159981242,
+    0.44705679012923727,
+    -0.07843974646531161,
+    0.09664110133303894,
+    0.01849157603890774,
+    0.17407476385685136,
+    -0.048050584721410994,
+    -0.03395064685721038,
+    0.06606589433359815,
+    0.03954653280279278,
+    0.17050512794357237,
+    -0.1069203485473077,
+    -0.06483506288805291,
+    0.22213402291974077,
+    0.15283697549176795,
+    0.07065395785284669,
+    0.22327629383103847,
+    0.24306812201183073,
+    0.08849350266276416,
+    0.2643448313381595,
+    0.03933522666326701,
+    -0.08195484090151263,
+    -0.13015619226988484,
+    0.0711614601727882,
+    -0.2388495506653813,
+    0.030050929081425315,
+    -0.14068949936042122,
+    0.19478884793205473,
+    -0.2269105663904493,
+    0.2500734414625803,
+    0.10086462205577142,
+    0.42864145559293776,
+    -0.015531734896592205,
+    -0.0494244234068771,
+    -0.05956373020979196,
+    0.1273394475641793,
+    -0.15039324155352687,
+    -0.11208915603656322,
+    -0.4165499687487883,
+    -0.06413983066027935,
+    -0.2433314938074485,
+    0.07659619490741447,
+    -0.048761128556146976,
+    0.09691417042369425,
+    -0.021154826339112733,
+    0.09303661903720901,
+    0.0074735831705128675,
+    -0.06325296174405766,
+    -0.015531734896592297,
+    0.1346653815725138,
+    0.10884630742100034,
+    0.07829716786414571,
+    -0.23484400399239905,
+    0.18817234749057915,
+    -0.1963525037152659,
+    0.3053712119881803,
+    0.08303736961731735,
+    0.15621733197241247,
+    -0.6415400840020937,
+    0.0969141704236943,
+    0.05412191498758847,
+    -0.05834517259738409,
+    0.3883626554612467,
+    -0.006670047874269372,
+    -0.1414652766272023,
+    -0.00461991686936253,
+    -0.23138415648117608,
+    0.04843587802143976,
+    0.1008742154568684,
+    -0.2675926322622261,
+    -0.0009598449230601711,
+    0.1816201293752131
+  ],
+  "log_target_bounds": [
+    12.611541086966115,
+    20.617905322399697
+  ]
+}

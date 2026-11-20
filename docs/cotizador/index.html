@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5ee">
+  <meta name="description" content="Estima el precio de remate de una obra de arte en Bogotá, en pesos colombianos.">
+  <title>Cotizador de obras de arte</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell masthead">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"></span>Cotizador de arte</a>
+      <a class="guide-link" href="#como-funciona">Cómo funciona <span aria-hidden="true">↘</span></a>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="titulo">
+      <div>
+        <p class="eyebrow"><span aria-hidden="true"></span> Mercado de subastas · Bogotá</p>
+        <h1 id="titulo">Cotiza una obra de arte</h1>
+        <p class="intro-description">Obtén una estimación de remate en pesos colombianos a partir de las características de la obra.</p>
+      </div>
+      <button class="example-button" id="load-example" type="button" disabled>Probar un ejemplo <span aria-hidden="true">↗</span></button>
+    </section>
+
+    <div class="workspace">
+      <section class="work-card" aria-labelledby="ficha">
+        <header class="work-heading">
+          <h2 id="ficha">Ficha de la obra</h2>
+          <p>Completa el tipo y la técnica. Añade las medidas y los datos que conozcas.</p>
+        </header>
+
+        <form id="quote-form">
+          <fieldset id="form-fields" class="form-fields" disabled>
+            <legend class="sr-only">Datos para la cotización</legend>
+
+            <div class="field">
+              <label for="artist">Artista <span class="optional">Opcional</span></label>
+              <div class="artist-control">
+                <input id="artist" name="artista_id" type="text" list="artist-options" autocomplete="off" maxlength="120" placeholder="Busca o escribe cualquier nombre" aria-describedby="artist-help artist-status">
+                <datalist id="artist-options"></datalist>
+                <button id="save-artist" class="save-button" type="button" hidden>Guardar</button>
+              </div>
+              <p class="hint" id="artist-help">Puedes escribir tu nombre aunque no aparezca en las sugerencias.</p>
+              <p class="hint artist-status" id="artist-status" role="status" hidden></p>
+            </div>
+
+            <div class="field-grid work-properties">
+              <div class="field">
+                <label for="work-type">Tipo de obra</label>
+                <select id="work-type" name="tipo_objeto" required><option value="">Selecciona un tipo</option></select>
+              </div>
+              <div class="field">
+                <label for="technique">Técnica</label>
+                <select id="technique" name="tecnica_grupo" required><option value="">Selecciona una técnica</option></select>
+              </div>
+              <div class="field support-field">
+                <label for="support">Soporte <span class="optional">Opcional</span></label>
+                <select id="support" name="soporte"><option value="">Sin especificar</option></select>
+              </div>
+            </div>
+
+            <fieldset class="dimensions">
+              <legend>Dimensiones <span class="optional">Opcional</span></legend>
+              <div class="shape-selector" aria-label="Modo de ingresar las medidas">
+                <label><input type="radio" name="shape" value="sides" checked><span>Lados (cm)</span></label>
+                <label><input type="radio" name="shape" value="round"><span>Diámetro (cm)</span></label>
+              </div>
+              <div class="field-grid dimension-grid" id="sides-fields">
+                <div class="field">
+                  <label for="dimension-one">Medida 1</label>
+                  <input id="dimension-one" name="dim1_cm" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 50" aria-describedby="dimensions-help">
+                </div>
+                <div class="field">
+                  <label for="dimension-two">Medida 2</label>
+                  <input id="dimension-two" name="dim2_cm" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 70" aria-describedby="dimensions-help">
+                </div>
+              </div>
+              <div class="dimension-grid" id="round-fields" hidden>
+                <div class="field">
+                  <label for="diameter">Diámetro</label>
+                  <input id="diameter" name="diametro_cm" type="number" inputmode="decimal" min="0.01" step="any" placeholder="Ej. 50" disabled>
+                </div>
+              </div>
+              <p class="hint" id="dimensions-help">Si tienes una ficha, conserva el orden de sus medidas.</p>
+            </fieldset>
+
+            <details id="more-details" class="extra-details">
+              <summary>Más datos de la obra <span class="optional">Opcional</span></summary>
+              <div class="field-grid details-grid">
+                <div class="field">
+                  <label for="work-year">Año de creación</label>
+                  <input id="work-year" name="anio_obra" type="number" min="1" step="1" inputmode="numeric" placeholder="Ej. 2020">
+                </div>
+                <div class="field">
+                  <label for="year-precision">Precisión del año</label>
+                  <select id="year-precision" name="precision_anio_obra" disabled></select>
+                </div>
+                <div class="field">
+                  <label for="edition-size">Tamaño de la edición</label>
+                  <input id="edition-size" name="edicion_total" type="number" min="1" step="1" inputmode="numeric" placeholder="Ej. 25" aria-describedby="edition-help">
+                  <p class="hint" id="edition-help">Número total de ejemplares de la edición.</p>
+                </div>
+                <div class="field">
+                  <label for="third-dimension">Tercera medida (cm)</label>
+                  <input id="third-dimension" name="dim3_cm" type="number" min="0.01" step="any" inputmode="decimal" placeholder="Ej. 10">
+                </div>
+                <div class="field">
+                  <label for="dimension-basis">Qué se midió</label>
+                  <select id="dimension-basis" name="base_dimensiones" disabled><option value="">Sin especificar</option></select>
+                </div>
+              </div>
+            </details>
+
+            <div class="form-actions">
+              <button class="calculate-button" type="submit">Calcular estimación <span aria-hidden="true">→</span></button>
+              <button class="clear-button" id="clear-form" type="button">Limpiar</button>
+            </div>
+          </fieldset>
+          <p id="app-message" class="app-message" role="status">Cargando el modelo de precios…</p>
+          <noscript><p class="app-message">Activa JavaScript para calcular la estimación.</p></noscript>
+        </form>
+      </section>
+
+      <aside class="result-card" id="result" aria-labelledby="result-title" tabindex="-1">
+        <div class="result-heading">
+          <h2 id="result-title">Estimación de remate</h2>
+          <span class="currency-tag">COP</span>
+        </div>
+
+        <div class="study" aria-hidden="true">
+          <div class="study-ruler study-ruler-horizontal"></div>
+          <div class="study-ruler study-ruler-vertical"></div>
+          <div id="study-art" class="study-art"><span></span><span></span><span></span></div>
+          <span class="study-size" id="study-size"></span>
+        </div>
+
+        <div class="quote" role="status" aria-atomic="true">
+          <p class="quote-status" id="quote-status">Tu estimación aparecerá aquí</p>
+          <p class="quote-price" id="quote-price" hidden></p>
+          <p class="quote-caption" id="quote-caption">Completa la ficha y pulsa Calcular estimación.</p>
+          <p class="quote-artist" id="quote-artist" hidden></p>
+        </div>
+
+        <p class="result-note">El precio de martillo excluye la comisión del comprador. Para cotizar un encargo o una venta directa se necesitan datos de esos mercados.</p>
+      </aside>
+    </div>
+
+    <section id="como-funciona" class="guide" aria-labelledby="guide-title">
+      <div>
+        <h2 id="guide-title">Cómo funciona</h2>
+        <p id="training-info">El modelo utiliza remates históricos de Bogotá y las características que indicas. Las estimaciones son orientativas.</p>
+      </div>
+      <div class="guide-item">
+        <h3>Si el artista es nuevo</h3>
+        <p>El modelo estima con las características de la obra. Guardar un nombre en este navegador te permite reutilizarlo. Para que el modelo aprenda de las ventas de ese artista, hace falta incorporar sus registros y volver a entrenarlo.</p>
+      </div>
+      <div class="guide-item">
+        <h3>Precisión observada</h3>
+        <p>En 179 lotes de 2026, el error porcentual absoluto mediano fue del 54&nbsp;%. Entre los 31 lotes de artistas nuevos para el modelo, fue del 85&nbsp;%.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-content">
+      <span>Arte Precio Colombia</span>
+      <a href="https://github.com/joaquinrovi/arte-precio-colombia#cotizador-web">Proyecto y metodología <span aria-hidden="true">↗</span></a>
+    </div>
+  </footer>
+</body>
+</html>

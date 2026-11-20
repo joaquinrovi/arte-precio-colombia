@@ -1,8 +1,48 @@
 # Precio de arte en Colombia
 
-Proyecto local para investigar qué características permiten predecir el **precio de martillo o remate en COP nominales por lote adjudicado**, sin comisión del comprador.
+Proyecto para investigar qué características permiten predecir el **precio de martillo o remate en COP nominales por lote adjudicado**, sin comisión del comprador.
 
-La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El objetivo es demostrar capacidad predictiva fuera del entrenamiento. El repositorio inicial todavía no acredita un modelo de alto rendimiento.
+La base original contiene **1.838 ventas, 61 columnas y 28 subastas**. El proyecto evalúa la capacidad predictiva en ventas posteriores a las de entrenamiento.
+
+## Cotizador web
+
+[Abrir el cotizador](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/)
+
+Estima en COP el **precio de remate** de un lote adjudicado en subastas de Bogotá, antes de la comisión del comprador. Es una referencia experimental para ese mercado. Los encargos, los honorarios de un artista y las ventas directas quedan fuera de la muestra.
+
+Puedes escribir cualquier nombre o dejar el campo de artista vacío. Un artista con suficiente historial activa su efecto dentro del modelo. Un artista nuevo o con un solo lote de entrenamiento recibe una estimación basada en las demás características. Guardar un nombre lo añade a las sugerencias de ese navegador. Para aprender un efecto propio se requieren ventas observadas y un nuevo entrenamiento.
+
+El cotizador ejecuta en el navegador el modelo aditivo con splines de `benchmark_2025_verificado`. Técnica, soporte y tipo de obra, artista y dimensiones fueron los tres grupos de mayor aporte predictivo en la validación de 2025. El formulario permite añadir datos como año de la obra y tiraje. El cálculo se realiza localmente en el navegador y el sitio sirve solo los parámetros de inferencia y el catálogo de opciones.
+
+### Resultados en la prueba temporal
+
+El modelo, entrenado con datos hasta 2024, se eligió con los lotes de 2025. La prueba reservada de 2026 reunió 179 lotes de dos subastas de Bogotá Auctions.
+
+| Grupo de lotes | Lotes | Error porcentual absoluto mediano | Estimaciones dentro de ±25 % |
+| --- | ---: | ---: | ---: |
+| Total | 179 | 54,0 % | 27,9 % |
+| Con efecto de artista | 127 | 46,2 % | 33,1 % |
+| Sin efecto de artista | 52 | 84,5 % | 15,4 % |
+| De los anteriores, artistas ausentes del entrenamiento | 31 | 85,0 % | 19,4 % |
+
+El MAE global fue de $7.762.911 COP y el R² fue de 0,192. Los porcentajes describen el error observado en esos lotes. La aplicación presenta una estimación puntual, con un aviso sobre el mayor error observado cuando el modelo carece de un efecto propio para el artista.
+
+### Ejecutar y verificar localmente
+
+Sirve `docs/` mediante HTTP y abre [localhost:8000/cotizador/](http://localhost:8000/cotizador/).
+
+```powershell
+python -m http.server 8000 --directory docs --bind 127.0.0.1
+```
+
+Para regenerar `model.json` desde la corrida local congelada y comprobar la paridad con Python, ejecuta desde la raíz con el entorno Python del proyecto y Node.js disponibles.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/export_web_model.py --run benchmark_2025_verificado --check-parity
+node --test tests/test_web_prediction.mjs
+```
+
+GitHub Pages publica la carpeta `docs/` de la rama `main`.
 
 ## Empezar en este equipo
 
@@ -74,8 +114,9 @@ Ese resultado deja de ser independiente si después se utiliza para ajustar el m
 | `data/dictionary.json` | Definiciones de las columnas originales. |
 | `reports/runs/` | Métricas y predicciones de cada experimento local. |
 | `artifacts/` | Modelos y parámetros de cada experimento local. |
-| `tests/` | Pruebas de datos, separación, features y modelos. |
-| `.github/workflows/tests.yml` | Pruebas automáticas preparadas para el futuro remoto. |
+| `docs/cotizador/` | Formulario estático y motor de inferencia en JavaScript. |
+| `tests/` | Pruebas de datos, separación, features, modelos e inferencia web. |
+| `.github/workflows/tests.yml` | Pruebas automáticas en GitHub Actions. |
 
 Consulta la [metodología](docs/metodologia_modelado.md), el [plan de desarrollo](docs/plan_desarrollo.md), la [ficha de datos](docs/datos.md) y los [pasos para GitHub](docs/github.md).
 

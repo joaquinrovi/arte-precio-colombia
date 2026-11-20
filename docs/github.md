@@ -6,7 +6,7 @@ El repositorio se prepara primero de forma local, en la rama `main`. No es neces
 
 1. Elegir el propietario, el nombre y la visibilidad del repositorio en GitHub.
 2. Crear un repositorio vacío, sin README, licencia ni `.gitignore` adicionales, para mantener el historial local como punto de partida.
-3. Revisar los archivos que se publicarán con `git ls-files`. El Excel original, las tablas procesadas, el entorno virtual, los modelos entrenados y los resultados generados deben permanecer excluidos.
+3. Revisar los archivos que se publicarán con `git ls-files`. El Excel original, las tablas procesadas, el entorno virtual y los artefactos e informes locales de entrenamiento deben permanecer excluidos. El cotizador incluye un JSON con los parámetros necesarios para ejecutar la predicción en el navegador.
 
 La configuración inicial no concede una licencia de redistribución a las páginas consultadas ni a los datos recopilados. El código y los datos requieren decisiones de licencia separadas; no se ha elegido una licencia abierta en nombre del propietario.
 
