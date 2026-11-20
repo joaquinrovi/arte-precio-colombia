@@ -260,7 +260,7 @@ async function initialize() {
     populateArtistOptions();
     workYear.max = String(saleYear);
     const [fromYear, toYear] = metadata.training_years;
-    byId("training-info").textContent = `El modelo usa ${measurement.format(metadata.training_rows)} remates históricos de Bogotá entre ${fromYear} y ${toYear}, en pesos nominales. Usa el año de consulta para calcular la edad de la obra.`;
+    byId("training-info").textContent = `El modelo predictivo usa ${measurement.format(metadata.training_rows)} remates históricos de Bogotá entre ${fromYear} y ${toYear}, en pesos nominales. Usa el año de consulta para calcular la edad de la obra.`;
 
     saveArtistButton.addEventListener("click", toggleSavedArtist);
     exampleButton.addEventListener("click", loadExample);
