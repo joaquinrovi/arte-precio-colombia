@@ -14,7 +14,7 @@ El cotizador web permite estimar precios de remate y preparar presupuestos para 
 
 La técnica de Encargos está fijada en **Óleo**. Elige el tipo de encargo e indica las medidas en centímetros. Pulsa **Buscar precios** para consultar las referencias o **Limpiar** para empezar otra consulta. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
 
-La referencia experimental de galería aparece primero. Abre **Ver ofertas de encargo** para consultar las tarifas y fichas de los proveedores cuando haya coincidencias.
+La referencia experimental de galería aparece en los resultados. Si hay coincidencias, puedes desplegar las tarifas y fichas de los proveedores en **Ver ofertas de encargo**, al pie de la página.
 
 | Resultado | Qué muestra | Cómo se suma el marco |
 | --- | --- | --- |

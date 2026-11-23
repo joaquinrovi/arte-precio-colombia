@@ -64,8 +64,15 @@
 .offer-details dt, .offer-note { color: var(--muted); }
 .offer-details dd, .offer-note, .offer-frame-total { margin: 0; overflow-wrap: anywhere; }
 .offer-frame-total { padding-top: 8px; border-top: 1px solid var(--rule); }
-.offer-source, .guide-item a { color: var(--olive); text-underline-offset: 3px; }
-.offer-source { width: fit-content; font-size: .86rem; font-weight: 680; }
+.guide-item a { color: var(--olive); text-underline-offset: 3px; }
+.offer-source, .offer-disclosure .offer-source {
+  width: fit-content;
+  color: var(--olive);
+  font-size: .86rem;
+  font-weight: 680;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 @media (max-width: 790px) {
   .reference-workspace { grid-template-columns: minmax(0, 1fr); }
