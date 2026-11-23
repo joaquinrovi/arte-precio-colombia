@@ -1,6 +1,6 @@
 # Precio de arte en Colombia
 
-Este proyecto busca estudiar el precio de remate de obras de arte en subastas de Bogotá. El cotizador web también ayuda a preparar encargos con tarifas publicadas por proveedores en Colombia, una referencia experimental de galería para óleo y una calculadora de costos. Se usan modelos predictivos de aprendizaje automático para estimar en función de una serie de variables de las obras de arte, las características y cualidades de la obra artística con mejor poder predictivo a la hora de estimar esos precios. Se tienen en cuenta la optimización de hiper-parámetros para lograr un mejor desempeño en las métricas de error y de rendimiento.
+Este proyecto busca estudiar el precio de remate de obras de arte en subastas de Bogotá. El cotizador web también ayuda a preparar encargos al óleo con tarifas publicadas por proveedores en Colombia, una referencia experimental de galería y una calculadora de costos. Se usan modelos predictivos de aprendizaje automático para estimar en función de una serie de variables de las obras de arte, las características y cualidades de la obra artística con mejor poder predictivo a la hora de estimar esos precios. Se tienen en cuenta la optimización de hiper-parámetros para lograr un mejor desempeño en las métricas de error y de rendimiento.
 
 La base original reúne **1.838 lotes adjudicados de 28 subastas** y contiene **61 columnas**. La evaluación de Remates usa lotes de subastas posteriores a las de entrenamiento.
 
@@ -8,9 +8,9 @@ La base original reúne **1.838 lotes adjudicados de 28 subastas** y contiene **
 
 [Abrir el cotizador](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/)
 
-### Precios de referencia para encargos
+### Precios de referencia para encargos al óleo
 
-Selecciona **Óleo** o **Grafito**, elige el tipo de encargo e indica las medidas en centímetros. Pulsa **Buscar precios** para consultar las referencias o **Limpiar** para empezar otra consulta. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
+La técnica de Encargos está fijada en **Óleo**. Elige el tipo de encargo e indica las medidas en centímetros. Pulsa **Buscar precios** para consultar las referencias o **Limpiar** para empezar otra consulta. [Abrir Encargos](https://joaquinrovi.github.io/arte-precio-colombia/cotizador/encargos/)
 
 La referencia experimental de galería aparece primero. Abre **Ver ofertas de encargo** para consultar las tarifas y fichas de los proveedores cuando haya coincidencias.
 
@@ -19,11 +19,11 @@ La referencia experimental de galería aparece primero. Abre **Ver ofertas de en
 | **Oferta de encargo** | Tarifa publicada de la medida más cercana por proveedor, con hasta 25 % de diferencia en cada lado. Puede incluir el plazo y el estado del marco. Un precio «desde» es un valor inicial. | El costo cotizado se suma cuando la medida es exacta y la oferta indica «Sin enmarcar». |
 | **Referencia experimental de galería** | Estimación del precio de catálogo de La Galería Online para óleo en medidas cubiertas. El modelo predictivo usa el año actual para una obra nueva. El total orientativo siempre incluye el **IVA del 19 %** sobre el subtotal. | El costo cotizado se suma al precio base estimado antes de calcular el IVA. La tarjeta desglosa la base, el marco cuando se indica y el IVA. |
 
-Para probar la cotización, elige **Óleo** y **Retrato de una figura humana**, ingresa **60** de ancho, **80** de alto y **100000** en **Costo cotizado del marco (COP)**. Pulsa **Buscar precios**. El total orientativo es de **$3.644.543 COP**. Se compone de **$2.962.641** de precio base, **$100.000** de marco y **$581.902** de IVA. Con el campo del marco vacío, el total es de **$3.525.543 COP**.
+Para probar la cotización, elige **Retrato de una figura humana**, ingresa **60** de ancho, **80** de alto y **100000** en **Costo cotizado del marco (COP)**. Pulsa **Buscar precios**. El total orientativo es de **$3.644.543 COP**. Se compone de **$2.962.641** de precio base, **$100.000** de marco y **$581.902** de IVA. Con el campo del marco vacío, el total es de **$3.525.543 COP**.
 
 El cálculo toma la referencia de galería como un valor antes de IVA para esta cotización orientativa. En una venta real, el cobro depende de la operación y de si el vendedor es responsable del impuesto. [Tarifa general del IVA](https://normograma.dian.gov.co/dian/compilacion/docs/ley_1819_2016.htm) · [Responsabilidad del IVA](https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_3591_2020.htm)
 
-El modelo de galería se estudió con 335 fichas de 67 artistas. El error en óleo varió según los artistas evaluados. Para retratos en grafito, el aplicativo muestra tarifas publicadas de encargo. Estos valores sirven para orientar una propuesta. [Evaluación del modelo de galería](docs/metodologia_modelado.md#experimento-con-fichas-de-galería)
+El modelo de galería se estudió con 335 fichas de 67 artistas. El error en óleo varió según los artistas evaluados. Estos valores sirven para orientar una propuesta. [Evaluación del modelo de galería](docs/metodologia_modelado.md#experimento-con-fichas-de-galería)
 
 #### Tiempo orientativo de elaboración
 
@@ -45,7 +45,7 @@ Si ya conoces cuánto quieres cobrar por hora, la calculadora suma tu tiempo y t
 2. Si se indica una reserva para imprevistos, aplícala a esa suma.
 3. Si el medio de cobro descuenta una comisión porcentual, aumenta el precio para cubrirla. Redondea el precio hacia arriba a un múltiplo de $1.000 COP.
 
-Incluye ejemplos editables de óleo y grafito. Sus cifras ilustran el cálculo. El presupuesto refleja los supuestos de quien lo prepara y el precio final se acuerda con el cliente.
+Incluye un ejemplo editable de óleo que ilustra el cálculo. El presupuesto refleja los supuestos de quien lo prepara y el precio final se acuerda con el cliente.
 
 ### Estimación de remate
 

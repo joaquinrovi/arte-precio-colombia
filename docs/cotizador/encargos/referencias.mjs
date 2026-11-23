@@ -33,11 +33,6 @@ const frameLabels = {
   sin_indicar: "Sin especificar",
 };
 
-const examples = [
-  ["#example-oil", { technique: "oleo", subject: "obra", width: 60, height: 80 }],
-  ["#example-graphite", { technique: "grafito", subject: "retrato", width: 35, height: 50 }],
-];
-
 function element(tag, text, className) {
   const node = document.createElement(tag);
   if (text) node.textContent = text;
@@ -135,9 +130,7 @@ function showGalleryPrice(price, frameCost) {
 function showGalleryReference(gallery, query, frameCost) {
   let price = null;
   let caption = "La referencia de galería no está disponible en este momento.";
-  if (query.technique === "grafito") {
-    caption = "Para grafito, consulta las tarifas publicadas de encargo. El modelo de galería se usa para óleo.";
-  } else if (gallery) {
+  if (gallery) {
     try {
       const year = new Date().getFullYear();
       price = gallery.estimate(gallery.model, { width: query.width, height: query.height, year });
@@ -155,9 +148,7 @@ function showGalleryReference(gallery, query, frameCost) {
 }
 
 function showOilDuration(query) {
-  durationCard.hidden = query.technique !== "oleo";
-  if (durationCard.hidden) return;
-
+  durationCard.hidden = false;
   const range = oilDurationRange(query.width, query.height);
   durationRange.textContent = range ?? "";
   durationRange.hidden = range === null;
@@ -172,10 +163,10 @@ function enableSearch(offers, date, gallery) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     showError();
-    const { technique, subject, width, height, frameCost } = Object.fromEntries(new FormData(form));
+    const { subject, width, height, frameCost } = Object.fromEntries(new FormData(form));
     try {
       const query = {
-        technique,
+        technique: "oleo",
         subject,
         width: Number(width),
         height: Number(height),
@@ -190,7 +181,7 @@ function enableSearch(offers, date, gallery) {
       showOilDuration(query);
       showStatus(matches.length || !galleryPrice.hidden
         ? ""
-        : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.");
+        : "No encontramos ofertas comparables de óleo para este tipo de encargo y medidas.");
       searched = true;
       results.focus({ preventScroll: true });
       results.scrollIntoView({ block: "nearest" });
@@ -224,13 +215,12 @@ function enableSearch(offers, date, gallery) {
     showStatus(initialStatus);
   });
 
-  for (const [id, inputs] of examples) {
-    document.querySelector(id).addEventListener("click", () => {
-      form.reset();
-      for (const [key, value] of Object.entries(inputs)) form.elements.namedItem(key).value = value;
-      form.requestSubmit();
-    });
-  }
+  document.querySelector("#example-oil").addEventListener("click", () => {
+    form.reset();
+    form.elements.namedItem("width").value = 60;
+    form.elements.namedItem("height").value = 80;
+    form.requestSubmit();
+  });
 
   fields.disabled = false;
   showStatus(initialStatus);

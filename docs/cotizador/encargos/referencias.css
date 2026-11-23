@@ -13,6 +13,9 @@
 .reference-fields { display: flex; flex-wrap: wrap; }
 .reference-fields .field { flex: 1 1 7rem; }
 .reference-fields .field:last-child { flex: 2 1 15.5rem; }
+.fixed-technique { margin: 0; }
+.fixed-technique strong { font-size: .83rem; font-weight: 680; line-height: 1.2; }
+.fixed-technique span { padding: 10px 0; font-size: .9rem; }
 .reference-frame { border-top: 1px solid var(--rule); padding-top: 14px; }
 .reference-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; }
 .reference-examples p { width: 100%; }

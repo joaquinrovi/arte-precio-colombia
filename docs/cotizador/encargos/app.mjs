@@ -20,18 +20,8 @@ const values = {
   net: byId("net-value"),
 };
 
-const examples = [
-  {
-    button: byId("example-oil"),
-    label: "óleo",
-    inputs: { materials: 80000, extras: 20000, hours: 12, hourlyRate: 25000, reservePercent: 10 },
-  },
-  {
-    button: byId("example-graphite"),
-    label: "grafito",
-    inputs: { materials: 28000, extras: 12000, hours: 6, hourlyRate: 20000, reservePercent: 10 },
-  },
-];
+const oilExampleButton = byId("example-oil");
+const oilExampleInputs = { materials: 80000, extras: 20000, hours: 12, hourlyRate: 25000, reservePercent: 10 };
 
 const money = new Intl.NumberFormat("es-CO", {
   style: "currency",
@@ -52,11 +42,11 @@ function clearResult(message = defaultStatus) {
   breakdown.hidden = true;
 }
 
-function showQuote(quote, hasFee, example) {
+function showQuote(quote, hasFee, isExample) {
   price.textContent = money.format(quote.quote);
   price.hidden = false;
-  status.textContent = example
-    ? `Ejemplo ilustrativo de ${example}. Puedes cambiar los valores.`
+  status.textContent = isExample
+    ? "Ejemplo ilustrativo de óleo. Puedes cambiar los valores."
     : "Precio redondeado hacia arriba a múltiplos de $1.000.";
 
   for (const [key, value] of Object.entries(values)) {
@@ -67,14 +57,14 @@ function showQuote(quote, hasFee, example) {
   netLine.hidden = !hasFee;
 }
 
-function calculateQuote(example) {
+function calculateQuote(isExample = false) {
   const inputs = Object.fromEntries(new FormData(form));
   for (const [key, value] of Object.entries(inputs)) {
     inputs[key] = value === "" ? undefined : Number(value);
   }
 
   try {
-    showQuote(calculateCommission(inputs), inputs.feePercent > 0, example);
+    showQuote(calculateCommission(inputs), inputs.feePercent > 0, isExample);
     showError();
     return true;
   } catch (error) {
@@ -109,14 +99,12 @@ byId("clear-commission").addEventListener("click", () => {
   byId("materials").focus();
 });
 
-for (const { button, label, inputs } of examples) {
-  button.addEventListener("click", () => {
-    form.reset();
-    for (const [key, value] of Object.entries(inputs)) form.elements.namedItem(key).value = value;
-    options.open = true;
-    calculateQuote(label);
-  });
-  button.disabled = false;
-}
+oilExampleButton.addEventListener("click", () => {
+  form.reset();
+  for (const [key, value] of Object.entries(oilExampleInputs)) form.elements.namedItem(key).value = value;
+  options.open = true;
+  calculateQuote(true);
+});
 
+oilExampleButton.disabled = false;
 fields.disabled = false;

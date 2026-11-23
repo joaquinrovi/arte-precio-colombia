@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5ee">
-  <meta name="description" content="Consulta precios y plazos publicados de encargos de arte en Colombia por técnica y tamaño.">
+  <meta name="description" content="Consulta precios y plazos de encargos al óleo en Colombia por tipo y tamaño.">
   <title>Precios de referencia para encargos de arte</title>
   <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="./referencias.css?v=5">
-  <script type="module" src="./referencias.mjs?v=6"></script>
+  <link rel="stylesheet" href="./referencias.css?v=6">
+  <script type="module" src="./referencias.mjs?v=7"></script>
 </head>
 <body>
   <header class="site-header">
@@ -26,7 +26,7 @@
     <section class="intro reference-intro" aria-labelledby="titulo">
       <div>
         <h1 id="titulo">Cotiza tu primer encargo</h1>
-        <p class="intro-description">Consulta precios publicados de obras por encargo en Colombia. Para óleo, también puedes estimar un precio de galería y consultar un plazo de elaboración con secado.</p>
+        <p class="intro-description">Consulta precios publicados de encargos al óleo en Colombia, una estimación de galería y un plazo de elaboración con secado.</p>
       </div>
       <a class="cost-link" href="./costos/">Calcular por costos <span aria-hidden="true">↗</span></a>
     </section>
@@ -35,7 +35,7 @@
       <section class="work-card" aria-labelledby="ficha">
         <header class="work-heading">
           <h2 id="ficha">¿Qué te pidieron?</h2>
-          <p>Indica la técnica, el tipo de encargo y el tamaño de la obra.</p>
+          <p>Indica el tipo de encargo y el tamaño de la obra.</p>
         </header>
 
         <form id="references-form">
@@ -43,13 +43,10 @@
             <legend class="sr-only">Características del encargo</legend>
 
             <div class="field-grid reference-fields">
-              <div class="field">
-                <label for="technique">Técnica</label>
-                <select id="technique" name="technique" required>
-                  <option value="oleo">Óleo</option>
-                  <option value="grafito">Grafito</option>
-                </select>
-              </div>
+              <p class="field fixed-technique">
+                <strong>Técnica</strong>
+                <span>Óleo</span>
+              </p>
               <div class="field">
                 <label for="subject">Tipo de encargo</label>
                 <select id="subject" name="subject" required>
@@ -73,7 +70,7 @@
             <div class="field reference-frame">
               <label for="frame-cost">Costo cotizado del marco (COP) <span class="optional">Opcional</span></label>
               <input id="frame-cost" name="frameCost" type="number" inputmode="numeric" min="0" max="999999999" step="1" aria-describedby="frame-help">
-              <p class="hint" id="frame-help">Este costo se suma a la referencia de galería para óleo y a las ofertas sin enmarcar de la medida exacta.</p>
+              <p class="hint" id="frame-help">Este costo se suma a la referencia de galería y a las ofertas sin enmarcar de la medida exacta.</p>
             </div>
 
             <div class="form-actions">
@@ -83,7 +80,6 @@
             <div class="reference-examples" role="group" aria-labelledby="examples-label">
               <p id="examples-label" class="hint">Prueba con un ejemplo</p>
               <button class="example-button" id="example-oil" type="button">Óleo de 60 × 80 cm</button>
-              <button class="example-button" id="example-graphite" type="button">Grafito de 35 × 50 cm</button>
             </div>
           </fieldset>
           <p class="app-message" id="references-error" role="alert" hidden></p>
@@ -127,13 +123,13 @@
     <section id="como-funciona" class="guide" aria-labelledby="guide-title">
       <div>
         <h2 id="guide-title">Cómo funciona</h2>
-        <p>El cotizador consulta ofertas publicadas de la misma técnica y tipo de encargo. Muestra la medida más cercana de cada proveedor, con una diferencia de hasta el 25 % por lado. Son precios anunciados y pueden variar al acordar los detalles. La cobertura de grafito es para retratos.</p>
+        <p>El cotizador consulta ofertas publicadas de óleo del tipo de encargo seleccionado. Muestra la medida más cercana de cada proveedor, con una diferencia de hasta el 25 % por lado. Son precios anunciados y pueden variar al acordar los detalles.</p>
         <p>La referencia de galería para óleo se basa en los precios publicados por una sola galería. El error varió entre los artistas evaluados. <a href="https://github.com/joaquinrovi/arte-precio-colombia/blob/main/docs/metodologia_modelado.md#experimento-con-fichas-de-galería">Ver cómo se evaluó el modelo</a>.</p>
       </div>
       <div class="guide-item">
         <h3>El marco se cotiza aparte</h3>
-        <p>Pide una cotización adecuada al soporte. El papel y el lienzo sobre bastidor requieren montajes distintos.</p>
-        <p><a href="https://photodisenopro.com/product/marco-madera/" target="_blank" rel="noopener noreferrer">Marcos para papel</a> · <a href="https://www.encuadro.co/molduras" target="_blank" rel="noopener noreferrer">Molduras para lienzo</a></p>
+        <p>Pide una cotización para el marco de acuerdo con el tamaño y el soporte de la obra.</p>
+        <p><a href="https://www.encuadro.co/molduras" target="_blank" rel="noopener noreferrer">Molduras para lienzo</a></p>
       </div>
       <div class="guide-item">
         <h3>Acuerda tu plazo de entrega</h3>
