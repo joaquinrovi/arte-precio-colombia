@@ -72,3 +72,15 @@ export function addFrameCost(price, frameCost) {
 export function frameTotal(offer, frameCost) {
   return offer?.frame === "no_incluido" ? addFrameCost(offer.price, frameCost) : null;
 }
+
+export function galleryQuote(estimate, frameCost = null) {
+  if (!Number.isFinite(estimate)) return null;
+  const base = Math.round(estimate);
+  const subtotal = addFrameCost(base, frameCost ?? 0);
+  if (subtotal === null) return null;
+
+  const vat = Math.round(subtotal * 0.19);
+  const total = subtotal + vat;
+  if (!Number.isSafeInteger(total)) return null;
+  return { base, frameCost, subtotal, vat, total };
+}

@@ -8,7 +8,7 @@
   <title>Precios de referencia para encargos de arte</title>
   <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./referencias.css?v=5">
-  <script type="module" src="./referencias.mjs?v=5"></script>
+  <script type="module" src="./referencias.mjs?v=6"></script>
 </head>
 <body>
   <header class="site-header">
@@ -26,7 +26,7 @@
     <section class="intro reference-intro" aria-labelledby="titulo">
       <div>
         <h1 id="titulo">Cotiza tu primer encargo</h1>
-        <p class="intro-description">Consulta precios publicados de obras por encargo en Colombia. Para óleo también puedes calcular una referencia experimental de galería.</p>
+        <p class="intro-description">Consulta precios publicados de obras por encargo en Colombia. Para óleo, también puedes estimar un precio de galería y consultar un plazo de elaboración con secado.</p>
       </div>
       <a class="cost-link" href="./costos/">Calcular por costos <span aria-hidden="true">↗</span></a>
     </section>
@@ -102,11 +102,19 @@
         <article class="offer-card" id="gallery-reference" aria-labelledby="gallery-title" hidden>
           <div class="offer-heading">
             <h3 id="gallery-title">Referencia experimental de galería</h3>
-            <p class="offer-note" id="gallery-total-label" hidden>Total orientativo con marco</p>
+            <p class="offer-note" id="gallery-total-label" hidden>Total orientativo con IVA</p>
             <div class="offer-price" id="gallery-price" hidden></div>
           </div>
           <dl class="offer-details" id="gallery-breakdown" hidden></dl>
           <p class="offer-note" id="gallery-caption" role="status" aria-atomic="true"></p>
+        </article>
+        <article class="offer-card" id="oil-duration" aria-labelledby="oil-duration-title" hidden>
+          <div class="offer-heading">
+            <h3 id="oil-duration-title">Tiempo orientativo de elaboración</h3>
+            <div class="offer-price" id="oil-duration-range" hidden></div>
+          </div>
+          <p class="offer-note" id="oil-duration-note" role="status" aria-atomic="true"></p>
+          <a class="offer-source" href="https://www.kartidia.com/pages/custom-oil-painting-commission" rel="noopener noreferrer" target="_blank">Consultar plazos de referencia por tamaño</a>
         </article>
         <details class="offer-disclosure" id="offer-disclosure" hidden>
           <summary id="offer-summary">Ver ofertas de encargo</summary>

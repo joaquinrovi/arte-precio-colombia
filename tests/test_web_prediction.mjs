@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { test } from "node:test";
-import { addFrameCost } from "../docs/cotizador/encargos/compare.mjs";
+import { galleryQuote } from "../docs/cotizador/encargos/compare.mjs";
 import { estimateGalleryOil } from "../docs/cotizador/encargos/gallery-predict.mjs";
+import { oilDurationRange } from "../docs/cotizador/encargos/oil-duration.mjs";
 import { buildFeatures, predictPrice, resolveArtist } from "../docs/cotizador/predict.mjs";
 
 const published = JSON.parse(readFileSync(new URL("../docs/cotizador/model.json", import.meta.url)));
@@ -117,14 +118,37 @@ test("el modelo de galería publicado reproduce el ejemplo de óleo en ambas ori
   assert.equal(estimateGalleryOil(gallery, { width: 80, height: 60, year: 2026 }), price);
 });
 
-test("el marco cotizado se suma al precio de galería redondeado al peso", () => {
-  const price = Math.round(estimateGalleryOil(gallery, { width: 60, height: 80, year: 2026 }));
-  assert.equal(addFrameCost(price, 100_000), 3_062_641);
-  assert.equal(addFrameCost(price, 0), price);
-  assert.equal(addFrameCost(price, null), null);
+test("el total de galería incluye el IVA del 19 % sobre la base y el marco opcional", () => {
+  const price = estimateGalleryOil(gallery, { width: 60, height: 80, year: 2026 });
+  const withoutFrame = { base: 2_962_641, frameCost: null, subtotal: 2_962_641, vat: 562_902, total: 3_525_543 };
+  assert.deepEqual(galleryQuote(price), withoutFrame);
+  assert.deepEqual(galleryQuote(price, 0), { ...withoutFrame, frameCost: 0 });
+  assert.deepEqual(galleryQuote(price, 100_000), {
+    base: 2_962_641, frameCost: 100_000, subtotal: 3_062_641, vat: 581_902, total: 3_644_543,
+  });
+  assert.equal(galleryQuote(null, 100_000), null);
+  assert.equal(galleryQuote(price, -1), null);
+  assert.equal(galleryQuote(Number.MAX_SAFE_INTEGER), null);
 });
 
 test("la referencia de galería omite las medidas fuera de cobertura", () => {
   assert.equal(estimateGalleryOil(gallery, { width: 200, height: 300, year: 2026 }), null);
   assert.equal(estimateGalleryOil(gallery, { width: 0, height: 80, year: 2026 }), null);
+});
+
+test("el plazo orientativo de óleo aumenta por área y conserva la orientación", () => {
+  assert.equal(oilDurationRange(25, 40), "4 a 6 semanas");
+  assert.equal(oilDurationRange(25, 40.01), "8 a 10 semanas");
+  assert.equal(oilDurationRange(40, 70), "8 a 10 semanas");
+  assert.equal(oilDurationRange(60, 80), "10 a 14 semanas o más");
+  assert.equal(oilDurationRange(80, 60), oilDurationRange(60, 80));
+});
+
+test("el plazo de óleo omite las dimensiones inválidas y los formatos fuera de cobertura", () => {
+  assert.equal(oilDurationRange(77.5, 100), "10 a 14 semanas o más");
+  assert.equal(oilDurationRange(77.51, 100), null);
+  assert.equal(oilDurationRange(20, 102.01), null);
+  assert.equal(oilDurationRange(19, 90), null);
+  assert.equal(oilDurationRange(0, 80), null);
+  assert.equal(oilDurationRange(Infinity, 80), null);
 });

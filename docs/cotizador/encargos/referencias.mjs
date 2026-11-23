@@ -1,4 +1,5 @@
-import { addFrameCost, findComparableOffers, frameTotal } from "./compare.mjs?v=4";
+import { findComparableOffers, frameTotal, galleryQuote } from "./compare.mjs?v=6";
+import { oilDurationRange } from "./oil-duration.mjs";
 
 const form = document.querySelector("#references-form");
 const fields = document.querySelector("#references-fields");
@@ -14,6 +15,9 @@ const galleryPrice = document.querySelector("#gallery-price");
 const galleryTotalLabel = document.querySelector("#gallery-total-label");
 const galleryBreakdown = document.querySelector("#gallery-breakdown");
 const galleryCaption = document.querySelector("#gallery-caption");
+const durationCard = document.querySelector("#oil-duration");
+const durationRange = document.querySelector("#oil-duration-range");
+const durationNote = document.querySelector("#oil-duration-note");
 const initialStatus = "Completa los datos del encargo o prueba un ejemplo para ver las ofertas disponibles.";
 
 const money = new Intl.NumberFormat("es-CO", {
@@ -110,16 +114,22 @@ async function loadGalleryReference() {
 }
 
 function showGalleryPrice(price, frameCost) {
-  const total = price === null ? null : addFrameCost(Math.round(price), frameCost);
-  const hasTotal = total !== null;
-  galleryTotalLabel.hidden = !hasTotal;
-  galleryPrice.textContent = price === null ? "" : money.format(total ?? price);
-  galleryPrice.hidden = price === null;
-  galleryBreakdown.hidden = !hasTotal;
-  galleryBreakdown.replaceChildren(...(hasTotal ? [
-    detail("Precio base estimado", money.format(price)),
-    detail("Marco cotizado", money.format(frameCost)),
-  ] : []));
+  const quote = galleryQuote(price, frameCost);
+  galleryTotalLabel.hidden = quote === null;
+  galleryPrice.textContent = quote === null ? "" : money.format(quote.total);
+  galleryPrice.hidden = quote === null;
+  galleryBreakdown.hidden = quote === null;
+  galleryBreakdown.replaceChildren();
+  if (quote === null) return;
+
+  galleryBreakdown.append(detail("Precio base estimado", money.format(quote.base)));
+  if (quote.frameCost !== null) {
+    galleryBreakdown.append(
+      detail("Marco cotizado", money.format(quote.frameCost)),
+      detail("Subtotal", money.format(quote.subtotal)),
+    );
+  }
+  galleryBreakdown.append(detail("IVA (19 %)", money.format(quote.vat)));
 }
 
 function showGalleryReference(gallery, query, frameCost) {
@@ -133,7 +143,7 @@ function showGalleryReference(gallery, query, frameCost) {
       price = gallery.estimate(gallery.model, { width: query.width, height: query.height, year });
       caption = price === null
         ? "Estas medidas quedan fuera de la cobertura del modelo de óleo."
-        : "Estimación de un precio de catálogo de La Galería Online para un óleo de estas medidas. El modelo predictivo usa el año actual para una obra nueva.";
+        : "El modelo predictivo estima un precio de catálogo de La Galería Online para un óleo nuevo de estas medidas. El cálculo del total toma esa referencia como valor antes de IVA.";
     } catch {
       caption = "No se pudo calcular la referencia experimental de galería.";
     }
@@ -142,6 +152,18 @@ function showGalleryReference(gallery, query, frameCost) {
   showGalleryPrice(price, frameCost);
   galleryCard.hidden = false;
   galleryCaption.textContent = caption;
+}
+
+function showOilDuration(query) {
+  durationCard.hidden = query.technique !== "oleo";
+  if (durationCard.hidden) return;
+
+  const range = oilDurationRange(query.width, query.height);
+  durationRange.textContent = range ?? "";
+  durationRange.hidden = range === null;
+  durationNote.textContent = range
+    ? "Óleo sobre lienzo. Guía por área basada en plazos publicados que incluyen la pintura y el secado. El grosor de las capas y los pigmentos pueden cambiar el plazo."
+    : "Estas medidas quedan fuera de los formatos de referencia. Acuerda con el artista un plazo que incluya el secado.";
 }
 
 function enableSearch(offers, date, gallery) {
@@ -165,6 +187,7 @@ function enableSearch(offers, date, gallery) {
       offerDisclosure.hidden = matches.length === 0;
       offerSummary.textContent = `Ver ofertas de encargo (${matches.length})`;
       showGalleryReference(gallery, query, enteredFrameCost);
+      showOilDuration(query);
       showStatus(matches.length || !galleryPrice.hidden
         ? ""
         : "No encontramos ofertas comparables para esta técnica, tipo de encargo y medidas.");
@@ -174,6 +197,7 @@ function enableSearch(offers, date, gallery) {
     } catch (error) {
       hideOffers();
       galleryCard.hidden = true;
+      durationCard.hidden = true;
       showStatus("Revisa los datos del encargo.");
       showError(error instanceof RangeError ? error.message : "No se pudo completar la búsqueda.");
     }
@@ -184,6 +208,7 @@ function enableSearch(offers, date, gallery) {
     if (!searched) return;
     hideOffers();
     galleryCard.hidden = true;
+    durationCard.hidden = true;
     showStatus("Pulsa Buscar precios para actualizar las ofertas según los datos ingresados.");
   });
 
@@ -192,6 +217,7 @@ function enableSearch(offers, date, gallery) {
     list.replaceChildren();
     hideOffers();
     galleryCard.hidden = true;
+    durationCard.hidden = true;
     showGalleryPrice(null, null);
     galleryCaption.textContent = "";
     showError();

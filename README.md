@@ -17,11 +17,25 @@ La referencia experimental de galería aparece primero. Abre **Ver ofertas de en
 | Resultado | Qué muestra | Cómo se suma el marco |
 | --- | --- | --- |
 | **Oferta de encargo** | Tarifa publicada de la medida más cercana por proveedor, con hasta 25 % de diferencia en cada lado. Puede incluir el plazo y el estado del marco. Un precio «desde» es un valor inicial. | El costo cotizado se suma cuando la medida es exacta y la oferta indica «Sin enmarcar». |
-| **Referencia experimental de galería** | Estimación del precio de catálogo de La Galería Online para óleo en medidas cubiertas. El modelo predictivo usa el año actual para una obra nueva. | El costo cotizado se suma al precio base estimado. La tarjeta muestra el total orientativo con el desglose. |
+| **Referencia experimental de galería** | Estimación del precio de catálogo de La Galería Online para óleo en medidas cubiertas. El modelo predictivo usa el año actual para una obra nueva. El total orientativo siempre incluye el **IVA del 19 %** sobre el subtotal. | El costo cotizado se suma al precio base estimado antes de calcular el IVA. La tarjeta desglosa la base, el marco cuando se indica y el IVA. |
 
-Para probar el marco, elige **Óleo** y **Retrato de una figura humana**, escribe **60** de ancho, **80** de alto y **100000** en **Costo cotizado del marco (COP)**. Tras pulsar **Buscar precios**, la tarjeta de galería muestra **$3.062.641 COP** como total orientativo, con **$2.962.641 COP** de precio base estimado y **$100.000 COP** de marco.
+Para probar la cotización, elige **Óleo** y **Retrato de una figura humana**, ingresa **60** de ancho, **80** de alto y **100000** en **Costo cotizado del marco (COP)**. Pulsa **Buscar precios**. El total orientativo es de **$3.644.543 COP**. Se compone de **$2.962.641** de precio base, **$100.000** de marco y **$581.902** de IVA. Con el campo del marco vacío, el total es de **$3.525.543 COP**.
+
+El cálculo toma la referencia de galería como un valor antes de IVA para esta cotización orientativa. En una venta real, el cobro depende de la operación y de si el vendedor es responsable del impuesto. [Tarifa general del IVA](https://normograma.dian.gov.co/dian/compilacion/docs/ley_1819_2016.htm) · [Responsabilidad del IVA](https://normograma.dian.gov.co/dian/compilacion/docs/oficio_dian_3591_2020.htm)
 
 El modelo de galería se estudió con 335 fichas de 67 artistas. El error en óleo varió según los artistas evaluados. Para retratos en grafito, el aplicativo muestra tarifas publicadas de encargo. Estos valores sirven para orientar una propuesta. [Evaluación del modelo de galería](docs/metodologia_modelado.md#experimento-con-fichas-de-galería)
+
+#### Tiempo orientativo de elaboración
+
+En **Encargos**, el bloque de óleo sobre lienzo usa el área (ancho × alto) para mostrar un rango de elaboración que incluye el secado. Por ejemplo, para **60 × 80 cm** muestra **10 a 14 semanas o más**. El plazo de envío se consulta por separado.
+
+| Área del lienzo | Plazo orientativo |
+| --- | --- |
+| Hasta 1.000 cm² | 4 a 6 semanas |
+| Más de 1.000 y hasta 2.800 cm² | 8 a 10 semanas |
+| Más de 2.800 y hasta 7.750 cm² | 10 a 14 semanas o más |
+
+Las bandas convierten a áreas aproximadas los formatos y plazos publicados por Kartidia Fine Art. Se aplican cuando el lado corto mide al menos 20 cm y el largo mide hasta 102 cm. Las fuentes consultadas describen plazos ofrecidos y casos aislados. Para entrenar y validar una regresión harían falta registros de obras terminadas con dimensiones y fechas comparables, incluido el secado. [Plazos por formato de Kartidia Fine Art](https://www.kartidia.com/pages/custom-oil-painting-commission) · [Secado del óleo según Winsor & Newton](https://uk.winsornewton.com/blogs/guides/understanding-drying-times-for-oil-colour)
 
 ### Presupuesto por costos
 
