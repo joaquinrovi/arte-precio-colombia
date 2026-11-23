@@ -1,6 +1,6 @@
 # Precio de arte en Colombia
 
-Proyecto para estudiar el precio de remate de obras de arte en subastas de Bogotá. El cotizador web también ayuda a preparar encargos con tarifas publicadas por proveedores en Colombia, una referencia experimental de galería para óleo y una calculadora de costos.
+Este proyecto busca estudiar el precio de remate de obras de arte en subastas de Bogotá. El cotizador web también ayuda a preparar encargos con tarifas publicadas por proveedores en Colombia, una referencia experimental de galería para óleo y una calculadora de costos. Se usan modelos predictivos de aprendizaje automático para estimar en función de una serie de variables de las obras de arte, las características y cualidades de la obra artística con mejor poder predictivo a la hora de estimar esos precios. Se tienen en cuenta la optimización de hiper-parámetros para lograr un mejor desempeño en las métricas de error y de rendimiento.
 
 La base original reúne **1.838 lotes adjudicados de 28 subastas** y contiene **61 columnas**. La evaluación de Remates usa lotes de subastas posteriores a las de entrenamiento.
 
